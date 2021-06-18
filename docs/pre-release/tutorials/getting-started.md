@@ -3,8 +3,7 @@ description: "A simple three step guide to installing $productName$ and quickly 
 ---
 
 import Alert from '@material-ui/lab/Alert';
-import GSTabs from './gs-tabs'
-import GSTabs2 from './gs-tabs2'
+import GettingStartedEmissaryTabs from './gs-tabs'
 
 # $productName$ quick start
 
@@ -24,7 +23,7 @@ We'll start by installing $productName$ into your cluster.
 
 **We recommend using Helm** but there are other options below to choose from.
 
-<GSTabs/>
+<GettingStartedEmissaryTabs/>
 
 <Alert severity="success"><b>Success!</b> You have installed $productName$, now let's get some traffic flowing to your services.</Alert>
 
@@ -50,6 +49,7 @@ Like any other Kubernetes object, Custom Resource Definitions (CRDs) are used to
     name: quote-backend
     namespace: ambassador
   spec:
+    hostname: "*"
     prefix: /backend/
     service: quote
   ```

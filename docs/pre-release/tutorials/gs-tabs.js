@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function SimpleTabs() {
+export default function GettingStartedEmissaryTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -66,9 +66,7 @@ export default function SimpleTabs() {
       <AppBar elevation={0} style={{ background: 'transparent', color: 'black', borderBottom: '1px solid #e8e8e8', }} position="static">
         <Tabs TabIndicatorProps={{ style: { background: '#AF5CF8' } }} value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab icon={<HelmIcon />} label="Helm 3" {...a11yProps(0)} style={{ minWidth: "10%", textTransform: 'none' }} />
-          <Tab icon={<HelmIcon />} label="Helm 2" {...a11yProps(1)} style={{ minWidth: "10%", textTransform: 'none' }} />
-          <Tab icon={<KubernetesIcon />} label="Kubernetes YAML" {...a11yProps(2)} style={{ minWidth: "10%", textTransform: 'none' }} />
-          <Tab icon={<TerminalIcon />} label="Quick CLI Install" {...a11yProps(3)} style={{ minWidth: "10%", textTransform: 'none' }} />
+          <Tab icon={<KubernetesIcon />} label="Kubernetes YAML" {...a11yProps(1)} style={{ minWidth: "10%", textTransform: 'none' }} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -79,13 +77,13 @@ export default function SimpleTabs() {
           {
             '# Add the Repo:' +
             '\n' +
-            'helm repo add datawire https://www.getambassador.io' +
+            'helm repo add datawire https://app.getambassador.io' +
             '\n \n' +
             '# Create Namespace and Install:' +
             '\n' +
             'kubectl create namespace ambassador && \\' +
             '\n' +
-            'helm install ambassador --namespace ambassador datawire/ambassador && \\' +
+            'helm install emissary --namespace ambassador datawire/emissary && \\' +
             '\n' +
             'kubectl -n ambassador wait --for condition=available --timeout=90s deploy -lproduct=aes'
           }
@@ -95,74 +93,18 @@ export default function SimpleTabs() {
 
       <TabPanel value={value} index={1}>
 
-        {/*Helm 2 install instructions*/}
-
-        <CodeBlock>
-          {
-            '# Add the Repo:' +
-            '\n' +
-            'helm repo add datawire https://www.getambassador.io' +
-            '\n \n' +
-            '# Create Namespace and Install:' +
-            '\n' +
-            'kubectl create namespace ambassador && \\' +
-            '\n' +
-            'helm install --name ambassador --namespace ambassador datawire/ambassador && \\' +
-            '\n' +
-            'kubectl -n ambassador wait --for condition=available --timeout=90s deploy -lproduct=aes'
-          }
-        </CodeBlock>
-
-      </TabPanel>
-
-      <TabPanel value={value} index={2}>
-
         {/*YAML install instructions*/}
 
         <CodeBlock>
           {
-            'kubectl apply -f https://www.getambassador.io/yaml/aes-crds.yaml && \\' +
+            'kubectl apply -f https://app.getambassador.io/yaml/emissary/latest/emissary-crds.yaml && \\' +
             '\n' +
-            'kubectl wait --for condition=established --timeout=90s crd -lproduct=aes && \\' +
+            'kubectl wait --for condition=established --timeout=90s crd -lapp.kubernetes.io/instance=emissary-ingress && \\' +
             '\n' +
-            'kubectl apply -f https://www.getambassador.io/yaml/aes.yaml && \\' +
+            'kubectl apply -f https://app.getambassador.io/yaml/emissary/latest/emissary-ingress.yaml && \\' +
             '\n' +
-            'kubectl -n ambassador wait --for condition=available --timeout=90s deploy -lproduct=aes' +
+            'kubectl -n ambassador wait --for condition=available --timeout=90s deploy -lapp.kubernetes.io/instance=emissary-ingress' +
             '\n'
-          }
-        </CodeBlock>
-
-      </TabPanel>
-
-      <TabPanel value={value} index={3}>
-
-        {/*Edgectl install instructions*/}
-        <CodeBlock>
-          {
-            '# macOS:' +
-            '\n' +
-            'sudo curl -fL https://metriton.datawire.io/downloads/darwin/edgectl \\' +
-            '\n' +
-            '   -o /usr/local/bin/edgectl &&' +
-            '\n' +
-            'sudo chmod a+x /usr/local/bin/edgectl &&' +
-            '\n' +
-            'edgectl install' +
-            '\n \n' +
-            '# Linux:' +
-            '\n' +
-            'sudo curl -fL https://metriton.datawire.io/downloads/linux/edgectl \\' +
-            '\n' +
-            '   -o /usr/local/bin/edgectl &&' +
-            '\n' +
-            'sudo chmod a+x /usr/local/bin/edgectl &&' +
-            '\n' +
-            'edgectl install' +
-            '\n \n' +
-            '# Windows:' +
-            '\n' +
-            '# Download here - https://metriton.datawire.io/downloads/windows/edgectl.exe'
-
           }
         </CodeBlock>
 
