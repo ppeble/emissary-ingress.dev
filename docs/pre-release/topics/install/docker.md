@@ -4,15 +4,12 @@ In this Docker quickstart guide, we'll get $productName$ running locally
 with a demo configuration. In the next section, we'll then walk through how to
 deploy $productName$ in Kubernetes with a custom configuration.
 
-**Note**: the Edge Policy Console is not supported on the Docker quickstart and
-cannot be accessed.
-
 ## 1. Running the demo configuration
 
 By default, $productName$ uses a demo configuration to show some of its basic features. Get it running with Docker, and expose $productName$ on port 8080:
 
 ```
-docker run -it -p 8080:8080 --name=ambassador --rm docker.io/datawire/aes:$version$ --demo
+docker run -it -p 8080:8080 --name=$productDeploymentName$ --rm docker.io/datawire/$productDockerImage$:$version$ --demo
 ```
 
 ## 2. $productName$'s diagnostics
@@ -51,7 +48,7 @@ On the diagnostic overview, you can also see that $productName$ is configured to
 
 You saw above that access to the diagnostic overview required you to authenticate as an administrator. Getting a random Quote of the Moment does not require authentication, but to get a specific quote, you'll have to authenticate as a demo user. To see this in action, open
 
-`http://localhost:8080/qotm/quote/5` 
+`http://localhost:8080/qotm/quote/5`
 
 in your browser. From the command line, you can see that:
 

@@ -5,90 +5,27 @@ import './index.less'
 <div class="docs-article-toc">
 <h3>Contents</h3>
 
-* [Install for macOS](#img-classos-logo-srcimagesapplepng-install-for-macos)
-* [Install for Linux](#img-classos-logo-srcimageslinuxpng-install-for-linux)
-* [Install for Windows](#img-classos-logo-srcimageswindowspng-install-for-windows)
+* [Install via Helm](#img-classos-logo-srcimageshelm-navypng-install-via-helm)
 * [Install via Kubernetes YAML](#img-classos-logo-srcimageskubernetespng-install-via-kubernetes-yaml)
-* [Install via Helm](#img-classos-logo-srcimageskubernetespng-install-via-kubernetes-yaml)
-* [Install Locally on Docker](#img-classos-logo-srcimageskubernetespng-install-via-kubernetes-yaml)
-* [Install on Bare Metal](#install-on-bare-metal)
+* [Install Locally on Docker](#img-classos-logo-srcimagesdockerpng-install-locally-on-docker)
 * [Upgrade Options](#upgrade-options)
 * [Container Images](#container-images)
 * [What's Next?](#whats-next)
 
 </div>
 
-## <img class="os-logo" src="../../images/apple.png"/> Install for macOS 	
-1. (1a) [Download the `edgectl` installer](https://metriton.datawire.io/downloads/darwin/edgectl) 	
- or (1b) download it with a curl command:	
+## <img class="os-logo" src="../../images/helm-navy.png"/> Install via Helm
+Helm, the package manager for Kubernetes, is the recommended way to install
+$productName$. Full details are in the [Helm instructions.](helm/)
 
-    ```	
-    sudo curl -fL https://metriton.datawire.io/downloads/darwin/edgectl -o /usr/local/bin/edgectl && sudo chmod a+x /usr/local/bin/edgectl	
-    ```	
+## <img class="os-logo" src="../../images/kubernetes.png"/> Install via Kubernetes YAML
+Another way to install $productName$ if you are unable to use Helm is to
+directly apply Kubernetes YAML. See details in the
+[manual YAML installation instructions.](yaml-install).
 
-    If you decide to download the file with (1b), you may encounter a security block. To continue, use this procedure:	
-    * Go to **System Preferences > Security & Privacy > General**.	
-    * Click the **Open Anyway** button.	
-    * On the new dialog, click the **Open** button.	
-
-2. Run the installer with `edgectl install`	
-
-3. The installer will provision a load balancer, configure TLS, 	
-and provide you with an `edgestack.me` subdomain. The `edgestack.me` subdomain 	
-allows $AESproductName$ to automatically provision TLS and HTTPS	
-for a domain name, so you can get started right away.	
-
-4. [Set up Service Catalog](../../tutorials/getting-started/#3-connect-your-cluster-to-ambassador-cloud) to view all of your service metadata in Ambassador Cloud.
-
-## <img class="os-logo" src="../../images/linux.png"/> Install for Linux 	
-
-1. (1a) [Download the `edgectl` installer](https://metriton.datawire.io/downloads/linux/edgectl) or	
- (1b) download it with a curl	
-   command:	
-
-    ```	
-    sudo curl -fL https://metriton.datawire.io/downloads/linux/edgectl -o /usr/local/bin/edgectl && sudo chmod a+x /usr/local/bin/edgectl	
-    ```	
-2. Run the installer with `edgectl install`	
-
-3. The installer will provision a load balancer, configure TLS, 	
-and provide you with an `edgestack.me` subdomain. The `edgestack.me` subdomain 	
-allows $AESproductName$ to automatically provision TLS and HTTPS	
-for a domain name, so you can get started right away.	
-
-4. [Set up Service Catalog](../../tutorials/getting-started/#3-connect-your-cluster-to-ambassador-cloud) to view all of your service metadata in Ambassador Cloud.
-
-## <img class="os-logo" src="../../images/windows.png"/> Install for Windows 	
-
-1. [Download the `edgectl.exe` installer](https://metriton.datawire.io/downloads/windows/edgectl.exe).	
-2. Run the installer with `edgectl install`	
-3. The installer will provision a load balancer, configure TLS, 	
-and provide you with an `edgestack.me` subdomain. The `edgestack.me` subdomain 	
-allows $AESproductName$ to automatically provision TLS and HTTPS	
-for a domain name, so you can get started right away.	
-
-4. [Set up Service Catalog](../../tutorials/getting-started/#3-connect-your-cluster-to-ambassador-cloud) to view all of your service metadata in Ambassador Cloud.
-
-## <img class="os-logo" src="../../images/kubernetes.png"/> Install via Kubernetes YAML 
-Kubernetes via YAML is the most common approach to install $productName$,
-especially in production environments, with our default, customizable manifest.
-So if you want complete configuration control over specific parameters of your
-installation, use the [manual YAML installation method](yaml-install).
-
-## <img class="os-logo" src="../../images/helm-navy.png"/> Install via Helm 
-Helm, the package manager for Kubernetes, is another popular way to install
-$productName$ through the pre-packaged Helm chart. Full details are in the
-[Helm instructions.](helm/)
-
-## <img class="os-logo" src="../../images/docker.png"/> Install Locally on Docker 
-The Docker install will let you try the $productName$ locally in seconds, 
+## <img class="os-logo" src="../../images/docker.png"/> Install Locally on Docker
+The Docker install will let you try the $productName$ locally in seconds,
 but is not supported for production workloads. [Try $productName$ on Docker.](docker/)
-
-## Install on Bare Metal
-If you don't have a load balancer in front of your Kubernetes, the Bare Metal 
-installation mechanism can still be used to expose $productName$. 
-We've got [instructions for bare metal installations](bare-metal) including exposing 
-$productName$ via a NodePort or the host network.
 
 ## Upgrade Options
 If you already have an existing installation of $AESproductName$ or
@@ -101,13 +38,13 @@ $OSSproductName$, you can upgrade your instance:
 Although our installation guides will favor using the `docker.io` container registry,
 we publish $AESproductName$ and $OSSproductName$ releases to multiple registries.
 
-Starting with version 1.0.0, you can pull the `ambassador` and `aes` images from any of the following registries:
+Starting with version 1.0.0, you can pull the $productDockerImage$ image from any of the following registries:
 - `docker.io/datawire/`
 - `quay.io/datawire/`
 - `gcr.io/datawire/`
 
 We want to give you flexibility and independence from a hosting platform's uptime to support
-your production needs for $AESproductName$ or $OSSproductName$. Read more about 
+your production needs for $AESproductName$ or $OSSproductName$. Read more about
 [Running $productName$ in Production](../running).
 
 # What’s Next?
