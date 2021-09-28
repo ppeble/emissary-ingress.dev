@@ -9,8 +9,6 @@ development workflow for a full-cycle development. $productName$ is designed for
 the Kubernetes world with:
 
 * Sophisticated traffic management capabilities (thanks to its use of [Envoy Proxy](https://www.envoyproxy.io)), such as load balancing, circuit breakers, rate limits, and automatic retries.
-[//]: # (+FIX+ AES-only)
-* API management capabilities such as a developer portal and OpenID Connect integration for Single Sign-On.
 * A declarative, self-service management model built on Kubernetes Custom Resource Definitions, enabling GitOps-style continuous delivery workflows.
 
 We've written about [the history of $productName$](https://blog.getambassador.io/building-ambassador-an-open-source-api-gateway-on-kubernetes-and-envoy-ed01ed520844), [Why $productName$ In Depth](../why-ambassador), [Features and Benefits](../features-and-benefits) and about the [evolution of API Gateways](../../topics/concepts/microservices-api-gateways/).
@@ -57,65 +55,9 @@ Istio, and Linkerd2.
 
 ## Common Configurations
 
-### How do I disable the 404 landing page?
-
-Established users will want to better control 404 behavior both for usability and
-security.  You can leverage the AmbassadorMapping resource to implement this functionality to
-your cluster.  $productName$ users can use a 'catch-all' mapping using the '/'
-prefix in a mapping configuration.  The simplest mapping, described below, returns only 404 text.
-To use a custom 404 landing page, simply insert your service and remove the rewrite value.
-
-```yaml
-apiVersion: x.getambassador.io/v3alpha1
-kind: AmbassadorMapping
-metadata:
-  name: "404-fallback"
-spec:
-  hostname: "*"
-  prefix: "/"
-  rewrite: "/404/" # This must not map to any existing prefix!
-  service: localhost:8500
-```
-
-For more information on the AmbassadorMapping resource, see [Advanced AmbassadorMapping Configuration](../../topics/using/mappings).
-
 ### How do I disable the default Admin mappings?
 
-In a production environment, public access to the console and admin endpoints is not an
-ideal situation.  To solve this, we will be using an Ambassador Module to remove the default
-mappings and create a new, host-based mapping to expose the Admin endpoint more securely.  The
-Ambassador module applies system-wide configuration settings for $productName$ to follow.
-
-```yaml
-apiVersion: getambassador.io/v2
-kind: Module
-metadata:
-  name: ambassador
-spec:
-  config:
-    diagnostics:
-      enabled: false
-```
-
-After applying this module, the admin endpoint is no longer accessible from the outside world.
-We cannot, however, exclude actual administrators from this endpoint, so to create a more managed
-endpoint for them to use, create a mapping to expose the endpoint.
-
-```yaml
-apiVersion: x.getambassador.io/v3alpha1
-kind: AmbassadorMapping
-metadata:
-  name: admin-mapping
-spec:
-  host: admin.example.com
-  prefix: /edge_stack/
-  rewrite: /edge_stack_ui/edge_stack/
-  service: localhost:8500
-```
-
-Now, administrators can connect to the admin console via hostname.  Additional [AmbassadorMapping](../../topics/using/intro-mappings)
-settings can be appropriately configured to better control access to admin services.  To
-learn more about Ambassador Module configurations, see [Ambassador Module](../../topics/running/ambassador)
+See the [Protecting the Diagnostics Interface](../../howtos/protecting-diag-access) how-to.
 
 ## Troubleshooting
 
