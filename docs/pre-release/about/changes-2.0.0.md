@@ -119,14 +119,14 @@ However, in $productName$ 2.0, an `AmbassadorMapping` will not be associated wit
 
    - Note that a `getambassador.io/v2` `Mapping` has no `hostname` element, but instead has `host` and `host_regex`.
       - A `getambassador.io/v3` `AmbassadorMapping` will honor `host` and `host_regex` as a transition aid, but `host` and `host_regex` are deprecated in favor of `hostname`.
-      - An `AmbassadorMapping` that specifies `host_regex: true` will associated with all `AmbassadorHost`s. This is generally far less desirable than using `hostname` with a DNS glob.
+      - An `AmbassadorMapping` that specifies `host_regex: true` will be associated with all `AmbassadorHost`s. This is generally far less desirable than using `hostname` with a DNS glob.
 
 - The `AmbassadorHost` specifies a `mappingSelector` that matches the `AmbassadorMapping`'s Kubernetes `label`s.
 
    - Note that a `getambassador.io/v2` `Host` in which no `selector` was specified would have a default `selector`; this is no longer the case.
-   - Note also that `getambassador.io/v3alpha1` has `mappingSelector` and ignores `selector`.
+   - Note also that `getambassador.io/v3alpha1` ignores `selector` and, instead, looks only at `mappingSelector`.
 
-If neither of the above is true, the `AmbassadorMapping` will not be associated with the `AmbassadorHost` in question. This is intended to help manage memory consumption with large numbers of `AmbassadorHost`s and large numbers of `AmbassadorMapping`s.
+Without either a `hostname` match or a `label` match, the `AmbassadorMapping` will not be associated with the `AmbassadorHost` in question. This is intended to help manage memory consumption with large numbers of `AmbassadorHost`s and large numbers of `AmbassadorMapping`s.
 
 <Alert severity="info">
   <a href="../../topics/running/host-crd">Learn more about <code>AmbassadorHost</code></a>.<br/>
@@ -179,14 +179,6 @@ Configuration for the `PROXY` protocol is part of the `AmbassadorListener` resou
 
 <Alert severity="info">
   <a href="../../topics/running/ambassadorlistener">Learn more about <code>AmbassadorListener</code></a>.
-</Alert>
-
-### `AmbassadorHost`s and ACME
-
-In $productName$ 2.0, ACME will be disabled if an `AmbassadorHost` does not set `acmeProvider` at all (prior to $productName$ 2.0, not mentioning `acmeProvider` would result in the ACME client attempting, and failing, to start). If `acmeProvider` is set, but `acmeProvider.authority` is not set, the ACME client will continue to default to Let's Encrypt, in order to preserve compatibility with $productName$ prior to $productName$ 2.0. For further examples, see [Configuring $productName$ to Communicate](../../howtos/configure-communications).
-
-<Alert severity="info">
-  <a href="../../topics/running/host-crd">Learn more about <code>AmbassadorHost</code></a>.
 </Alert>
 
 ## 3. Other Changes
