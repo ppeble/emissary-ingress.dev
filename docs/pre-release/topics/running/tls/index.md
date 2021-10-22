@@ -1,3 +1,5 @@
+import Alert from '@material-ui/lab/Alert';
+
 # Transport Layer Security (TLS)
 
 $productName$'s robust TLS support exposes configuration options 
@@ -12,49 +14,26 @@ for different TLS use cases including:
 ## `Host`
 
 As explained in the [`Host`](../host-crd) reference, a `Host` represents a domain
-in $productName$ and defines how TLS is managed on that domain. In $AESproductName$, the simplest configuration
-of a `Host` will enable TLS with a self-signed certificate and redirect cleartext traffic to HTTPS. 
+in $productName$ and defines how TLS is managed on that domain.
 
-> The example below does not define a `requestPolicy`; however, this is something to keep in mind as you begin using the `Host` `CRD` in $productName$.
->
-> For more information, please refer to the [`Host` documentation](../host-crd#secure-and-insecure-requests).
+**If no `Host`s are present at all**, $productName$ will synthesize a `Host` that
+allows only cleartext routing. You will need to explictly define `Host`s to enable
+TLS termination.
 
-
-### Automatic TLS with ACME
-
-With $AESproductName$, the `Host` can be configured to completely 
-manage TLS by requesting a certificate from a Certificate Authority using the
-[ACME HTTP-01 challenge](https://letsencrypt.org/docs/challenge-types/).
-
-After creating a DNS record, configuring $AESproductName$ to get a 
-certificate from the default CA [Let's Encrypt](https://letsencrypt.org) is as
-simple as providing a hostname and your email for the certificate:
-
-```yaml
----
-apiVersion: getambassador.io/v3alpha1
-kind: Host
-metadata:
-  name: example-host
-spec:
-  hostname: host.example.com
-  acmeProvider:
-    authority: https://acme-v02.api.letsencrypt.org/directory # Optional: The CA you want to get your certificate from. Defaults to Let's Encrypt
-    email: julian@example.com
-```
-
-$AESproductName$ will now request a certificate from the CA and store it in a secret 
-in the same namespace as the `Host`.
+<Alert severity="info">
+  The examples below do not define a <code>requestPolicy</code>; however, most real-world
+  usage of $productName$ will require defining the <code>requestPolicy</code>.<br/>
+  <br/>
+  For more information, please refer to the <a href="../host-crd#secure-and-insecure-requests"><code>Host</code> documentation.</a>
+</Alert>
 
 ### Bring your own certificate
 
-For both $AESproductName$ and $OSSproductName$, the `Host` can read a 
-certificate from a Kubernetes secret and use that certificate to terminate TLS 
-on a domain.
+The `Host` can read a certificate from a Kubernetes Secret and use that certificate
+to terminate TLS on a domain. 
 
-The following will configure $productName$ to grab a certificate from a secret 
-named `host-secret` and use that secret for terminating TLS on the 
-`host.example.com` domain:
+The following will configure $productName$ to use the certificate contained in the
+Kubernetes Secret named `host-secret` to terminate TLS on the `host.example.com` domain:
 
 ```yaml
 ---
@@ -70,9 +49,16 @@ spec:
 
 $productName$ will now use the certificate in `host-secret` to terminate TLS.
 
+<Alert severity="warning">
+  The Kubernetes Secret named by <code>tlsSecret</code> must contain a valid TLS certificate.
+  If it does not, $productName$ will reject the Secret and disable TLS termination for the
+  <code>Host</code>.
+</Alert>
+
 ### Advanced TLS configuration with the `Host`
 
-You can specify TLS configuration directly in the `Host` via the `tls` field. This is the recommended method for more advanced TLS Configuration.
+You can specify TLS configuration directly in the `Host` via the `tls` field. This is the
+recommended method to do more advanced TLS configuration for a single `Host`.
 
 For example, to enforce a minimum TLS version on the `Host`, the configuration will look like this:
 
@@ -84,72 +70,55 @@ metadata:
   name: example-host
 spec:
   hostname: host.example.com
-  acmeProvider:
-    authority: none
   tlsSecret:
     name: min-secret
   tls:
     min_tls_version: v1.2
 ```
 
+<Alert severity="warning">
+  The Kubernetes Secret named by <code>tlsSecret</code> must contain a valid TLS certificate.
+  If it does not, $productName$ will reject the Secret and disable TLS termination for the
+  <code>Host</code>.
+</Alert>
+
 The following fields are accepted in the `tls` field:
 ```yaml
 tls:
-  cert_chain_file: # <type: string>
-  private_key_file: # <type: string>
-  ca_secret: # <type: string>
-  cacert_chain_file: # <type: string>
-  alpn_protocols: # <type: string>
-  cert_required: # <type: bool>
-  min_tls_version: # <type: string>
-  max_tls_version: # <type: string>
-  cipher_suites: # <type: array of strings>
-  ecdh_curves: # <type: array of strings>
-  redirect_cleartext_from: # <type: int32>
-  sni: # <type: string>
+  cert_chain_file:    # string
+  private_key_file:   # string
+  ca_secret:          # string
+  cacert_chain_file:  # string
+  alpn_protocols:     # string
+  cert_required:      # bool
+  min_tls_version:    # string
+  max_tls_version:    # string
+  cipher_suites:      # array of strings
+  ecdh_curves:        # array of strings
+  sni:                # string
 ```
+
+These fields have the same function as in the [`TLSContext`](#tlscontext) resource,
+as described below.
 
 ### `Host` and `TLSContext`
 
-The `Host` will configure most TLS termination settings in $productName$. 
-
-If you require TLS configuration that is not available
-via the above `tls` settings in a `Host`, you can create a `TLSContext` and associate it with a `Host` with either of the following two methods.
-
-> **Note:** It is invalid to configure both `spec.tls` and `spec.tlsContext.name` on a `Host`. It is recommended to configure the `tls` setting in a `Host` without creating any `TLSContext` objects unless necessary. If you need to link a `TLSContext` to a `Host` make sure you are not also configuring the `tls` settings in that `Host`.
-
-
-#### Create a `TLSContext` with the name `{{AMBASSADORHOST}}-context`
-
-You can create a [`TLSContext`](#tlscontext) with the name
-`{{NAME_OF_AMBASSADORHOST}}-context`, `hosts` set to the same `hostname`, and `secret` 
-set to the same `tlsSecret`.
-
-For example, to enforce a minimum TLS version on the `Host` above, create a 
-`TLSContext` named `example-host-context` with the following configuration:
-
-```yaml
----
-apiVersion: getambassador.io/v3alpha1
-kind: TLSContext
-metadata:
-  name: example-host-context
-spec:
-  hosts:
-  - host.example.com
-  secret: host-secret
-  min_tls_version: v1.2
-```
-
-Full reference for all options available to the `TLSContext` can be found [below](#tlscontext).
+A `Host` can be linked to a [`TLSContext`](#tlscontext) instead of defining `tls`
+settings in the `Host` itself. This is primarily useful for sharing settings between
+multiple `Host`s. 
 
 #### Link a `TLSContext` to the `Host`
 
-You can create a new [`TLSContext`](#tlscontext) with the desired configuration
-and link it to the `Host` via the `tlsContext` field.
+<Alert severity="warning">
+  It is invalid to use both the <code>tls</code> setting and the <code>tlsContext</code>
+  setting on the same <code>Host</code>. We recommend using the <code>tls</code> setting
+  unless you have multiple <code>Host</code>s that need to share TLS configuration.
+</Alert>
 
-For example, to enforce a minimum TLS version on the `Host` above, create a
-`TLSContext` with any name with the following configuration:
+To link a [`TLSContext`](#tlscontext) with a `Host`, create a [`TLSContext`](#tlscontext)
+with the desired configuration and link it to the `Host` by setting the `tlsContext.name` 
+field in the `Host`. For example, to enforce a minimum TLS version on the `Host` above,
+create a `TLSContext` with any name with the following configuration:
 
 ```yaml
 ---
@@ -158,6 +127,8 @@ kind: TLSContext
 metadata:
   name: min-tls-context
 spec:
+  hosts:
+  - host.example.com
   secret: min-secret
   min_tls_version: v1.2
 ```
@@ -172,23 +143,82 @@ metadata:
   name: example-host
 spec:
   hostname: host.example.com
-  acmeProvider:
-    authority: none
   tlsSecret:
     name: min-secret
   tlsContext:
     name: min-tls-context
 ```
 
-**Note**: Any `hosts` or `secret` in the `TLSContext` must be the compatible with the `Host` to which it is
-being linked.
+<Alert severity="warning">
+  The <code>Host</code> and the <code>TLSContext</code> must name the same Kubernetes
+  Secret, and that Secret must contain a valid TLS certificate. If either of these
+  conditions is not met, $productName$ will reject the Secret and disable TLS termination
+  for the <code>Host</code>.
+</Alert>
+
+<Alert severity="warning">
+  The <code>Host</code>'s <code>hostname</code> and the <code>TLSContext</code>'s&nbsp;
+  <code>hosts</code> must have compatible settings. If they do not, requests may not
+  be accepted.
+</Alert>
 
 See [`TLSContext`](#tlscontext) below to read more on the description of these fields.
+
+#### Create a `TLSContext` with the name `{{AMBASSADORHOST}}-context` (DEPRECATED)
+
+<Alert severity="warning">
+  This implicit <code>TLSContext</code> linkage is deprecated and will be removed
+  in a future version of $productName$; it is <b>not</b> recommended for new 
+  configurations. Any other TLS configuration in the <code>Host</code> will override
+  this implict <code>TLSContext</code> link.
+</Alert>
+
+If a `TLSContext` exists with:
+
+- the name `{{NAME_OF_AMBASSADORHOST}}-context`
+- `hosts` in the `TLSContext` set to the same value as `hostname` in the `Host`, and
+- `secret` in the `TLSContext` set to the same value as `tlsSecret` in the `Host`
+
+then the `Host` will implicitly link to the `TLSContext.` **As noted above, this 
+implicit linking is deprecated.**
+
+For example, another way to enforce a minimum TLS version on the `Host` above would
+be to simply create the `TLSContext` with the name `example-host-context`:
+
+```yaml
+---
+apiVersion: getambassador.io/v3alpha1
+kind: TLSContext
+metadata:
+  name: example-host-context
+spec:
+  hosts:
+  - host.example.com
+  secret: host-secret
+  min_tls_version: v1.2
+```
+
+and then not modify the `Host`.
+
+<Alert severity="warning">
+  The <code>Host</code> and the <code>TLSContext</code> must name the same Kubernetes
+  Secret, and that Secret must contain a valid TLS certificate. If either of these
+  conditions is not met, $productName$ will reject the Secret and disable TLS termination
+  for the <code>Host</code>.
+</Alert>
+
+<Alert severity="warning">
+  The <code>Host</code>'s <code>hostname</code> and the <code>TLSContext</code>'s&nbsp;
+  <code>hosts</code> must have compatible settings. If they do not, requests may not
+  be accepted.
+</Alert>
+
+Full reference for all options available to the `TLSContext` can be found [below](#tlscontext).
 
 ## TLSContext
 
 The `TLSContext` is used to configure advanced TLS options in $productName$. 
-Remember, a `TLSContext` should always be paired with a `Host`. 
+Remember, a `TLSContext` must always be paired with a `Host`. 
 
 A full schema of the `TLSContext` can be found below with descriptions of the 
 different configuration options.
@@ -231,12 +261,6 @@ spec:
   #
   # secret_namespacing: true
 
-  # If you set 'redirect_cleartext_from' to a port number, HTTP traffic
-  # to that port will be redirected to HTTPS traffic. Make sure that the
-  # port number you specify matches the port on which $productName$ is
-  # listening!
-  # redirect_cleartext_from: 8080
-
   # 'cert_required' can be set to true to _require_ TLS client certificate
   # authentication.
   # type: boolean
@@ -265,6 +289,13 @@ spec:
   # private_key_file: None
   # cacert_chain_file: None
 ```
+
+<Alert severity="warning">
+  <code>secret</code> and (if used) <code>ca_secret</code> must specify Kubernetes
+  Secrets containing a valid TLS certificate. If not, $productName$ will reject the
+  <code>TLSContext</code> entirely, which will disable TLS for <code>Host</code>s
+  using the <code>TLSContext</code>.
+</Alert>
 
 ### ALPN protocols
 
@@ -353,62 +384,4 @@ spec:
   ecdh_curves:
   - X25519
   - P-256
-```
-
-## TLS `Module` (*Deprecated*)
-
-The TLS `Module` is deprecated. `TLSContext` should be used when using $productName$ version 0.50.0 and above.
-
-For users of $productName$, see the [`Host` CRD](../host-crd) reference for more information.
-
-```yaml
----
-apiVersion: getambassador.io/v3alpha1
-kind:  Module
-metadata:
-  name:  tls
-spec:
-  config:
-    # The 'server' block configures TLS termination. 'enabled' is the only
-    # required element.
-    server:
-      # If 'enabled' is not True, TLS termination will not happen.
-      enabled: True
-
-      # If you set 'redirect_cleartext_from' to a port number, HTTP traffic
-      # to that port will be redirected to HTTPS traffic. Make sure that the
-      # port number you specify matches the port on which $productName$ is
-      # listening!
-      # redirect_cleartext_from: 8080
-
-      # These are optional. They should not be present unless you are using
-      # a custom Docker build to install certificates onto the container
-      # filesystem, in which case YOU WILL STILL NEED TO SET enabled: True
-      # above.
-      #
-      # cert_chain_file: /etc/certs/tls.crt   # remember to set enabled!
-      # private_key_file: /etc/certs/tls.key  # remember to set enabled!
-
-      # Enable TLS ALPN protocol, typically HTTP2 to negotiate it with
-      # HTTP2 clients over TLS.
-      # This must be set to be able to use grpc over TLS.
-      # alpn_protocols: h2
-
-    # The 'client' block configures TLS client-certificate authentication.
-    # 'enabled' is the only required element.
-    client:
-      # If 'enabled' is not True, TLS client-certificate authentication will
-      # not happen.
-      enabled: False
-
-      # If 'cert_required' is True, TLS client certificates will be required
-      # for every connection.
-      # cert_required: False
-
-      # This is optional. It should not be present unless you are using
-      # a custom Docker build to install certificates onto the container
-      # filesystem, in which case YOU WILL STILL NEED TO SET enabled: True
-      # above.
-      #
-      # cacert_chain_file: /etc/cacert/tls.crt  # remember to set enabled!
 ```
