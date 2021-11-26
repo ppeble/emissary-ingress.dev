@@ -10,22 +10,22 @@ installation until the new $productName$ 2.X installation is verified to work, a
 does not require changing any resources to `getambassador.io/v3alpha1` until after the
 $productName$ 1.X installation is shut down.
 
-1. **Install migration CRDs.**
+2. **Install new CRDs.**
 
    If you haven't already installed the migration CRDs, do so now:
 
    ```
-   kubectl apply -f https://app.getambassador.io/yaml/$version$/$productYAMLPath$/$productDockerImage$-migration.yaml
+   kubectl apply -f https://app.getambassador.io/yaml/$version$/$productYAMLPath$/$productCRDName$
    ```
-
-   The migration CRDs configure the Kubernetes cluster with basic support for the
-   `getambassador.io/v3alpha1` CRDs.
 
 2. Next, install $productName$ $version$ alongside 1.X. This is most easily done with
    [Helm](../helm) and its canary option.
 
    ```bash
-   example goes here
+   helm install -n $productNamespace$ --create-namespace \
+     $productHelmName$ datawire/$productHelmName$ \
+     --set canary.enabled=true && \
+   kubectl rollout status  -n $productNamespace$ deployment/$productDeploymentName$ -w
    ```
 
    <Alert severity="warning">
