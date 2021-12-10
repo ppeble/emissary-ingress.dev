@@ -21,6 +21,37 @@ some changes that aren't backward-compatible with 1.X. These changes are detaile
   cluster!
 </Alert>
 
+The recommended strategy for migration is to run $productName$ 1.X and $productName$
+$version$ side-by-side in the same cluster. This gives $productName$ $version$
+and $productName$ 1.X access to all the same configuration resources, with some
+important caveats:
+
+1. **$productName$ 1.X will not see any `getambassador.io/v3alpha1` resources.**
+
+   This is intentional; it provides a way to apply configuration only to 
+   $productName$ $version$, while not interfering with the operation of your
+   $productName$ 1.X installation.
+
+2. **If needed, you can use labels to further isolate configurations.**
+
+   If you need to prevent your $productName$ $version$ installation from
+   seeing a particular bit of $productName$ 1.X configuration, you can apply
+   a Kubernetes label to the configuration resources that should be seen by
+   your $productName$ $version$ installation, then set its
+   `AMBASSADOR_LABEL_SELECTOR` enviroment variable to restrict its configuration
+   to only the labelled resources.
+
+   For example, you could apply a `version-two: true` label to all resources
+   that should be visible to $productName$ $version$, then set
+   `AMBASSADOR_LABEL_SELECTOR=version-two=true` in its Deployment.
+
+You can also migrate by [installing $productName$ $version$ in a separate cluster](../migrate-to-2-alternate).
+This permits absolute certainty that your $productName$ 1.X configuration will not be
+affected by changes meant for $productName$ $version$, and it eliminates concerns about
+ACME, but it is more effort.
+
+## Side-by-Side Migration Steps
+
 Migration is a five-step process:
 
 1. **Convert older configuration resources to `getambassador.io/v2`.**
@@ -53,18 +84,18 @@ Migration is a five-step process:
 3. **Install $productName$ $version$.**
 
    After installing the new CRDs, you need to install $productName$ $version$ itself.
-   The [recommended strategy](../migrate-to-2-recommended) is to run $productName$ $version$
-   and $productName$ 1.X side-by-side in the same cluster, with each having a different
-   Kubernetes Service. This allows the two to share most or all of their configuration
-   while still keeping traffic isolated for ease of testing $productName$ $version$. 
+   This is most easily done with [Helm](../helm):
 
-   In this configuration, $productName$ $version$ will use both `getambassador.io/v2`
-   and `getambassador.io/v3alpha1` resources for configuration, and $productName$ 1.X will
-   only use the `getambassador.io/v2` resources.
+   ```bash
+   helm install -n $productNamespace$ --create-namespace \
+     $productHelmName$ datawire/$productHelmName$ && \
+   kubectl rollout status  -n $productNamespace$ deployment/$productDeploymentName$ -w
+   ```
 
-   Alternately, you can [install $productName$ $version$ in a separate cluster](../migrate-to-2-alternate).
-   This permits absolute certainty that your $productName$ 1.X configuration will not be
-   affected by changes meant for $productName$ $version$, but is more effort.
+   <Alert severity="warning">
+     You must use the <a href="https://github.com/datawire/edge-stack/"><code>$productHelmName$</code> Helm chart</a> to install $productName$ 2.X.
+     Do not use the <a href="https://github.com/emissary-ingress/emissary/tree/release/v1.14/charts/ambassador"><code>ambassador</code> Helm chart</a>.
+   </Alert>
 
    <Alert severity="info">
      $productName$ $version$ includes a Deployment in the $productNamespace$ namespace
@@ -80,14 +111,15 @@ Migration is a five-step process:
      the <code>$productDeploymentName$-apiext</code> Deployment.
    </Alert>
 
-4. **Test!**
+5. **Test!**
 
    Your $productName$ $version$ installation can support the `getambassador.io/v2`
    configuration resources used by $productName$ 1.X, but you may need to make some
    changes to the configuration, as detailed in the documentation on 
    [configuring $productName$ Communications](../../../howtos/configure-communications)
-   and [updating CRDs to `getambassador.io/v3alpha1`](../convert-to-v3alpha1). (At
-   minimum, you'll need to add [`Listener`s](../../running/listener) as needed.)
+   and [updating CRDs to `getambassador.io/v3alpha1`](../convert-to-v3alpha1). 
+
+   At minimum, you'll need to add [`Listener`s](../../running/listener) as needed.
 
    <Alert severity="info">
     Kubernetes will not allow you to have a <code>getambassador.io/v3alpha1</code> resource
@@ -96,9 +128,7 @@ Migration is a five-step process:
     <br/>
     If you find that your $productName$ $version$ installation and your $productName$ 1.X
     installation absolutely must have resources that are only seen by one version or the
-    other way, the simplest way forward is to give the two deployments different
-    <code>AMBASSADOR_LABEL_SELECTOR</code> values, then using matching labels on
-    configuration resources to indicate which resources should be used by each installation.<br/>
+    other way, see overview section 2, "If needed, you can use labels to further isolate configurations".
    </Alert>
 
    **If you find that you need to roll back**, just reinstall your 1.X CRDs and delete your 
