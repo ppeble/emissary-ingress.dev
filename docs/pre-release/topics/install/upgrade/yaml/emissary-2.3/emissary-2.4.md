@@ -1,16 +1,16 @@
 import Alert from '@material-ui/lab/Alert';
 
-# Upgrade $productName$ 2.0.5 to $productName$ $versionTwoX$ (YAML)
+# Upgrade $productName$ 2.3.X to $productName$ $versionTwoX$ (YAML)
 
 <Alert severity="info">
-  This guide covers migrating from $productName$ 2.0.5 to $productName$ $versionTwoX$. If
+  This guide covers migrating from $productName$ 2.2.0 or 2.2.2 to $productName$ $versionTwoX$. If
   this is not your <b>exact</b> situation, see the <a href="../../../../migration-matrix">migration
   matrix</a>.
 </Alert>
 
 <Alert severity="warning">
   This guide is written for upgrading an installation made without using Helm.
-  If you originally installed with Helm, see the <a href="../../../helm/emissary-2.0/emissary-2.3">Helm-based
+  If you originally installed with Helm, see the <a href="../../../helm/emissary-2.3/emissary-2.4">Helm-based
   upgrade instructions</a>.
 </Alert>
 

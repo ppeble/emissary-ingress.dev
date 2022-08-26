@@ -1,20 +1,20 @@
 import Alert from '@material-ui/lab/Alert';
 
-# Upgrade $productName$ 1.14.X to $productName$ $version$ (YAML)
+# Upgrade $productName$ 1.14.X to $productName$ $versionTwoX$ (Helm)
 
 <Alert severity="info">
-  This guide covers migrating from $productName$ 1.14.X to $productName$ $version$. If
+  This guide covers migrating from $productName$ 1.14.X to $productName$ $versionTwoX$. If
   this is not your <b>exact</b> situation, see the <a href="../../../../migration-matrix">migration
   matrix</a>.
 </Alert>
 
 <Alert severity="warning">
-  This guide is written for upgrading an installation made without using Helm.
-  If you originally installed with Helm, see the <a href="../../../helm/emissary-1.14/emissary-2.3">Helm-based
+  This guide is written for upgrading an installation originally made using Helm.
+  If you did not install with Helm, see the <a href="../../../yaml/emissary-1.14/emissary-2.4">YAML-based
   upgrade instructions</a>.
 </Alert>
 
-We're pleased to introduce $productName$ $version$! The 2.X family introduces a number of
+We're pleased to introduce $productName$ $versionTwoX$! The 2.X family introduces a number of
 changes to allow $productName$ to more gracefully handle larger installations (including
 multitenant or multiorganizational installations), reduce memory footprint, and improve
 performance. In keeping with [SemVer](https://semver.org), $productName$ 2.X introduces
@@ -29,35 +29,35 @@ some changes that aren't backward-compatible with 1.X. These changes are detaile
 </Alert>
 
 The recommended strategy for migration is to run $productName$ 1.14 and $productName$
-$version$ side-by-side in the same cluster. This gives $productName$ $version$
+$versionTwoX$ side-by-side in the same cluster. This gives $productName$ $versionTwoX$
 and $productName$ 1.14 access to all the same configuration resources, with some
 important caveats:
 
 1. **$productName$ 1.14 will not see any `getambassador.io/v3alpha1` resources.**
 
    This is intentional; it provides a way to apply configuration only to
-   $productName$ $version$, while not interfering with the operation of your
+   $productName$ $versionTwoX$, while not interfering with the operation of your
    $productName$ 1.14 installation.
 
 2. **If needed, you can use labels to further isolate configurations.**
 
-   If you need to prevent your $productName$ $version$ installation from
+   If you need to prevent your $productName$ $versionTwoX$ installation from
    seeing a particular bit of $productName$ 1.14 configuration, you can apply
    a Kubernetes label to the configuration resources that should be seen by
-   your $productName$ $version$ installation, then set its
+   your $productName$ $versionTwoX$ installation, then set its
    `AMBASSADOR_LABEL_SELECTOR` environment variable to restrict its configuration
    to only the labelled resources.
 
    For example, you could apply a `version-two: true` label to all resources
-   that should be visible to $productName$ $version$, then set
+   that should be visible to $productName$ $versionTwoX$, then set
    `AMBASSADOR_LABEL_SELECTOR=version-two=true` in its Deployment.
 
 3. **Be careful about label selectors on Kubernetes Services!**
 
    If you have services in $productName$ 1.14 that use selectors that will match
-   Pods from $productName$ $version$, traffic will be erroneously split between
-   $productName$ 1.14 and $productName$ $version$. The labels used by $productName$
-   $version$ include:
+   Pods from $productName$ $versionTwoX$, traffic will be erroneously split between
+   $productName$ 1.14 and $productName$ $versionTwoX$. The labels used by $productName$
+   $versionTwoX$ include:
 
    ```yaml
    app.kubernetes.io/name: emissary-ingress
@@ -75,13 +75,13 @@ important caveats:
    running simultaneously, Ambassador Cloud could see conflicting information
    about your cluster.
 
-   The migration YAML used below to install $productName$ $version$ will not
-   install a duplicate agent. If you are building your own YAML, make sure not
-   to include a duplicate agent.
+   The best way to avoid multiple agents when installing with Helm is to use
+   `--set agent.enabled=false` to tell Helm not to install a new Agent with
+   $productName$ $versionTwoX$. Once testing is done, you can switch Agents safely.
 
-You can also migrate by [installing $productName$ $version$ in a separate cluster](../../../../migrate-to-2-alternate).
+You can also migrate by [installing $productName$ $versionTwoX$ in a separate cluster](../../../../migrate-to-2-alternate).
 This permits absolute certainty that your $productName$ 1.14 configuration will not be
-affected by changes meant for $productName$ $version$, and it eliminates concerns about
+affected by changes meant for $productName$ $versionTwoX$, and it eliminates concerns about
 ACME, but it is more effort.
 
 ## Side-by-Side Migration Steps
@@ -106,20 +106,20 @@ Migration is a seven-step process:
 
 2. **Install new CRDs.**
 
-   Before installing $productName$ $version$ itself, you must configure your
+   Before installing $productName$ $versionTwoX$ itself, you must configure your
    Kubernetes cluster to support its new `getambassador.io/v3alpha1` configuration
    resources. Note that `getambassador.io/v2` resources are still supported, but **you
-   must install support for `getambassador.io/v3alpha1`** to run $productName$ $version$,
+   must install support for `getambassador.io/v3alpha1`** to run $productName$ $versionTwoX$,
    even if you intend to continue using only `getambassador.io/v2` resources for some
    time.
 
    ```
-   kubectl apply -f https://app.getambassador.io/yaml/emissary/$version$/emissary-crds.yaml
+   kubectl apply -f https://app.getambassador.io/yaml/emissary/$versionTwoX$/emissary-crds.yaml
    kubectl wait --timeout=90s --for=condition=available deployment emissary-apiext -n emissary-system
    ```
 
    <Alert severity="info">
-     $productName$ $version$ includes a Deployment in the `emissary-system` namespace
+     $productName$ $versionTwoX$ includes a Deployment in the `emissary-system` namespace
      called <code>$productDeploymentName$-apiext</code>. This is the APIserver extension
      that supports converting $productName$ CRDs between <code>getambassador.io/v2</code>
      and <code>getambassador.io/v3alpha1</code>. This Deployment needs to be running at
@@ -132,36 +132,49 @@ Migration is a seven-step process:
      the <code>$productDeploymentName$-apiext</code> Deployment.
    </Alert>
 
-3. **Install $productName$ $version$.**
+3. **Install $productName$ $versionTwoX$.**
 
-   After installing the new CRDs, you need to install $productName$ $version$ itself
+   After installing the new CRDs, you need to install $productName$ $versionTwoX$ itself
    **in the same namespace as your existing $productName$ 1.14 installation**. It's important
    to use the same namespace so that the two installations can see the same secrets, etc.
 
-   We publish two manifests for different namespaces. Use only the one that
-   matches the namespace into which you installed $productName$ 1.14:
+   Start by making sure that your `emissary` Helm repo is set correctly:
 
-   - [`emissary-emissaryns.yaml`] for the `emissary` namespace; or
-   - [`emissary-defaultns.yaml`] for the `default` namespace.
-
-   If you installed $productName$ 1.14 into some other namespace, you'll need to
-   download one of the files and edit it to match your namespace.
-
-   [`emissary-emissaryns.yaml`]: https://app.getambassador.io/yaml/emissary/$version$/emissary-emissaryns.yaml
-   [`emissary-defaultns.yaml`]: https://app.getambassador.io/yaml/emissary/$version$/emissary-defaultns.yaml
-
-   **If you need to set `AMBASSADOR_LABEL_SELECTOR`**, you'll need to download
-   your chosen file and and edit it to do so.
-
-   Assuming that you're using the `default` namespace:
-
+   ```bash
+   helm repo remove datawire
+   helm repo add datawire https://app.getambassador.io
+   helm repo update
    ```
-   kubectl apply -f https://app.getambassador.io/yaml/emissary/$version$/emissary-defaultns.yaml && \
-   kubectl rollout status -n default deployment/edge-stack -w
-   ```
+
+   Typically, $productName$ 1.14 was installed in the `ambassador` namespace. If you installed
+   $productName$ 1.14 in a different namespace, change the namespace in the commands below.
+
+   - If you do not need to set `AMBASSADOR_LABEL_SELECTOR`:
+
+      ```bash
+      helm install -n ambassador \
+           --set agent.enabled=false \
+           $productHelmName$ datawire/$productHelmName$ && \
+      kubectl rollout status  -n $productNamespace$ deployment/$productDeploymentName$ -w
+      ```
+
+   - If you do need to set `AMBASSADOR_LABEL_SELECTOR`, use `--set`, for example:
+
+      ```bash
+      helm install -n ambassador \
+           --set agent.enabled=false \
+           --set env.AMBASSADOR_LABEL_SELECTOR="version-two=true" \
+           $productHelmName$ datawire/$productHelmName$ && \
+      kubectl rollout status  -n $productNamespace$ deployment/$productDeploymentName$ -w
+      ```
+
+   <Alert severity="warning">
+    You must use the <a href="https://artifacthub.io/packages/helm/datawire/emissary-ingress/$ossChartVersion$"><code>$productHelmName$</code> Helm chart</a> for $productName$ 2.X.
+    Do not use the <a href="https://artifacthub.io/packages/helm/datawire/ambassador/6.9.3"><code>ambassador</code> Helm chart</a>.
+   </Alert>
 
    <Alert severity="info">
-     $productName$ $version$ includes a Deployment in the $productNamespace$ namespace
+     $productName$ $versionTwoX$ includes a Deployment in the $productNamespace$ namespace
      called <code>$productDeploymentName$-apiext</code>. This is the APIserver extension
      that supports converting $productName$ CRDs between <code>getambassador.io/v2</code>
      and <code>getambassador.io/v3alpha1</code>. This Deployment needs to be running at
@@ -176,9 +189,9 @@ Migration is a seven-step process:
 
 4. **Install `Listener`s and `Host`s as needed.**
 
-   An important difference between $productName$ 1.14 and $productName$ $version$ is the
+   An important difference between $productName$ 1.14 and $productName$ $versionTwoX$ is the
    new **mandatory** `Listener` CRD. Also, when running both installations side by side,
-   you will need to make sure that a `Host` is present for the new $productName$ $version$
+   you will need to make sure that a `Host` is present for the new $productName$ $versionTwoX$
    Service. For example:
 
    ```bash
@@ -224,7 +237,7 @@ Migration is a seven-step process:
 
 5. **Test!**
 
-   Your $productName$ $version$ installation can support the `getambassador.io/v2`
+   Your $productName$ $versionTwoX$ installation can support the `getambassador.io/v2`
    configuration resources used by $productName$ 1.14, but you may need to make some
    changes to the configuration, as detailed in the documentation on
    [configuring $productName$ Communications](../../../../../../howtos/configure-communications)
@@ -235,24 +248,24 @@ Migration is a seven-step process:
     with the same name as a <code>getambassador.io/v2</code> resource or vice versa: only
     one version can be stored at a time.<br/>
     <br/>
-    If you find that your $productName$ $version$ installation and your $productName$ 1.14
+    If you find that your $productName$ $versionTwoX$ installation and your $productName$ 1.14
     installation absolutely must have resources that are only seen by one version or the
     other way, see overview section 2, "If needed, you can use labels to further isolate configurations".
    </Alert>
 
    **If you find that you need to roll back**, just reinstall your 1.14 CRDs and delete your
-   installation of $productName$ $version$.
+   installation of $productName$ $versionTwoX$.
 
-6. **When ready, switch over to $productName$ $version$.**
+6. **When ready, switch over to $productName$ $versionTwoX$.**
 
-   You can run $productName$ 1.14 and $productName$ $version$ side-by-side as long as you care
+   You can run $productName$ 1.14 and $productName$ $versionTwoX$ side-by-side as long as you care
    to. However, taking full advantage of $productName$ 2.X's capabilities **requires**
    [updating your configuration to use `getambassador.io/v3alpha1` configuration resources](../../../../convert-to-v3alpha1),
-   since some useful features in $productName$ $version$ are only available using
+   since some useful features in $productName$ $versionTwoX$ are only available using
    `getambassador.io/v3alpha1` resources.
 
-   When you're ready to have $productName$ $version$ handle traffic on its own, switch
-   your original $productName$ 1.14 Service to point to $productName$ $version$. Use
+   When you're ready to have $productName$ $versionTwoX$ handle traffic on its own, switch
+   your original $productName$ 1.14 Service to point to $productName$ $versionTwoX$. Use
    `kubectl edit service ambassador` and change the `selectors` to:
 
    ```
@@ -264,35 +277,25 @@ Migration is a seven-step process:
    Repeat using `kubectl edit service ambassador-admin` for the `ambassador-admin`
    Service.
 
-7. **Finally, install the $productName$ $version$ Ambassador Agent.**
+7. **Finally, install the $productName$ $versionTwoX$ Ambassador Agent.**
 
    First, scale the 1.14 agent to 0:
 
    ```
-   kubectl scale -n default deployment/ambassador-agent --replicas=0
+   kubectl scale -n ambassador deployment/ambassador-agent --replicas=0
    ```
 
-   Once that's done, install the new Agent into the same namespace as your
-   Emissary deployment. Again, we supply two files for two different
-   namespaces: use only the one that matches the namespace into which you
-   installed $productName$ 1.14.
+   Once that's done, install the new Agent. **Note that if you needed to set
+   `AMBASSADOR_LABEL_SELECTOR`, you must add that to this `helm upgrade` command.**
 
-   - [`emissary-emissaryns-agent.yaml`] for the `emissary` namespace; or
-   - [`emissary-defaultns-agent.yaml`] for the `default` namespace.
-
-   If you installed $productName$ 1.14 into some other namespace, you'll need to
-   download one of the files and edit it to match your namespace.
-
-   [`emissary-emissaryns-agent.yaml`]: https://app.getambassador.io/yaml/emissary/$version$/emissary-emissaryns-agent.yaml
-   [`emissary-defaultns-agent.yaml`]: https://app.getambassador.io/yaml/emissary/$version$/emissary-defaultns-agent.yaml
-
-   Assuming that you're using the `default` namespace:
-
-   ```
-   kubectl apply -f https://app.getambassador.io/yaml/emissary/$version$/emissary-defaultns-agent.yaml
+   ```bash
+   helm upgrade -n ambassador \
+        --set agent.enabled=true \
+        $productHelmName$ datawire/$productHelmName$ \
+   kubectl rollout status  -n $productNamespace$ deployment/$productDeploymentName$ -w
    ```
 
-Congratulations! At this point, $productName$ $version$ is fully running and it's safe to remove the `ambassador` and `ambassador-agent` Deployments:
+Congratulations! At this point, $productName$ $versionTwoX$ is fully running and it's safe to remove the `ambassador` and `ambassador-agent` Deployments:
 
 ```
 kubectl delete deployment/ambassador deployment/ambassador-agent
