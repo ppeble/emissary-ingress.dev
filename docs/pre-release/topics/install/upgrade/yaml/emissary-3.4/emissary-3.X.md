@@ -1,16 +1,16 @@
 import Alert from '@material-ui/lab/Alert';
 
-# Upgrade $productName$ 3.3.Z (YAML)
+# Upgrade $productName$ 3.4.Z (YAML)
 
 <Alert severity="info">
-  This guide covers migrating from $productName$ 3.3.Z to $productName$ $version$. If
+  This guide covers migrating from $productName$ 3.4.Z to $productName$ $version$. If
   this is not your <b>exact</b> situation, see the <a href="../../../../migration-matrix">migration
   matrix</a>.
 </Alert>
 
 <Alert severity="warning">
   This guide is written for upgrading an installation made without using Helm.
-  If you originally installed with Helm, see the <a href="../../../helm/emissary-3.3/emissary-3.X">Helm-based
+  If you originally installed with Helm, see the <a href="../../../helm/emissary-3.4/emissary-3.X">Helm-based
   upgrade instructions</a>.
 </Alert>
 
