@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "build-and-serve": "npm run build && npm run serve",
+    "build:preview": "hugo --cleanDestinationDir -e dev -DFE --minify --baseURL \"${DEPLOY_PRIME_URL:-/}\"",
+    "build:production": "hugo --cleanDestinationDir --minify",
+    "build": "hugo --cleanDestinationDir -e dev -DFE",
+    "serve": "hugo serve --minify -DFE -w"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.18",
+    "docsy": "github:google/docsy#semver:0.9.1",
+    "hugo-extended": "^0.124.1",
+    "netlify-cli": "^17.15.2",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^11.0.0"
+  }
+}
+
