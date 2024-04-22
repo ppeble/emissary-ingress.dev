@@ -12,6 +12,8 @@ manage Node versions:
 $ nvm install --lts
 ```
 
+You must also install [hugo](https://gohugo.io/getting-started/installing/) to build the site.
+
 ### Setup
 
  1. Clone this repo.
