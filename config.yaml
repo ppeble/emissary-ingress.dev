@@ -41,7 +41,7 @@ imaging:
 languages:
   en:
     params:
-      title: Emissary Ingress
+      title: Emissary-ingress
       description: >-
         An open source Kubernetes-native API gateway for microservices built on the Envoy Proxy
       languageName: English
@@ -182,22 +182,16 @@ params:
   links:
     # End user relevant links. These will show up on left side of footer and in the community page if you have one.
     user:
-      - name: Google Group
-        url: https://groups.google.com/g/etcd-dev
-        icon: fab fa-google
-      - name: Twitter
-        url: https://twitter.com/etcdio
-        icon: fab fa-twitter
       - name: Github Discussions
-        url: https://github.com/etcd-io/etcd/discussions
+        url: https://github.com/emissary-ingress/emissary/discussions
         icon: fab fa-github
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
-      - name: Etcd on GitHub
-        url: https://github.com/etcd-io/etcd
+      - name: Emissary on GitHub
+        url: https://github.com/emissary-ingress/emissary
         icon: fab fa-github-square
-      - name: Etcd.io on GitHub
-        url: https://github.com/etcd-io/website
+      - name: emissary-ingress.dev on GitHub
+        url: https://github.com/emissary-ingress/emissary-ingress.dev
         icon: fab fa-github
   # [params.logos]
   hero: >-
@@ -221,9 +215,5 @@ menu:
     - name: Docs
       url: /docs/latest/
       weight: -10
-    - name: Blog
-      pageref: /blog/
     - name: Install
-      url: /docs/latest/install/
-    - name: Play
-      url: http://play.etcd.io/play
+      url: /docs/latest/tutorials/getting-started/#1-installation

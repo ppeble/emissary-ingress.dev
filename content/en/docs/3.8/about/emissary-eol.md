@@ -1,10 +1,12 @@
-# $productName$ End of Life Policy
+---
+title: Emissary-ingress End of Life Policy
+---
 
-This document describes the End of Life policy and maintenance windows for Ambassador Edge Stack, and to the open source project Emissary Ingress.
+This document describes the End of Life policy and maintenance windows for the open source project Emissary-ingress.
 
 ## Supported Versions
 
-Ambassador Edge Stack and Emissary-ingress versions are expressed as **x.y.z**, where **x** is the major version, **y** is the minor version, and **z** is the patch version, following [Semantic Versioning](https://semver.org/) terminology.
+Emissary-ingress versions are expressed as **x.y.z**, where **x** is the major version, **y** is the minor version, and **z** is the patch version, following [Semantic Versioning](https://semver.org/) terminology.
 
 **X-series (Major Versions)**
 
@@ -36,7 +38,6 @@ Maintenance refers to the previous X-series release, including security and Sev1
 > The current X-series will receive as many Y-releases as necessary and as often as we have new features or patches to release.
 >
 
-> Ambassador Labs offers no-downtime migration to current versions from maintenance releases. Migration from releases that are outside of the maintenance window may be subject to downtime.
 >
 
 > Artifacts of releases outside of the maintenance window will be frozen and will remain available publicly for download with the best effort. These artifacts include Docker images, application binaries, Helm charts, etc.
@@ -44,7 +45,7 @@ Maintenance refers to the previous X-series release, including security and Sev1
 
 ### When we say support with “defect patches”, what do we mean?
 
-- We will fix security issues in our Emissary-ingress and Ambassador Edge Stack code
+- We will fix security issues in our Emissary-ingress
 - We will pick up security fixes from dependencies as they are made available
 - We will not maintain forks of our major dependencies
 - We will not attempt our own back ports of critical fixes to dependencies which are out of support from their own communities
