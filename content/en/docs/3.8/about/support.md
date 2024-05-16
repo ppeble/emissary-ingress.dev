@@ -1,12 +1,14 @@
-# Need help?
+---
+title: Support
+---
 
-If you need help deploying $productName$ at your organization, there are several different options available to you.
+If you need help deploying Emissary Ingress at your organization, there are several different options available to you.
 
 ## Support tiers
 
-### $productName$ community support
+### Emissary Ingress community support
 
-When running $OSSproductName$, or $AESproductName$ with free community licenses, [join our Slack channel](http://a8r.io/slack) to talk with other users in the community and get your questions answered.
+When running Emissary Ingress$ with free community licenses, [join our Slack channel](http://a8r.io/slack) to talk with other users in the community and get your questions answered.
 
 If you can’t find an answer there, [contact us](/contact-us) to learn more about the support options available with $AESproductName$ Enterprise.
 

@@ -1,4 +1,6 @@
-# Developing custom filters for routing
+---
+title: Developing custom filters for routing
+---
 
 Sometimes you may want $AESproductName$ to manipulate an incoming request. Some example use cases:
 
