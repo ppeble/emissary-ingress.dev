@@ -1,5 +1,5 @@
 ---
-baseURL: https://emmisary-ingress.dev
+baseURL: https://emissary-ingress.dev
 enableRobotsTxt: true
 
 module:
@@ -62,9 +62,9 @@ markup:
 
 params:
   copyright:
-    from_year: 2018
+    from_year: 2017
     authors: |
-      emissary Authors
+      Emissary-ingress Authors
 
       <div class="row text-center text-white small">
         <div class="col-12 text-center py-2 order-sm-2">
@@ -77,12 +77,12 @@ params:
   description: >-
     An open source Kubernetes-native API gateway for microservices built on the Envoy Proxy
 
-    # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-  github_repo: https://github.com/emissary-ingress/emissary-ingress.dev
+  # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
+  github_repo: https://github.com/emissary-ingress/emissary
   github_branch: main
 
   # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-  github_project_repo: https://github.com/emissary-ingress/emissary
+  github_project_repo: https://github.com/emissary-ingress/emissary-ingress.dev
 
   # Enable Lunr.js offline search
   offlineSearch: true
@@ -195,8 +195,7 @@ params:
         icon: fab fa-github
   # [params.logos]
   hero: >-
-    https://raw.githubusercontent.com/cncf/artwork/master/projects/etcd/horizontal/white/etcd-horizontal-white.png
-
+    https://raw.githubusercontent.com/cncf/artwork/master/projects/emissary-ingress/horizontal/color/emissary-ingress-horizontal-color.png
 mediaTypes:
   text/netlify: {}
 
