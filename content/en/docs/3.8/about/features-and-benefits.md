@@ -1,4 +1,6 @@
-# Features and benefits
+---
+title: Features and Benefits
+---
 
 In cloud-native organizations, developers frequently take on responsibility for the full development lifecycle of a service, from development to QA to operations. $productName$ was specifically designed for these organizations where developers have operational responsibility for their service(s).
 

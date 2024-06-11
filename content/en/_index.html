@@ -1,19 +1,13 @@
 ---
-title: emissary ingress
+title: Emissary-ingress
 features:
   - title: Simple interface
-    description: Read and write values using standard HTTP tools, such as curl
+    description: Open source Kubernetes-native API gateway for microservices built on the Envoy Proxy
     icon: interface.svg
-  - title: Key-value storage
-    description: Store data in hierarchically organized directories, as in a standard filesystem
-    icon: kv.svg
-  - title: Watch for changes
-    description: Watch specific keys or directories for changes and react to changes in values
-    icon: watch.svg
 ---
 
 {{< blocks/cover image_anchor="top" height="min" color="primary" >}}
-<img src="etcd-horizontal-white.png" class="site-logo" />
+<img width="60%" src="https://raw.githubusercontent.com/cncf/artwork/master/projects/emissary-ingress/horizontal/color/emissary-ingress-horizontal-color.png" class="site-logo" />
 <h2 class="mt-4">
   A Kubernetes-native API gateway for microservices built on the Envoy Proxy
 </h2>
@@ -21,20 +15,24 @@ features:
 	<a class="btn btn-lg btn-secondary mr-3 mb-4" href="/docs/{{< param latest_stable_version >}}/">
 		Learn more
 	</a>
-	<a class="btn btn-lg btn-primary mr-3 mb-4" href="/docs/{{< param latest_stable_version >}}/quickstart">
-		Quickstart<i class="fas fa-arrow-alt-circle-right ml-2"></i>
-	</a>
 </div>
 {{< /blocks/cover >}}
 
-{{% blocks/lead color="white" %}}
-  <h1>What is etcd?</h1>
+{{% blocks/lead color="red" %}}
+  <h2>Heads up!</h2>
+
   <p>
-    <b>etcd</b> is a strongly consistent, distributed key-value store that
-    provides a reliable way to store data that needs to be accessed by a
-    distributed system or cluster of machines. It gracefully handles leader
-    elections during network partitions and can tolerate machine failure, even
-    in the leader node.
-    <a href="/docs/{{< param latest_stable_version >}}/">Learn more<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+    This site is under very active development as we migrate documentation here.
+    If you can't find what you're looking for, check out the
+    <span style="font-family: monospace; font-weight: bold;">#emissary-ingress</span>
+    channel in the <a href="https://slack.cncf.io/" style="color: white;">CNCF Slack</a>.
+  </p>
+{{% /blocks/lead %}}
+
+{{% blocks/lead color="white" %}}
+  <h1>What is Emissary-ingress?</h1>
+  <p>
+    <b>Emissary-ingress</b> is an open-source Kubernetes-native API Gateway
+    + Layer 7 load balancer + Kubernetes Ingress built on <a href="https://envoyproxy.io">Envoy Proxy</a>.
   </p>
 {{% /blocks/lead %}}

@@ -1,5 +1,5 @@
 ---
-baseURL: https://emmisary-ingress.dev
+baseURL: https://emissary-ingress.dev
 enableRobotsTxt: true
 
 module:
@@ -41,7 +41,7 @@ imaging:
 languages:
   en:
     params:
-      title: Emissary Ingress
+      title: Emissary-ingress
       description: >-
         An open source Kubernetes-native API gateway for microservices built on the Envoy Proxy
       languageName: English
@@ -62,9 +62,9 @@ markup:
 
 params:
   copyright:
-    from_year: 2018
+    from_year: 2017
     authors: |
-      emissary Authors
+      Emissary-ingress Authors
 
       <div class="row text-center text-white small">
         <div class="col-12 text-center py-2 order-sm-2">
@@ -77,12 +77,12 @@ params:
   description: >-
     An open source Kubernetes-native API gateway for microservices built on the Envoy Proxy
 
-    # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-  github_repo: https://github.com/emissary-ingress/emissary-ingress.dev
+  # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
+  github_repo: https://github.com/emissary-ingress/emissary
   github_branch: main
 
   # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-  github_project_repo: https://github.com/emissary-ingress/emissary
+  github_project_repo: https://github.com/emissary-ingress/emissary-ingress.dev
 
   # Enable Lunr.js offline search
   offlineSearch: true
@@ -182,27 +182,20 @@ params:
   links:
     # End user relevant links. These will show up on left side of footer and in the community page if you have one.
     user:
-      - name: Google Group
-        url: https://groups.google.com/g/etcd-dev
-        icon: fab fa-google
-      - name: Twitter
-        url: https://twitter.com/etcdio
-        icon: fab fa-twitter
       - name: Github Discussions
-        url: https://github.com/etcd-io/etcd/discussions
+        url: https://github.com/emissary-ingress/emissary/discussions
         icon: fab fa-github
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
-      - name: Etcd on GitHub
-        url: https://github.com/etcd-io/etcd
+      - name: Emissary on GitHub
+        url: https://github.com/emissary-ingress/emissary
         icon: fab fa-github-square
-      - name: Etcd.io on GitHub
-        url: https://github.com/etcd-io/website
+      - name: emissary-ingress.dev on GitHub
+        url: https://github.com/emissary-ingress/emissary-ingress.dev
         icon: fab fa-github
   # [params.logos]
   hero: >-
-    https://raw.githubusercontent.com/cncf/artwork/master/projects/etcd/horizontal/white/etcd-horizontal-white.png
-
+    https://raw.githubusercontent.com/cncf/artwork/master/projects/emissary-ingress/horizontal/color/emissary-ingress-horizontal-color.png
 mediaTypes:
   text/netlify: {}
 
@@ -221,9 +214,5 @@ menu:
     - name: Docs
       url: /docs/latest/
       weight: -10
-    - name: Blog
-      pageref: /blog/
     - name: Install
-      url: /docs/latest/install/
-    - name: Play
-      url: http://play.etcd.io/play
+      url: /docs/latest/tutorials/getting-started/#1-installation

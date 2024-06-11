@@ -1,15 +1,13 @@
 ---
-title: "HTTP/3 with Amazon Elastic Kubernetes Service (EKS) | $productName$"
+title: "HTTP/3 with Amazon Elastic Kubernetes Service (EKS)"
 description: "How to configure HTTP/3 support for Amazon Elastic Kubernetes Service (EKS). This guide shows how to setup the LoadBalancer service for EKS to support both TCP and UDP communications."
 ---
 
-# Amazon Elastic Kubernetes Service HTTP/3 configuration
-
-This guide shows how to setup HTTP/3 support for Amazon Elastic Kubernetes Service (EKS) The instructions provided in this page are a continuation of the [HTTP/3 in $productName$](../../topics/running/http3) documentation.
+This guide shows how to setup HTTP/3 support for Amazon Elastic Kubernetes Service (EKS) The instructions provided in this page are a continuation of the [HTTP/3 in Emissary-ingress](../../topics/running/http3) documentation.
 
 ## Create a network load balancer (NLB)
 
- The virtual private cloud (VPC) for your load balancer needs one public subnet in each availability zone where you have targets. 
+ The virtual private cloud (VPC) for your load balancer needs one public subnet in each availability zone where you have targets.
 
    ```shell
    SUBNET_IDS=(<your-subnet1-id> <your-subnet2-id> <your-subnet3-id>)
@@ -20,9 +18,9 @@ This guide shows how to setup HTTP/3 support for Amazon Elastic Kubernetes Servi
      --subnets ${SUBNET_IDS}
    ```
 
-## Create a NodePort service 
+## Create a NodePort service
 
-Now create a `NodePort` service for $productName$ installation with two entries. Use `port: 443` to include support for both TCP and UDP traffic.
+Now create a `NodePort` service for Emissary-ingress installation with two entries. Use `port: 443` to include support for both TCP and UDP traffic.
    ```yaml
    # Selectors and labels removed for clarity.
    apiVersion: v1
@@ -73,7 +71,7 @@ Run the following command with the variables for your VPC ID and cluster name:
 
 ## Register your instances
 
-Next, register your cluster's instance with the the instance IDs and Amazon Resource Names (ARN). 
+Next, register your cluster's instance with the the instance IDs and Amazon Resource Names (ARN).
 
 To get your cluster's instance IDs, enter the following command:
    ```shell
@@ -110,7 +108,7 @@ Register the instances with the target groups and load balancer using the instan
 
 ## Create listeners in AWS.
 
-Register your cluster's instance with the instance IDs and ARNs. 
+Register your cluster's instance with the instance IDs and ARNs.
 
 To get the load balancer's ARN, enter the following command:
    ```shell
@@ -133,7 +131,7 @@ Create a TCP listener on port 80 that that forwards to the TargetGroup {TCP_TG_A
      --default-actions Type=forward,TargetGroupArn=${TCP_UDP_TG_ARN}
    ```
 
-## Update the security groups 
+## Update the security groups
 
 Now you need to update your security groups to receive traffic. This security group covers all node groups attached to the EKS cluster:
    ```shell
@@ -158,9 +156,9 @@ Enter the following command to get the DNS name for your load balancers and crea
      --output text
    ```
 
-## Create Listener resources 
+## Create Listener resources
 
-Now you need to create the `Listener` resources for $productName$. The first `Listener` in the example below handles traffic for HTTP/1.1 and HTTP/2, while the second `Listener` handles all HTTP/3 traffic.
+Now you need to create the `Listener` resources for Emissary-ingress. The first `Listener` in the example below handles traffic for HTTP/1.1 and HTTP/2, while the second `Listener` handles all HTTP/3 traffic.
 
    ```yaml
    kubectl apply -f - <<EOF
@@ -225,7 +223,7 @@ Create a `Host` resource for your domain name.
 
 ## Apply the quote service and a Mapping to test the HTTP/3 configuration.
 
-Finally, apply the quote service to a $productName$ `Mapping`.
+Finally, apply the quote service to a Emissary-ingress `Mapping`.
 
    ```shell
    kubectl apply -f https://app.getambassador.io/yaml/v2-docs/$version$/quickstart/qotm.yaml

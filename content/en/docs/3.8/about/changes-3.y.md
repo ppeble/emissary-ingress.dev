@@ -1,7 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-Major Changes in $productName$ 3.X
-==================================
+---
+title: Major Changes in Emissary-ingress 3.X
+---
 
 The 3.X family introduces a number of changes to ensure $productName$
 keeps up with latest Envoy versions and to support new features such as HTTP/3.
