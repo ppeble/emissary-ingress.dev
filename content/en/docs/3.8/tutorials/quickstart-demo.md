@@ -1,24 +1,24 @@
 ---
 title: "Quickstart"
-description: "Emissary-ingress quick start"
+description: "Emissary quick start"
 ---
 
-# Emissary-ingress Tutorial
+# Emissary Tutorial
 
-In this article, you will explore some of the key features of Emissary-ingress by walking through an example workflow and exploring the
+In this article, you will explore some of the key features of Emissary by walking through an example workflow and exploring the
 Edge Policy Console.
 
 ## Prerequisites
 
-You must have [Emissary-ingress installed](../getting-started/) in your
+You must have [Emissary installed](../getting-started/) in your
 Kubernetes cluster.
 
 ## Routing Traffic from the Edge
 
 Like any other Kubernetes object, Custom Resource Definitions (CRDs) are used to
-declaratively define Emissary-ingress’s desired state. The workflow you are going to
+declaratively define Emissary’s desired state. The workflow you are going to
 build uses a sample deployment and the `Mapping` CRD, which is the core resource
-that you will use with Emissary-ingress to manage your edge. It enables you to route
+that you will use with Emissary to manage your edge. It enables you to route
 requests by host and URL path from the edge of your cluster to Kubernetes services.
 
 1. Copy the configuration below and save it to a file named `quote.yaml` so that
@@ -68,7 +68,7 @@ the `quote` deployment and a service to expose that deployment on port 80.
 1. Apply the configuration to the cluster with the command `kubectl apply -f quote.yaml`.
 
 1. Copy the configuration below and save it to a file called `quote-backend.yaml`
-so that you can create a `Mapping` on your cluster. This `Mapping` tells Emissary-ingress to route all traffic inbound to the `/backend/` path, on any host that can be used to reach Emissary-ingress, to the `quote` service.
+so that you can create a `Mapping` on your cluster. This `Mapping` tells Emissary to route all traffic inbound to the `/backend/` path, on any host that can be used to reach Emissary, to the `quote` service.
 
   ```yaml
   ---
@@ -86,14 +86,14 @@ so that you can create a `Mapping` on your cluster. This `Mapping` tells Emissar
 1. Apply the configuration to the cluster with the command
 `kubectl apply -f quote-backend.yaml`
 
-1. Store the Emissary-ingress `LoadBalancer` address to a local environment variable.
+1. Store the Emissary `LoadBalancer` address to a local environment variable.
 You will use this variable to test accessing your pod.
 
   ```
   export AMBASSADOR_LB_ENDPOINT=$(kubectl -n ambassador get svc ambassador -o "go-template={{range .status.loadBalancer.ingress}}{{or .ip .hostname}}{{end}}")
   ```
 
-1. Test the configuration by accessing the service through the Emissary-ingress load
+1. Test the configuration by accessing the service through the Emissary load
 balancer.
 
   ```
@@ -105,7 +105,7 @@ balancer.
   }
   ```
 
-Success, you have created your first Emissary-ingress `Mapping`, routing a
+Success, you have created your first Emissary `Mapping`, routing a
 request from your cluster's edge to a service!
 
 Since the `Mapping` you just created controls how requests are routed,
@@ -142,7 +142,7 @@ with other tutorials.
 
 The `quote` service you just deployed publishes its API as an
 [OpenAPI (formerly Swagger)](https://swagger.io/solutions/getting-started-with-oas/)
-document. Emissary-ingress automatically detects and publishes this documentation.
+document. Emissary automatically detects and publishes this documentation.
 This can help with internal and external developer onboarding by serving as a
 single point of reference for of all your microservice APIs.
 
@@ -161,21 +161,21 @@ Further explore some of the concepts you learned about in this article:
 * [`Mapping` resource](../../topics/using/intro-mappings/): routes traffic from
 the edge of your cluster to a Kubernetes service
 * [`Host` resource](../../topics/running/host-crd/): sets the hostname by which
-Emissary-ingress will be accessed and secured with TLS certificates
+Emissary will be accessed and secured with TLS certificates
 * [Developer Portal](../../tutorials/dev-portal-tutorial/):
 publishes an API catalog and OpenAPI documentation
 
-Emissary-ingress has a comprehensive range of [features](/features/) to
+Emissary has a comprehensive range of [features](/features/) to
 support the requirements of any edge microservice.
 
-Learn more about [how developers use Emissary-ingress](../../topics/using/) to manage
+Learn more about [how developers use Emissary](../../topics/using/) to manage
 edge policies.
 
-Learn more about [how site reliability engineers and operators run Emissary-ingress](../../topics/running/)
+Learn more about [how site reliability engineers and operators run Emissary](../../topics/running/)
 in production environments.
 
-To learn how Emissary-ingress works, use cases, best practices, and more, check out
-the [Quick Start](../getting-started) or read the [Emissary-ingress Story](../../about/why-ambassador).
+To learn how Emissary works, use cases, best practices, and more, check out
+the [Quick Start](../getting-started) or read the [Emissary Story](../../about/why-ambassador).
 
-For a custom configuration, you can install Emissary-ingress
+For a custom configuration, you can install Emissary
 [manually](../../topics/install/yaml-install).

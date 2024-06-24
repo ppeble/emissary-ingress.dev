@@ -1,5 +1,5 @@
 ---
-title: Major Changes in Emissary-ingress 3.X
+title: Major Changes in Emissary 3.X
 ---
 
 The 3.X family introduces a number of changes to ensure $productName$

@@ -40,7 +40,7 @@ The most popular approach to configuring edge proxies is with the Kubernetes ing
 
 The ingress resource is a Kubernetes standard. As such, it is a lowest common denominator resource. In practice, users find that the ingress resource is insufficient in scope to address the requirements for edge routing. Semantics such as TLS termination, redirecting to TLS, timeouts, rate limiting, and authentication are all beyond the scope of the ingress resource.
 
-Emissary-ingress can function as an ingress controller (i.e., it reads ingress resources), although it also includes many other capabilities that are beyond the scope of the ingress specification. Most Emissary-ingress users find that the various additional capabilities of Emissary-ingress are essential, and end up using Emissary-ingress's extensions to the ingress resource, instead of using ingress resources themselves.
+Emissary can function as an ingress controller (i.e., it reads ingress resources), although it also includes many other capabilities that are beyond the scope of the ingress specification. Most Emissary users find that the various additional capabilities of Emissary are essential, and end up using Emissary's extensions to the ingress resource, instead of using ingress resources themselves.
 
 ### Kubernetes services and Pods
 
@@ -50,7 +50,7 @@ When traffic is routed to the pods via a Kubernetes service, Kubernetes uses a b
 
 Traffic can also be routed directly to pods, bypassing the Kubernetes service. Since pods are much more ephemeral than Kubernetes services, this approach requires an edge proxy that is optimized for this use case. In particular, the edge proxy needs to support real-time discovery of pods, and be able to dynamically update pod locations without downtime.
 
-Emissary-ingress supports routing both to Kubernetes services and directly to pods.
+Emissary supports routing both to Kubernetes services and directly to pods.
 
 ## Further reading
 
