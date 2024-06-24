@@ -2,21 +2,21 @@
 title: Basic Authentication
 ---
 
-Emissary-ingress can authenticate incoming requests before routing them to a backing
-service. In this tutorial, we'll configure Emissary-ingress to use an external third
+Emissary can authenticate incoming requests before routing them to a backing
+service. In this tutorial, we'll configure Emissary to use an external third
 party authentication service. We're assuming also that you are running the
 quote application in your cluster as described in the
-[Emissary-ingress tutorial](../../tutorials/quickstart-demo/).
+[Emissary tutorial](../../tutorials/quickstart-demo/).
 
 ## Before you get started
 
-This tutorial assumes you have already followed the Emissary-ingress [Installation](../../topics/install/) guide. If you haven't done that already, you should do so now.
+This tutorial assumes you have already followed the Emissary [Installation](../../topics/install/) guide. If you haven't done that already, you should do so now.
 
-Once complete, you'll have a Kubernetes cluster running Emissary-ingress. Let's walk through adding authentication to this setup.
+Once complete, you'll have a Kubernetes cluster running Emissary. Let's walk through adding authentication to this setup.
 
 ## 1. Deploy the authentication service
 
-Emissary-ingress delegates the actual authentication logic to a third party authentication service. We've written a [simple authentication service](https://github.com/datawire/ambassador-auth-service) that:
+Emissary delegates the actual authentication logic to a third party authentication service. We've written a [simple authentication service](https://github.com/datawire/ambassador-auth-service) that:
 
 - listens for requests on port 3000;
 - expects all URLs to begin with `/extauth/`;
@@ -24,7 +24,7 @@ Emissary-ingress delegates the actual authentication logic to a third party auth
 - accepts only user `username`, password `password`; and
 - makes sure that the `x-qotm-session` header is present, generating a new one if needed.
 
-Emissary-ingress routes _all_ requests through the authentication service: it relies on the auth service to distinguish between requests that need authentication and those that do not. If Emissary-ingress cannot contact the auth service, it will return a 503 for the request; as such, **it is very important to have the auth service running before configuring Emissary-ingress to use it.**
+Emissary routes _all_ requests through the authentication service: it relies on the auth service to distinguish between requests that need authentication and those that do not. If Emissary cannot contact the auth service, it will return a 503 for the request; as such, **it is very important to have the auth service running before configuring Emissary to use it.**
 
 Here's the YAML we'll start with:
 
@@ -72,7 +72,7 @@ spec:
             memory: 100Mi
 ```
 
-Note that the cluster does not yet contain any Emissary-ingress AuthService definition. This is intentional: we want the service running before we tell Emissary-ingress about it.
+Note that the cluster does not yet contain any Emissary AuthService definition. This is intentional: we want the service running before we tell Emissary about it.
 
 The YAML above is published at getambassador.io, so if you like, you can just do
 
@@ -91,9 +91,9 @@ example-auth-6c5855b98d-24clp   1/1       Running   0          4m
 ```
 Note that the `READY` field says `1/1` which means the pod is up and running.
 
-## 2. Configure Emissary-ingress authentication
+## 2. Configure Emissary authentication
 
-Once the auth service is running, we need to tell Emissary-ingress about it. The easiest way to do that is point it to the `example-auth` service with the following:
+Once the auth service is running, we need to tell Emissary about it. The easiest way to do that is point it to the `example-auth` service with the following:
 
 ```yaml
 ---
@@ -110,7 +110,7 @@ spec:
   - "x-qotm-session"
 ```
 
-This configuration tells Emissary-ingress about the auth service, notably that it needs the `/extauth` prefix, and that it's OK for it to pass back the `x-qotm-session` header. Note that `path_prefix` and `allowed_*_headers` are optional.
+This configuration tells Emissary about the auth service, notably that it needs the `/extauth` prefix, and that it's OK for it to pass back the `x-qotm-session` header. Note that `path_prefix` and `allowed_*_headers` are optional.
 
 If the auth service uses a framework like [Gorilla Toolkit](http://www.gorillatoolkit.org) which enforces strict slashes as HTTP path separators, it is possible to end up with an infinite redirect where the auth service's framework redirects any request with non-conformant slashing. This would arise if the above example had `path_prefix: "/extauth/"`, the auth service would see a request for `/extauth//backend/get-quote/` which would then be redirected to `/extauth/backend/get-quote/` rather than actually be handled by the authentication handler. For this reason, remember that the full path of the incoming request including the leading slash, will be appended to `path_prefix` regardless of non-conformant slashing.
 
@@ -122,7 +122,7 @@ kubectl apply -f https://app.getambassador.io/yaml/v2-docs/$ossVersion$/demo/dem
 
 or, again, apply it from a local file if you prefer.
 
-Note that the cluster does not yet contain any Emissary-ingress AuthService definition.
+Note that the cluster does not yet contain any Emissary AuthService definition.
 
 ## 3. Test authentication
 

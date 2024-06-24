@@ -2,23 +2,23 @@
 title: "How-to guides"
 ---
 
-These guides are designed to help users quickly accomplish common tasks. The guides assume a certain level of understanding of Emissary-ingress. Many of these guides are contributed by third parties; we welcome contributions via Pull Request at https://github.com/emissary-ingress/emissary.
+These guides are designed to help users quickly accomplish common tasks. The guides assume a certain level of understanding of Emissary. Many of these guides are contributed by third parties; we welcome contributions via Pull Request at https://github.com/emissary-ingress/emissary.
 
-* Integrating with Service Mesh. Emissary-ingress natively integrates with many service meshes.
+* Integrating with Service Mesh. Emissary natively integrates with many service meshes.
   * [HashiCorp Consul](consul)
   * [Istio](istio)
   * [Linkerd](linkerd2)
-* Distributed tracing. Emissary-ingress natively supports a number of distributed tracing systems to enable developers to visualize request flow in microservice and service-oriented architectures.
+* Distributed tracing. Emissary natively supports a number of distributed tracing systems to enable developers to visualize request flow in microservice and service-oriented architectures.
   * [Datadog](tracing-datadog)
   * [Zipkin](tracing-zipkin)
-* Monitoring. Emissary-ingress integrates with a number of different monitoring/metrics providers.
+* Monitoring. Emissary integrates with a number of different monitoring/metrics providers.
   * [Prometheus](prometheus)
 * [Developing Custom Filters](filter-dev-guide)
-* Frameworks and Protocols. Emissary-ingress supports a wide range of protocols and cloud-native frameworks.
+* Frameworks and Protocols. Emissary supports a wide range of protocols and cloud-native frameworks.
   * [gRPC](grpc)
   * [Knative Serverless Framework](knative)
   * [WebSockets](websockets)
-* Security. Emissary-ingress supports a number of strategies for securing Kubernetes services.
+* Security. Emissary supports a number of strategies for securing Kubernetes services.
   * [Protecting the Diagnostics Interface](protecting-diag-access)
   * [HTTPS and TLS termination](tls-termination)
   * [Certificate Manager](cert-manager) can be used to automatically obtain and renew TLS certificates; $AESproductName$ natively integrates this functionality.

@@ -2,7 +2,7 @@
 title: WebSockets
 ---
 
-Emissary-ingress makes it easy to access your services from outside your
+Emissary makes it easy to access your services from outside your
 application, and this includes services that use WebSockets.  Only a
 small amount of additional configuration is required, which is as
 simple as telling the Mapping to allow "upgrading" from the HTTP protocol to

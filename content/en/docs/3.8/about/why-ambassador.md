@@ -1,12 +1,12 @@
 ---
-title: Why Emissary-ingress?
+title: Why Emissary?
 ---
 
-Emissary-ingress gives platform engineers a comprehensive, self-service edge stack for managing the boundary between end-users and Kubernetes. Built on the [Envoy Proxy](https://www.envoyproxy.io) and fully Kubernetes-native, Emissary-ingress is made to support multiple, independent teams that need to rapidly publish, monitor, and update services for end-users. A true edge stack, Emissary-ingress can also be used to handle the functions of an API Gateway, a Kubernetes ingress controller, and a layer 7 load balancer (for more, see [this blog post](https://blog.getambassador.io/kubernetes-ingress-nodeport-load-balancers-and-ingress-controllers-6e29f1c44f2d)).
+Emissary gives platform engineers a comprehensive, self-service edge stack for managing the boundary between end-users and Kubernetes. Built on the [Envoy Proxy](https://www.envoyproxy.io) and fully Kubernetes-native, Emissary is made to support multiple, independent teams that need to rapidly publish, monitor, and update services for end-users. A true edge stack, Emissary can also be used to handle the functions of an API Gateway, a Kubernetes ingress controller, and a layer 7 load balancer (for more, see [this blog post](https://blog.getambassador.io/kubernetes-ingress-nodeport-load-balancers-and-ingress-controllers-6e29f1c44f2d)).
 
-## How Does Emissary-ingress work?
+## How Does Emissary work?
 
-Emissary-ingress is an open-source, Kubernetes-native [microservices API gateway](../../topics/concepts/microservices-api-gateways) built on the [Envoy Proxy](https://www.envoyproxy.io). Emissary-ingress is built from the ground up to support multiple, independent teams that need to rapidly publish, monitor, and update services for end-users. Emissary-ingress can also be used to handle the functions of a Kubernetes ingress controller and load balancer (for more, see [this blog post](https://blog.getambassador.io/kubernetes-ingress-nodeport-load-balancers-and-ingress-controllers-6e29f1c44f2d)).
+Emissary is an open-source, Kubernetes-native [microservices API gateway](../../topics/concepts/microservices-api-gateways) built on the [Envoy Proxy](https://www.envoyproxy.io). Emissary is built from the ground up to support multiple, independent teams that need to rapidly publish, monitor, and update services for end-users. Emissary can also be used to handle the functions of a Kubernetes ingress controller and load balancer (for more, see [this blog post](https://blog.getambassador.io/kubernetes-ingress-nodeport-load-balancers-and-ingress-controllers-6e29f1c44f2d)).
 
 ## Cloud-native applications today
 
@@ -18,15 +18,15 @@ Traditional cloud applications were built using a monolithic approach. These app
 
 ### Heterogeneous services
 
-Emissary-ingress is commonly used to route traffic to a wide variety of services. It supports:
+Emissary is commonly used to route traffic to a wide variety of services. It supports:
 
 * configuration on a *per-service* basis, enabling fine-grained control of timeouts, rate limiting, authentication policies, and more.
 * a wide range of L7 protocols natively, including HTTP, HTTP/2, gRPC, gRPC-Web, and WebSockets.
-* Can route raw TCP for services that use protocols not directly supported by Emissary-ingress.
+* Can route raw TCP for services that use protocols not directly supported by Emissary.
 
 ### Dynamic services
 
-Service updates result in a constantly changing application. The dynamic nature of cloud-native applications introduces new challenges around configuration updates, release, and testing. Emissary-ingress:
+Service updates result in a constantly changing application. The dynamic nature of cloud-native applications introduces new challenges around configuration updates, release, and testing. Emissary:
 
 * Enables [progressive delivery](../../topics/concepts/progressive-delivery), with support for canary routing and traffic shadowing.
 * Exposes high-resolution observability metrics, providing insight into service behavior.
@@ -34,23 +34,23 @@ Service updates result in a constantly changing application. The dynamic nature 
 
 ### Decentralized workflows
 
-Independent teams can create their own workflows for developing and releasing functionality that are optimized for their specific service(s). With Emissary-ingress, teams can:
+Independent teams can create their own workflows for developing and releasing functionality that are optimized for their specific service(s). With Emissary, teams can:
 
 * Leverage a [declarative configuration model](../../topics/concepts/gitops-continuous-delivery), making it easy to understand the canonical configuration and implement GitOps-style best practices.
-* Independently configure different aspects of Emissary-ingress, eliminating the need to request configuration changes through a centralized operations team.
+* Independently configure different aspects of Emissary, eliminating the need to request configuration changes through a centralized operations team.
 
-## Emissary-ingress is engineered for Kubernetes
+## Emissary is engineered for Kubernetes
 
-Emissary-ingress takes full advantage of Kubernetes and Envoy Proxy.
+Emissary takes full advantage of Kubernetes and Envoy Proxy.
 
-* All of the state required for Emissary-ingress is stored directly in Kubernetes, eliminating the need for an additional database.
-* The Emissary-ingress team has added extensive engineering efforts and integration testing to ensure optimal performance and scale of Envoy and Kubernetes.
+* All of the state required for Emissary is stored directly in Kubernetes, eliminating the need for an additional database.
+* The Emissary team has added extensive engineering efforts and integration testing to ensure optimal performance and scale of Envoy and Kubernetes.
 
 ## For more information
 
-[Deploy Emissary-ingress today](../../tutorials/getting-started) and join the community [Slack Channel](http://a8r.io/slack).
+[Deploy Emissary today](../../tutorials/getting-started) and join the community [Slack Channel](http://a8r.io/slack).
 
 Interested in learning more?
 
-* [Why did we start building Emissary-ingress?](https://blog.getambassador.io/building-ambassador-an-open-source-api-gateway-on-kubernetes-and-envoy-ed01ed520844)
-* [Emissary-ingress Architecture overview](../../topics/concepts/architecture)
+* [Why did we start building Emissary?](https://blog.getambassador.io/building-ambassador-an-open-source-api-gateway-on-kubernetes-and-envoy-ed01ed520844)
+* [Emissary Architecture overview](../../topics/concepts/architecture)
