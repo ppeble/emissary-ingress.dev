@@ -1,4 +1,6 @@
-# Prefix regex
+---
+title: Prefix regex
+---
 
 ## Using `prefix` and `prefix_regex`
 

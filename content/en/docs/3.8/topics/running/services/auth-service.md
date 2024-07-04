@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Authentication service
+---
+title: Authentication service
+---
 
 Emissary provides a highly flexible mechanism for authentication,
 via the `AuthService` resource.  An `AuthService` configures

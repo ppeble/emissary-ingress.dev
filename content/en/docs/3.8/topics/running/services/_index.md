@@ -1,4 +1,9 @@
-# Available plugins
+---
+title: Services
+weight: -30
+---
+
+# Available services
 
 You may need an API Gateway to enforce policies specific to your organization. Emissary supports custom policies through external service plugins. The policy logic specific to your organization is implemented in the external service, and Emissary is configured to send RPC requests to your service.
 

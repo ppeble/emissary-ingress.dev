@@ -1,4 +1,6 @@
-# Diagnostics
+---
+title: Diagnostics
+---
 
 With Emissary Diagnostics and Ambassador Cloud, you get a summary of the current status and Mappings of your cluster and it's services, which gets displayed
 in [Diagnostics Overview](https://www.getambassador.io/docs/cloud/latest/diagnostics-ui/view-diagnostics/).

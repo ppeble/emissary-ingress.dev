@@ -1,4 +1,6 @@
-# The `Listener` CRD
+---
+title: Listener CRD
+---
 
 The `Listener` CRD defines where, and how, Emissary should listen for requests from the network, and which `Host` definitions should be used to process those requests. For further examples of how to use `Listener`, see [Configuring Emissary Communications](../../../howtos/configure-communications).
 
