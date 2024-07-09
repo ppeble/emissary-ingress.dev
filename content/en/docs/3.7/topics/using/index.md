@@ -1,6 +1,6 @@
-# Using $productName$
+# Using Emissary
 
-Application development teams use $productName$ to manage edge policies associated with a specific service. This section of the documentation covers core $productName$ elements that are typically used by the application development team.
+Application development teams use Emissary to manage edge policies associated with a specific service. This section of the documentation covers core Emissary elements that are typically used by the application development team.
 
 * [Introduction to Mappings](intro-mappings) The `Mapping` resource is the core resource used by every application development team.
 * Mapping Configuration:
