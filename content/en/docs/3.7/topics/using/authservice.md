@@ -1,4 +1,6 @@
-# AuthService settings
+---
+title: AuthService settings
+---
 
 A Mapping can pass these settings along to an [AuthService](../../running/services/auth-service).  This is helpful to allow these specific configurations to apply only to certain Mappings and not globally.
 

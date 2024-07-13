@@ -1,4 +1,6 @@
-# Cross-Origin Resource Sharing (CORS)
+---
+title: Cross-Origin Resource Sharing (CORS)
+---
 
 Cross-Origin resource sharing lets users request resources (e.g., images, fonts, videos) from domains outside the original domain.
 

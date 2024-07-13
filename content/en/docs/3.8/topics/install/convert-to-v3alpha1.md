@@ -1,5 +1,5 @@
 ---
-title: Convert  to v3alpha1
+title: Convert to v3alpha1
 ---
 
 Once your Emissary $version$ installation is running, it is **strongly recommended** that

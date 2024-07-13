@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Tracing Service
+---
+title: Tracing service
+---
 
 Applications that consist of multiple services can be difficult to debug, as a single request can span multiple services. Distributed tracing tells the story of your request as it is processed through your system. Distributed tracing is a powerful tool to debug and analyze your system in addition to request logging and metrics.
 
@@ -20,11 +20,11 @@ spec:
   config: {}
   custom_tags:  # optional
   - tag: host
-    request_header: 
+    request_header:
       name: ":authority"
       default_value: "unknown"
   - tag: path
-    request_header: 
+    request_header:
       name: ":path"
       default_value: "unknown"
   sampling:

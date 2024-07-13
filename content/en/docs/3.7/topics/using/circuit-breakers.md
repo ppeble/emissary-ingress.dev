@@ -1,4 +1,6 @@
-# Circuit breakers
+---
+title: Circuit breakers
+---
 
 Circuit breakers are a powerful technique to improve resilience. By preventing additional connections or requests to an overloaded service, circuit breakers limit the ["blast radius"](https://www.ibm.com/garage/method/practices/manage/practice_limited_blast_radius/) of an overloaded service. By design, Emissary circuit breakers are distributed, i.e., different Emissary instances do not coordinate circuit breaker information.
 

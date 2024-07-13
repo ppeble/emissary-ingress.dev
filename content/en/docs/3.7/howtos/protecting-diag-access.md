@@ -1,4 +1,6 @@
-# Protecting Access to the Diagnostics Interface
+---
+title: Protecting Access to the Diagnostics Interface
+---
 
 Out of the box, Emissary enables `Mapping`s to provide access to the diagnostics
 interfaces that can help you debug your installation. In a production environment, though,

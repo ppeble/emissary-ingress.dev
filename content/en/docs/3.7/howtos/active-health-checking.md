@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Active Health Checking
+---
+title: Active Health Checking
+---
 
 Emissary provides support for active health checking of upstreams via the `Mapping` resource. Active health checking will configure Envoy to make requests to the upstream at a configurable interval. If the upstream does not respond with an expected status code then the upstream will be marked as unhealthy and Envoy will no longer route requests to that upstream until they respond successfully to the health check.
 

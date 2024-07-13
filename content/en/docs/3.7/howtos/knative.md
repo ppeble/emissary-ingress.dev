@@ -1,4 +1,6 @@
-# Knative Serverless Framework
+---
+title: Knative
+---
 
 [Knative](https://knative.dev/) is a popular Kubernetes-based platform for managing serverless workloads with two main components:
 
@@ -16,7 +18,7 @@ Ambassador can watch for changes in Knative configuration in your Kubernetes clu
 ### Prerequisites
 
 - Knative requires Kubernetes version v1.14 or later.
-- The `kubectl` command-line tool, v1.10 or later, is also required. 
+- The `kubectl` command-line tool, v1.10 or later, is also required.
 - This guide assumes that you’ve already created a Kubernetes cluster that you’re comfortable installing alpha software on.
 
 ### Installation

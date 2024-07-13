@@ -1,6 +1,7 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrading Emissary $version$ with a separate cluster
+---
+title: Migrate to Emissary 3.x
+description: "Instructions for how to upgrade Emissary to 3.x. Transfer your current configuration of Emissary to 3.x."
+---
 
 You can upgrade from any version of Ambassador Edge Stack or Emissary to
 any version of either by installing the new version in a new Kubernetes cluster,
@@ -9,21 +10,21 @@ certain that each installation cannot affect the other: it is extremely safe,
 but is also significantly more effort.
 
 For example, to upgrade from some other version of Ambassador Edge Stack or
-Emissary to Emissary $version$:
+Emissary to Emissary 3.x:
 
-1. Install Emissary $version$ in a completely new cluster.
+1. Install Emissary 3.x in a completely new cluster.
 
-2. **Create `Listener`s for Emissary $version$.**
+2. **Create `Listener`s for Emissary 3.x**
 
-   When Emissary $version$ starts, it will not have any `Listener`s, and it will not
-   create any. You must create `Listener` resources by hand, or Emissary $version$
+   When Emissary 3.x starts, it will not have any `Listener`s, and it will not
+   create any. You must create `Listener` resources by hand, or Emissary 3.x
    will not listen on any ports.
 
 3. Copy the entire configuration from the Emissary 1.X cluster to the Emissary
-   $version$ cluster. This is most simply done with `kubectl get -o yaml | kubectl apply -f -`.
+   3.x cluster. This is most simply done with `kubectl get -o yaml | kubectl apply -f -`.
 
-   This will create `getambassador.io/v2` resources in the Emissary $version$ cluster.
-   Emissary $version$ will translate them internally to `getambassador.io/v3alpha1`
+   This will create `getambassador.io/v2` resources in the Emissary 3.x cluster.
+   Emissary 3.x will translate them internally to `getambassador.io/v3alpha1`
    resources.
 
 4. Each Emissary instance has its own cluster, so you can test the new
@@ -33,4 +34,4 @@ Emissary to Emissary $version$:
    resource you're changing to `getambassador.io/v3alpha1` by using `kubectl edit`.
 
 6. Once everything is working with both versions, transfer incoming traffic to the Emissary
-   $version$ cluster.
+   3.x cluster.

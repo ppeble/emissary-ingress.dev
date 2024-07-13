@@ -1,12 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Basic authentication (for Emissary)
-
-[//]: # (+FIX+ link to "authentication and authorization" concept)
-
-<Alert severity="info">
-  This guide applies to Emissary, use of this guide with Ambassador Edge Stack is not supported.  Ambassador Edge Stack does <a href="/docs/edge-stack/latest/topics/using/filters/external/">authentication using the Filter resource</a> instead of the AuthService resource as described below.
-</Alert>
+---
+title: Basic Authentication
+---
 
 Emissary can authenticate incoming requests before routing them to a backing
 service. In this tutorial, we'll configure Emissary to use an external third

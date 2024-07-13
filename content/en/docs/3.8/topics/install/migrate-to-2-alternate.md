@@ -1,6 +1,6 @@
 ---
 title: Migrate to Emissary 2.x
-description: "Instructions for how to upgrade Emissary to $versionTwoX$. Transfer your current configuration of Ambassador Edge Stack or Emissary to $versionTwoX$."
+description: "Instructions for how to upgrade Emissary to 2.x. Transfer your current configuration of Ambassador Edge Stack or Emissary to 2.x."
 ---
 
 You can upgrade from any version of Ambassador Edge Stack or Emissary to
@@ -10,13 +10,13 @@ certain that each installation cannot affect the other: it is extremely safe,
 but is also significantly more effort.
 
 For example, to upgrade from some other version of Ambassador Edge Stack or
-Emissary to Emissary $versionTwoX$:
+Emissary to Emissary 2.x:
 
-1. Install Emissary $versionTwoX$ in a completely new cluster.
+1. Install Emissary 2.x in a completely new cluster.
 
-2. **Create `Listener`s for Emissary $versionTwoX$.**
+2. **Create `Listener`s for Emissary 2.x**
 
-   When Emissary $versionTwoX$ starts, it will not have any `Listener`s, and it will not
+   When Emissary 2.x starts, it will not have any `Listener`s, and it will not
    create any. You must create `Listener` resources by hand, or Emissary $versionTwoX$
    will not listen on any ports.
 

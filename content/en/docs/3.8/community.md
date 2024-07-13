@@ -1,6 +1,6 @@
 ---
 title: Community
-weight: 1120
+weight: 50
 description: Community and contribution guide
 ---
 
