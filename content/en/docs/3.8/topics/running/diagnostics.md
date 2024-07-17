@@ -37,7 +37,7 @@ Finally, set the `AES_DIAGNOSTICS_URL` environment variable to `"http://emissary
   kubectl set env deployment/edge-stack-agent -n ambassador AES_DIAGNOSTICS_URL="http://emissary-ingress-admin:8877/ambassador/v0/diag/?json=true"
   ```
 
-After setting up `AES_DIAGNOSTICS_URL`, you can access diagnostics information by using the same URL value. 
+After setting up `AES_DIAGNOSTICS_URL`, you can access diagnostics information by using the same URL value.
 
 ### Still can't see Emissary Diagnostics?
 
