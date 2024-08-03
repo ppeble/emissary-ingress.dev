@@ -1,4 +1,6 @@
-# Emissary with AWS
+---
+title: AWS
+---
 
 Emissary is a platform agnostic Kubernetes API gateway. It will run in any distribution of Kubernetes whether it is managed by a cloud provider or on homegrown bare-metal servers.
 

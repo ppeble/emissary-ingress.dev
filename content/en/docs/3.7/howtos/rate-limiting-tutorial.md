@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Basic rate limiting
+---
+title: Basic Rate Limiting
+---
 
 <Alert severity="info">This guide applies to Emissary. It will not work correctly
 on Ambassador Edge Stack.</Alert>

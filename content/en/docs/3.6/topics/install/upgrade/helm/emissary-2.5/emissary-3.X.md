@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrade Emissary 2.5.Z (Helm)
+---
+title: 2.5.x to latest 3.x
+---
 
 <Alert severity="info">
   This guide covers migrating from Emissary 2.5.Z to Emissary $version$. If

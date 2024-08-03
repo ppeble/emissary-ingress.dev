@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrade Emissary 3.5.Z (YAML)
+---
+title: 3.7 to latest 3.x
+---
 
 <Alert severity="info">
   This guide covers migrating from Emissary 3.5.Z to Emissary $version$. If

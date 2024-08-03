@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Cleartext support
+---
+title: Cleartext support
+---
 
 While most modern web applications choose to encrypt all traffic, there remain
 cases where supporting cleartext communications is important. Emissary supports

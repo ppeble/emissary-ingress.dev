@@ -1,5 +1,5 @@
 ---
-title: "HTTP/3 with Amazon Elastic Kubernetes Service (EKS) | Emissary"
+title: "HTTP/3 with Amazon Elastic Kubernetes Service (EKS)"
 description: "How to configure HTTP/3 support for Amazon Elastic Kubernetes Service (EKS). This guide shows how to setup the LoadBalancer service for EKS to support both TCP and UDP communications."
 ---
 
@@ -20,7 +20,7 @@ This guide shows how to setup HTTP/3 support for Amazon Elastic Kubernetes Servi
      --subnets ${SUBNET_IDS}
    ```
 
-## Create a NodePort service 
+## Create a NodePort service
 
 Now create a `NodePort` service for Emissary installation with two entries. Use `port: 443` to include support for both TCP and UDP traffic.
    ```yaml
@@ -73,7 +73,7 @@ Run the following command with the variables for your VPC ID and cluster name:
 
 ## Register your instances
 
-Next, register your cluster's instance with the the instance IDs and Amazon Resource Names (ARN). 
+Next, register your cluster's instance with the the instance IDs and Amazon Resource Names (ARN).
 
 To get your cluster's instance IDs, enter the following command:
    ```shell

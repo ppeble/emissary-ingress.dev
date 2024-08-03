@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrade Emissary 2.4.Z (YAML)
+---
+title: 2.4 to latest 2.x
+---
 
 <Alert severity="info">
   This guide covers migrating from Emissary 2.4.Z to Emissary $versionTwoX$. If

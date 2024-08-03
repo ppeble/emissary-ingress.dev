@@ -6,8 +6,7 @@ description: "How to configure HTTP/3 support for Amazon Elastic Kubernetes Serv
 This guide shows how to setup HTTP/3 support for Amazon Elastic Kubernetes Service (EKS) The instructions provided in this page are a continuation of the [HTTP/3 in Emissary](../../topics/running/http3) documentation.
 
 ## Create a network load balancer (NLB)
-
- The virtual private cloud (VPC) for your load balancer needs one public subnet in each availability zone where you have targets. 
+The virtual private cloud (VPC) for your load balancer needs one public subnet in each availability zone where you have targets. 
 
    ```shell
    SUBNET_IDS=(<your-subnet1-id> <your-subnet2-id> <your-subnet3-id>)
@@ -71,7 +70,7 @@ Run the following command with the variables for your VPC ID and cluster name:
 
 ## Register your instances
 
-Next, register your cluster's instance with the the instance IDs and Amazon Resource Names (ARN). 
+Next, register your cluster's instance with the the instance IDs and Amazon Resource Names (ARN).
 
 To get your cluster's instance IDs, enter the following command:
    ```shell
