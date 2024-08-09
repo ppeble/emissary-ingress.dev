@@ -4,9 +4,9 @@ In this tutorial, you will access and explore some of the key features of the De
 
 ## Prerequisites
 
-You must have [$productName$ installed](../getting-started/) in your
+You must have [Emissary installed](../getting-started/) in your
 Kubernetes cluster. This tutorial assumes you have connected your cluster to Ambassador Cloud and deployed the `quote` app with the
-`Mapping` from the [$productName$ tutorial](../getting-started/).
+`Mapping` from the [Emissary tutorial](../getting-started/).
 
 
   ```
@@ -17,7 +17,7 @@ Kubernetes cluster. This tutorial assumes you have connected your cluster to Amb
 
 The `quote` service you just deployed publishes its API as an
 [OpenAPI (formerly Swagger)](https://swagger.io/solutions/getting-started-with-oas/)
-document. $productName$ automatically detects and publishes this documentation.
+document. Emissary automatically detects and publishes this documentation.
 This can help with internal and external developer onboarding by serving as a
 single point of reference for of all your microservice APIs.
 
