@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Run the demo with Docker
+---
+title: Docker
+---
 
 In this Docker quickstart guide, we'll get Emissary running locally
 with a demo configuration. In the next section, we'll then walk through how to

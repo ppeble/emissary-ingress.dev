@@ -1,4 +1,6 @@
-# Monitoring with Prometheus and Grafana
+---
+title: Monitoring with Prometheus and Grafana
+---
 
 Prometheus is an open-source monitoring and alerting system.  When used
 along with Grafana, you can create a dynamic dashboard for monitoring
@@ -77,6 +79,7 @@ standard YAML files.  Alternatively, you can install it with
    To deploy the Prometheus Operator, you can clone the repository and
    follow the instructions in the README, or simply create the resources
    published in the YAML with `kubectl`.
+
 
     ```
     kubectl create -f https://raw.githubusercontent.com/coreos/prometheus-operator/master/bundle.yaml

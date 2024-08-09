@@ -1,9 +1,9 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrade Emissary 2.4.X to Emissary $version$ (YAML)
+---
+title: 2.3 to latest 2.x
+---
 
 <Alert severity="info">
-  This guide covers migrating from Emissary 2.4 to Emissary $version$. If
+  This guide covers migrating from Emissary 2.3 to Emissary $version$. If
   this is not your <b>exact</b> situation, see the <a href="../../../../migration-matrix">migration
   matrix</a>.
 </Alert>

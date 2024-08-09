@@ -1,4 +1,6 @@
-# Deployment architecture
+---
+title: Deployment architecture
+---
 
 Emissary can be deployed in a variety of configurations. The specific configuration depends on your data center.
 

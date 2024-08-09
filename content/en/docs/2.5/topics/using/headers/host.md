@@ -1,4 +1,6 @@
-# Host headers
+---
+title: Host headers
+---
 
 Emissary supports several different methods for managing the HTTP `Host` header.
 

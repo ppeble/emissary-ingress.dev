@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Install with Helm
+---
+title: Helm
+---
 
 <Alert severity="warning">
 

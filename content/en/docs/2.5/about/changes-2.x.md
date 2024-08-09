@@ -1,7 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-Major Changes in Emissary 2.X
-==================================
+---
+title: Major Changes in Emissary 2.X
+---
 
 The 2.X family introduces a number of changes to allow Emissary
 to more gracefully handle larger installations, reduce global configuration to

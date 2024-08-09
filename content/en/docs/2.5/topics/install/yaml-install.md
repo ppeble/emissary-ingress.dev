@@ -1,10 +1,7 @@
 ---
-    description: In this guide, we'll walk through the process of deploying Emissary in Kubernetes for ingress routing.
+title: YAML
+description: In this guide, we'll walk through the process of deploying Emissary in Kubernetes for ingress routing.
 ---
-
-import Alert from '@material-ui/lab/Alert';
-
-# Install manually
 
 <Alert severity="warning">
 

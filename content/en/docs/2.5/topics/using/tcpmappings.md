@@ -1,4 +1,6 @@
-# `TCPMapping` resources
+---
+title: TCPMapping resources
+---
 
 In addition to managing HTTP, gRPC, and WebSockets at layer 7, Emissary can also manage TCP connections at layer 4. The core abstraction used to support TCP connections is the `TCPMapping`.
 

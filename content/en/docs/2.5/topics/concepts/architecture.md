@@ -1,4 +1,7 @@
-# The Emissary architecture
+---
+title: "Architecture"
+description: "This section of the documentation provides an overview of the Emissary architecture"
+---
 
 ## Emissary is a control plane
 

@@ -1,4 +1,6 @@
-# Diagnostics
+---
+title: Diagnostics
+---
 
 If you're experiencing issues with Emissary, log in to your Edge Policy Console and choose from the left menu whether you want to:
 

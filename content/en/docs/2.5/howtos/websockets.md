@@ -1,4 +1,6 @@
-# WebSocket connections
+---
+title: WebSockets
+---
 
 Emissary makes it easy to access your services from outside your
 application, and this includes services that use WebSockets.  Only a

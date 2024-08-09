@@ -1,7 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-Known Issues in Emissary
-=============================
+---
+title: Known Issues
+---
 
 ## 2.2.1
 

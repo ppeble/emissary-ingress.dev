@@ -1,6 +1,6 @@
-# Integration in community projects
-
-import Table from "../../../../../src/components/CommunityTable";
+---
+title: Integration to community projects
+---
 
 **Ambassador Edge Stack is now available and includes additional functionality beyond the current Emissary.**
 These features include automatic HTTPS, OAuth/OpenID Connect authentication support, integrated rate

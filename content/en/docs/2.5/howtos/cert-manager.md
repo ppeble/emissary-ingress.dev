@@ -1,6 +1,6 @@
-# Using cert-manager
-
-[//]: # (+FIX+ link to "TLS and certificates" concept)
+---
+title: Using cert-manager
+---
 
 Ambassador Edge Stack has simple and easy built-in support for automatically [using ACME] with the
 `http-01` challenge to create and renew TLS certificates. However, this support is not available

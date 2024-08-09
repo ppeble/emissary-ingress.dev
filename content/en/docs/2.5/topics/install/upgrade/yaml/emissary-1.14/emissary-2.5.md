@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrade Emissary 1.14.X to Emissary $version$ (YAML)
+---
+title: 1.14 to latest 2.x
+---
 
 <Alert severity="info">
   This guide covers migrating from Emissary 1.14.X to Emissary $version$. If
