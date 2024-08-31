@@ -1,12 +1,12 @@
-# Install $OSSproductName$
+# Install Emissary
 
-**The $AESproductName$ is now available and includes additional functionality beyond the current $OSSproductName$.**
+**The Ambassador Edge Stack is now available and includes additional functionality beyond the current Emissary.**
 These features include automatic HTTPS, the Edge Policy Console UI, OAuth/OpenID Connect authentication support, integrated rate
 limiting, a developer portal, and [more](/edge-stack-faq/).
 
-If you still want to use just $OSSproductName$, don't worry! You can follow the directions below to install it. Throughout the documentation, you'll see product tags at the top of the page, so you know what features apply to $OSSproductName$.
+If you still want to use just Emissary, don't worry! You can follow the directions below to install it. Throughout the documentation, you'll see product tags at the top of the page, so you know what features apply to Emissary.
 
-## Install $OSSproductName$
+## Install Emissary
 
 * [Kubernetes YAML](#kubernetes-yaml)
 * [Helm](#helm)
@@ -14,25 +14,25 @@ If you still want to use just $OSSproductName$, don't worry! You can follow the 
 
 ## Kubernetes YAML
 
-In this tutorial, we'll walk through the process of deploying $OSSproductName$ in Kubernetes for ingress routing. $OSSproductName$ provides all the functionality of a traditional ingress controller (i.e., path-based routing) while exposing many additional capabilities such as authentication, URL rewriting, CORS, rate limiting, and automatic metrics collection (the [mappings reference](../../using/intro-mappings) contains a full list of supported options). Note that $AESproductName$ can be used as an [Ingress Controller](../../running/ingress-controller).
+In this tutorial, we'll walk through the process of deploying Emissary in Kubernetes for ingress routing. Emissary provides all the functionality of a traditional ingress controller (i.e., path-based routing) while exposing many additional capabilities such as authentication, URL rewriting, CORS, rate limiting, and automatic metrics collection (the [mappings reference](../../using/intro-mappings) contains a full list of supported options). Note that Ambassador Edge Stack can be used as an [Ingress Controller](../../running/ingress-controller).
 
 For more background on Kubernetes ingress, [read this blog post](https://blog.getambassador.io/kubernetes-ingress-nodeport-load-balancers-and-ingress-controllers-6e29f1c44f2d).
 
-$OSSproductName$ is designed to allow service authors to control how their service is published to the Internet. We accomplish this by permitting a wide range of annotations on the *service*, which $OSSproductName$ reads to configure its Envoy Proxy.
+Emissary is designed to allow service authors to control how their service is published to the Internet. We accomplish this by permitting a wide range of annotations on the *service*, which Emissary reads to configure its Envoy Proxy.
 
-Below, we'll configure $OSSproductName$ to map `/httpbin/` to `httpbin.org`.
+Below, we'll configure Emissary to map `/httpbin/` to `httpbin.org`.
 
-### 1. Deploying $OSSproductName$
+### 1. Deploying Emissary
 
-The following steps deploy $OSSproductName$ in the default namespace.
+The following steps deploy Emissary in the default namespace.
 
-**Note:** If you're using Google Kubernetes Engine, you'll need to grant permissions to the account that will be setting up $OSSproductName$. To do this, get your official GKE username, and then grant `cluster-admin` role privileges to that username:
+**Note:** If you're using Google Kubernetes Engine, you'll need to grant permissions to the account that will be setting up Emissary. To do this, get your official GKE username, and then grant `cluster-admin` role privileges to that username:
 
 ```
 kubectl create clusterrolebinding my-cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud info --format="value(config.account)")
 ```
 
-Then, you can deploy $OSSproductName$. Start by installing CRDs required by $OSSproductName$:
+Then, you can deploy Emissary. Start by installing CRDs required by Emissary:
 
 ```
 kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/ambassador/ambassador-crds.yaml
@@ -44,15 +44,15 @@ Then, apply the RBAC configuration with:
 kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/ambassador/ambassador-rbac.yaml
 ```
 
-We recommend downloading the YAML files and exploring the content. You will see that an `ambassador-admin` NodePort Service is created (which provides an $OSSproductName$ ODD Diagnostic web UI), along with an ambassador ClusterRole, ServiceAccount, and ClusterRoleBinding. An Ambassador Deployment is also created.
+We recommend downloading the YAML files and exploring the content. You will see that an `ambassador-admin` NodePort Service is created (which provides an Emissary ODD Diagnostic web UI), along with an ambassador ClusterRole, ServiceAccount, and ClusterRoleBinding. An Ambassador Deployment is also created.
 
-When not installing $OSSproductName$ into the default namespace you must update the namespace used in the `ClusterRoleBinding`.
+When not installing Emissary into the default namespace you must update the namespace used in the `ClusterRoleBinding`.
 
 For production configurations, we recommend you download these YAML files as your starting point, and customize them accordingly.
 
-### 2. Defining the $OSSproductName$ Service
+### 2. Defining the Emissary Service
 
-The $OSSproductName$ service is deployed as a Kubernetes Service that references the $OSSproductName$ Deployment you deployed previously. Create the following YAML and put it in a file called`ambassador-service.yaml`.
+The Emissary service is deployed as a Kubernetes Service that references the Emissary Deployment you deployed previously. Create the following YAML and put it in a file called`ambassador-service.yaml`.
 
 ```yaml
 ---
@@ -76,13 +76,13 @@ Deploy this service with `kubectl`:
 $ kubectl apply -f ambassador-service.yaml
 ```
 
-The YAML above creates a Kubernetes service for $OSSproductName$ of type `LoadBalancer`, and configures the `externalTrafficPolicy` to propagate [the original source IP](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) of the client. All HTTP traffic will be evaluated against the routing rules you create. Note that if you're not deploying in an environment where `LoadBalancer` is a supported type (such as minikube), you'll need to change this to a different type of service, e.g., `NodePort`.
+The YAML above creates a Kubernetes service for Emissary of type `LoadBalancer`, and configures the `externalTrafficPolicy` to propagate [the original source IP](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) of the client. All HTTP traffic will be evaluated against the routing rules you create. Note that if you're not deploying in an environment where `LoadBalancer` is a supported type (such as minikube), you'll need to change this to a different type of service, e.g., `NodePort`.
 
 If you have a static IP provided by your cloud provider you can set as `loadBalancerIP`.
 
 ### 3. The Diagnostics Service in Kubernetes
 
-$OSSproductName$ includes an integrated diagnostics service to help with troubleshooting.
+Emissary includes an integrated diagnostics service to help with troubleshooting.
 
 By default, this is exposed to the internet at the URL `http://{{AMBASSADOR_HOST}}/ambassador/v0/diag/`. Go to that URL from a web browser to view the diagnostic UI.
 
@@ -99,7 +99,7 @@ spec:
       enabled: false
 ```
 
-After applying this `Module`, to view the diagnostics UI, we'll need to get the name of one of the $OSSproductName$ pods:
+After applying this `Module`, to view the diagnostics UI, we'll need to get the name of one of the Emissary pods:
 
 ```
 $ kubectl get pods
@@ -118,18 +118,18 @@ will then let us view the diagnostics at `http://localhost:8877/ambassador/v0/di
 
 ### 4. Enable HTTPS
 
-The versatile HTTPS configuration of $OSSproductName$ lets it support various HTTPS use cases whether simple or complex.
+The versatile HTTPS configuration of Emissary lets it support various HTTPS use cases whether simple or complex.
 
 See the [TLS HOWTO](../../../howtos/tls-termination) to quickly enable HTTPS support for your applications.
 
-**Note that $AESproductName$ automatically enables HTTPs.** Read more about its configuration on the [Host CRD](../../running/host-crd) page.
+**Note that Ambassador Edge Stack automatically enables HTTPs.** Read more about its configuration on the [Host CRD](../../running/host-crd) page.
 
 ## Helm
 
-In the following instructions, we'll install the open-source $OSSproductName$ with Helm.
+In the following instructions, we'll install the open-source Emissary with Helm.
 
 Although the [Helm chart](https://github.com/emissary-ingress/emissary/tree/$branch$/charts/ambassador) installs
-$AESproductName$ by default, $OSSproductName$ is still
+Ambassador Edge Stack by default, Emissary is still
 available for installation for both Helm 2 and Helm 3.
 
 With Helm 2, you must enable CRD creation with the `crd-install` hook that is
@@ -144,7 +144,7 @@ Because this hook is required for Helm 2 support, it **IS NOT AN ERROR AND CAN B
 
 **To get started on Helm:**
 1. Add the Datawire repo to your Helm repositories
-2. Install $OSSproductName$
+2. Install Emissary
 
 
 ### 1. Add the Datawire repo to your Helm repositories
@@ -153,9 +153,9 @@ Because this hook is required for Helm 2 support, it **IS NOT AN ERROR AND CAN B
 helm repo add datawire https://www.getambassador.io
 ```
 
-### 2. Install $OSSproductName$
+### 2. Install Emissary
 
-$AESproductName$ is installed by default. To install $OSSproductName$ instead,  change the `image` to point to the OSS image and set
+Ambassador Edge Stack is installed by default. To install Emissary instead,  change the `image` to point to the OSS image and set
 `enableAES: false` in the `values.yaml` file.
 
 For example:
@@ -181,8 +181,8 @@ helm install ambassador datawire/ambassador --set image.repository=docker.io/dat
 
 ## Kubernetes distributions
 
-$OSSproductName$ is currently available out-of-the-box in some Kubernetes distributions.
-See the [integrations with community projects](../ambassador-oss-community) to quickly install $OSSproductName$.
+Emissary is currently available out-of-the-box in some Kubernetes distributions.
+See the [integrations with community projects](../ambassador-oss-community) to quickly install Emissary.
 
 ## Set up Service Catalog
 
@@ -190,4 +190,4 @@ See the [integrations with community projects](../ambassador-oss-community) to q
 
 ## Want more?
 
-For more features, check out the latest build of the [$productName$](../).
+For more features, check out the latest build of the [Emissary](../).

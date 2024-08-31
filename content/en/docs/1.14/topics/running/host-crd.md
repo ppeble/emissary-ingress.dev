@@ -1,14 +1,14 @@
 # The Host CRD, ACME support, and external load balancer configuration
 
-The custom `Host` resource defines how $productName$ will be
+The custom `Host` resource defines how Emissary will be
 visible to the outside world. It collects all the following information in a
 single configuration resource:
 
-* The hostname by which $productName$ will be reachable
-* How $productName$ should handle TLS certificates
-* How $productName$ should handle secure and insecure requests
+* The hostname by which Emissary will be reachable
+* How Emissary should handle TLS certificates
+* How Emissary should handle secure and insecure requests
 * Which resources to examine for further configuration
-* How $productName$ should handle [Service Preview URLs](/docs/edge-stack/latest/topics/using/edgectl/service-preview-reference/)
+* How Emissary should handle [Service Preview URLs](/docs/edge-stack/latest/topics/using/edgectl/service-preview-reference/)
 
 A minimal Host resource, using Let’s Encrypt to handle TLS, would be:
 
@@ -23,36 +23,36 @@ spec:
     email: julian@example.com
 ```
 
-This Host tells $productName$ to expect to be reached at `host.example.com`,
+This Host tells Emissary to expect to be reached at `host.example.com`,
 and to manage TLS certificates using Let’s Encrypt, registering as
 `julian@example.com`. Since it doesn’t specify otherwise, requests using
-cleartext will be automatically redirected to use HTTPS, and $productName$ will
+cleartext will be automatically redirected to use HTTPS, and Emissary will
 not search for any specific further configuration resources related to this
 Host.
 
 ## ACME and TLS settings
 
-The `Host` is responsible for high-level TLS configuration in $productName$.
+The `Host` is responsible for high-level TLS configuration in Emissary.
 
 The are two settings in the `Host` that are responsible for TLS configuration:
 
-- `acmeProvider` defines how $productName$ should handle TLS certificates
-- `tlsSecret` tells $productName$ which secret to look for the certificate in
+- `acmeProvider` defines how Emissary should handle TLS certificates
+- `tlsSecret` tells Emissary which secret to look for the certificate in
 
-In combination, these settings tell $productName$ how it should manage TLS
+In combination, these settings tell Emissary how it should manage TLS
 certificates.
 
 ### ACME support
 
-$AESproductName$ comes with built in support for automatic certificate
+Ambassador Edge Stack comes with built in support for automatic certificate
 management using the [ACME protocol](https://tools.ietf.org/html/rfc8555).
 
 It does this by using the `hostname` of a `Host` to request a certificate from
 the `acmeProvider.authority` using the `HTTP-01` challenge. After requesting a
-certificate, $AESproductName$ will then manage the renewal process automatically.
+certificate, Ambassador Edge Stack will then manage the renewal process automatically.
 
 The `acmeProvider` element of the `Host` configures the Certificate Authority
-$AESproductName$ will request the certificate from and the email address that the CA
+Ambassador Edge Stack will request the certificate from and the email address that the CA
 will use to notify about any lifecycle events of the certificate.
 
 ```yaml
@@ -79,26 +79,26 @@ set using the `tlsSecret` element:
    ```
    if not supplied, a name will be automatically generated from the `hostname` and `email`.
 
-* $AESproductName$ uses the [`HTTP-01` challenge
+* Ambassador Edge Stack uses the [`HTTP-01` challenge
 ](https://letsencrypt.org/docs/challenge-types/) for ACME support:
    - Does not require permission to edit DNS records
    - The `hostname` must be reachable from the internet so the CA can check
-   `POST` to an endpoint in $AESproductName$.
+   `POST` to an endpoint in Ambassador Edge Stack.
    - Wildcard domains are not supported.
 
 ### TLS configuration
 
-Regardless of if you are using the built in ACME support in the $AESproductName$, the `Host` is responsible for reading TLS certificates from Kubernetes
-`Secret`s and configuring $productName$ to terminate TLS using those certificates.
+Regardless of if you are using the built in ACME support in the Ambassador Edge Stack, the `Host` is responsible for reading TLS certificates from Kubernetes
+`Secret`s and configuring Emissary to terminate TLS using those certificates.
 
-If you are using the Open-Source $OSSproductName$ or choosing to not use
-the provided ACME support, you need to tell $productName$ to not request a
+If you are using the Open-Source Emissary or choosing to not use
+the provided ACME support, you need to tell Emissary to not request a
 certificate with ACME by setting `acmeProvider.authority: none` in the `Host`.
 
-After that you simply point $productName$ at the secret you are using to store
+After that you simply point Emissary at the secret you are using to store
 your certificates with the `tlsSecret` field.
 
-The following `Host` will configure $productName$ to read a `Secret` named
+The following `Host` will configure Emissary to read a `Secret` named
 `tls-cert` for a certificate to use when terminating TLS.
 
 ```yaml
@@ -125,9 +125,9 @@ requestPolicy:
     additionalPort: insecure-port
 ```
 
-> **WARNING - Host Configuration:** The `requestPolicy` property of the `Host` `CRD` is applied globally within an $productName$ instance, even if it is applied to only one `Host` when multiple `Host`s are configured. Different `requestPolicy` behaviors cannot be applied to different `Host`s. It is recommended to apply an identical `requestPolicy` to all `Host`s instead of assuming the behavior, to create a more human readable config.
+> **WARNING - Host Configuration:** The `requestPolicy` property of the `Host` `CRD` is applied globally within an Emissary instance, even if it is applied to only one `Host` when multiple `Host`s are configured. Different `requestPolicy` behaviors cannot be applied to different `Host`s. It is recommended to apply an identical `requestPolicy` to all `Host`s instead of assuming the behavior, to create a more human readable config.
 >
-> If a requestPolicy is not defined for a `Host`, it's assumed to be `Redirect`, so even if a `Host` does not specify it, the default `requestPolicy` of `Redirect` will be applied to all `Host`s in that $productName$ instance. If the behavior expected out of $productName$ is anything other than `Redirect`, it must be explicitly enumerated in all Host resources.
+> If a requestPolicy is not defined for a `Host`, it's assumed to be `Redirect`, so even if a `Host` does not specify it, the default `requestPolicy` of `Redirect` will be applied to all `Host`s in that Emissary instance. If the behavior expected out of Emissary is anything other than `Redirect`, it must be explicitly enumerated in all Host resources.
 >
 > Unexpected behavior can occur when multiple `Host` resources are not using the same value for `requestPolicy`.
 
@@ -137,7 +137,7 @@ The `insecure-action` can be one of:
 * `Route`: go ahead and route as normal; this will allow handling HTTP requests normally
 * `Reject`: reject the request with a 400 response
 
-The `additionalPort` element tells $productName$ to listen on the specified `insecure-port` and treat any request arriving on that port as insecure. **By default, `additionalPort` will be set to 8080 for any `Host` using TLS.** To disable this redirection entirely, set `additionalPort` explicitly to `-1`:
+The `additionalPort` element tells Emissary to listen on the specified `insecure-port` and treat any request arriving on that port as insecure. **By default, `additionalPort` will be set to 8080 for any `Host` using TLS.** To disable this redirection entirely, set `additionalPort` explicitly to `-1`:
 
 ```yaml
 requestPolicy:
@@ -150,25 +150,25 @@ Some special cases to be aware of here:
 * **Case matters in the actions:** you must use e.g. `Reject`, not `reject`.
 * The `X-Forwarded-Proto` header is honored when determining whether a request is secure or insecure. For more information, see "Load Balancers, the `Host` Resource, and `X-Forwarded-Proto`" below.
 * ACME challenges with prefix `/.well-known/acme-challenge/` are always forced to be considered insecure, since they are not supposed to arrive over HTTPS.
-* $AESproductName$ provides native handling of ACME challenges. If you are using this support, $AESproductName$ will automatically arrange for insecure ACME challenges to be handled correctly. If you are handling ACME yourself - as you must when running $OSSproductName$ - you will need to supply appropriate Host resources and Mappings to correctly direct ACME challenges to your ACME challenge handler.
+* Ambassador Edge Stack provides native handling of ACME challenges. If you are using this support, Ambassador Edge Stack will automatically arrange for insecure ACME challenges to be handled correctly. If you are handling ACME yourself - as you must when running Emissary - you will need to supply appropriate Host resources and Mappings to correctly direct ACME challenges to your ACME challenge handler.
 
 ## Load balancers, the Host resource, and `X-Forwarded-Proto`
 
-In a typical installation, $productName$ runs behind a load balancer. The
-configuration of the load balancer can affect how $productName$ sees requests
-arriving from the outside world, which can in turn can affect whether $productName$
+In a typical installation, Emissary runs behind a load balancer. The
+configuration of the load balancer can affect how Emissary sees requests
+arriving from the outside world, which can in turn can affect whether Emissary
 considers the request secure or insecure. As such:
 
 - **We recommend layer 4 load balancers** unless your workload includes
   long-lived connections with multiple requests arriving over the same
   connection. For example, a workload with many requests carried over a small
   number of long-lived gRPC connections.
-- **$productName$ fully supports TLS termination at the load balancer** with a single exception, listed below.
+- **Emissary fully supports TLS termination at the load balancer** with a single exception, listed below.
 - If you are using a layer 7 load balancer, **it is critical that the system be configured correctly**:
   - The load balancer must correctly handle `X-Forwarded-For` and `X-Forwarded-Proto`.
-  - The `xff_num_trusted_hops` element in the `ambassador` module must be set to the number of layer 7 load balancers the request passes through to reach $productName$ (in the typical case, where the client speaks to the load balancer, which then speaks to $productName$, you would set `xff_num_trusted_hops` to 1). If `xff_num_trusted_hops` remains at its default of 0, the system might route correctly, but upstream services will see the load balancer's IP address instead of the actual client's IP address.
+  - The `xff_num_trusted_hops` element in the `ambassador` module must be set to the number of layer 7 load balancers the request passes through to reach Emissary (in the typical case, where the client speaks to the load balancer, which then speaks to Emissary, you would set `xff_num_trusted_hops` to 1). If `xff_num_trusted_hops` remains at its default of 0, the system might route correctly, but upstream services will see the load balancer's IP address instead of the actual client's IP address.
 
-It's important to realize that Envoy manages the `X-Forwarded-Proto` header such that it **always** reflects the most trustworthy information Envoy has about whether the request arrived encrypted or unencrypted. If no `X-Forwarded-Proto` is received from downstream, **or if it is considered untrustworthy**, Envoy will supply an `X-Forwarded-Proto` that reflects the protocol used for the connection to Envoy itself. The `xff_num_trusted_hops` element, although its name reflects `X-Forwarded-For`, is also used when determining trust for `X-Forwarded-For`, and it is therefore important to set it correctly. Its default of 0 should always be correct when $productName$ is behind only layer 4 load balancers; it should need to be changed **only** when layer 7 load balancers are involved.
+It's important to realize that Envoy manages the `X-Forwarded-Proto` header such that it **always** reflects the most trustworthy information Envoy has about whether the request arrived encrypted or unencrypted. If no `X-Forwarded-Proto` is received from downstream, **or if it is considered untrustworthy**, Envoy will supply an `X-Forwarded-Proto` that reflects the protocol used for the connection to Envoy itself. The `xff_num_trusted_hops` element, although its name reflects `X-Forwarded-For`, is also used when determining trust for `X-Forwarded-For`, and it is therefore important to set it correctly. Its default of 0 should always be correct when Emissary is behind only layer 4 load balancers; it should need to be changed **only** when layer 7 load balancers are involved.
 
 ## Use cases and examples
 
@@ -182,15 +182,15 @@ LB" refers to a layer 7 load balancer.
   - [Secure and Insecure Requests](#secure-and-insecure-requests)
   - [Load Balancers, the `Host` Resource, and `X-Forwarded-Proto`](#load-balancers-the-host-resource-and-x-forwarded-proto)
   - [Use Cases and Examples](#use-cases-and-examples)
-    - [HTTPS-only, TLS terminated at $productName$, not redirecting cleartext](#https-only-tls-terminated-at-ambassador-not-redirecting-cleartext)
-    - [HTTPS-only, TLS terminated at $productName$, redirecting cleartext from port 8080](#https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080)
+    - [HTTPS-only, TLS terminated at Emissary, not redirecting cleartext](#https-only-tls-terminated-at-ambassador-not-redirecting-cleartext)
+    - [HTTPS-only, TLS terminated at Emissary, redirecting cleartext from port 8080](#https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080)
     - [HTTP-only](#http-only)
-    - [L4 LB, HTTPS-only, TLS terminated at $productName$, not redirecting cleartext](#l4-lb-https-only-tls-terminated-at-ambassador-not-redirecting-cleartext)
-    - [L4 LB, HTTPS-only, TLS terminated at $productName$, redirecting cleartext from port 8080](#l4-lb-https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080)
+    - [L4 LB, HTTPS-only, TLS terminated at Emissary, not redirecting cleartext](#l4-lb-https-only-tls-terminated-at-ambassador-not-redirecting-cleartext)
+    - [L4 LB, HTTPS-only, TLS terminated at Emissary, redirecting cleartext from port 8080](#l4-lb-https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080)
     - [L4 LB, HTTP-only](#l4-lb-http-only)
-    - [L4 LB, TLS terminated at LB, LB speaks cleartext to $productName$](#l4-lb-tls-terminated-at-lb-lb-speaks-cleartext-to-ambassador)
-    - [L4 LB, TLS terminated at LB, LB speaks TLS to $productName$](#l4-lb-tls-terminated-at-lb-lb-speaks-tls-to-ambassador)
-    - [L4 split LB, TLS terminated at $productName$](#l4-split-lb-tls-terminated-at-ambassador)
+    - [L4 LB, TLS terminated at LB, LB speaks cleartext to Emissary](#l4-lb-tls-terminated-at-lb-lb-speaks-cleartext-to-ambassador)
+    - [L4 LB, TLS terminated at LB, LB speaks TLS to Emissary](#l4-lb-tls-terminated-at-lb-lb-speaks-tls-to-ambassador)
+    - [L4 split LB, TLS terminated at Emissary](#l4-split-lb-tls-terminated-at-ambassador)
     - [L4 split LB, TLS terminated at LB](#l4-split-lb-tls-terminated-at-lb)
     - [L7 LB](#l7-lb)
   - [Service Preview URLs](#service-preview-urls)
@@ -198,11 +198,11 @@ LB" refers to a layer 7 load balancer.
     - [CRD Specification](#crd-specification)
 
 
-<h3 id="https-only-tls-terminated-at-ambassador-not-redirecting-cleartext">HTTPS-only, TLS terminated at $productName$, not redirecting cleartext</h3>
+<h3 id="https-only-tls-terminated-at-ambassador-not-redirecting-cleartext">HTTPS-only, TLS terminated at Emissary, not redirecting cleartext</h3>
 
-  This example is the same with a L4 LB, or without a load balancer. It also covers an L4 LB that terminates TLS, then re-originates TLS from the load balancer to $productName$.
+  This example is the same with a L4 LB, or without a load balancer. It also covers an L4 LB that terminates TLS, then re-originates TLS from the load balancer to Emissary.
 
-  In this situation, $productName$ does everything on its own, and insecure requests are flatly rejected.
+  In this situation, Emissary does everything on its own, and insecure requests are flatly rejected.
 
   ```yaml
   apiVersion: getambassador.io/v2
@@ -217,7 +217,7 @@ LB" refers to a layer 7 load balancer.
         action: Reject
   ```
 
-  The `acmeProvider` must be set appropriately for your certificate-management needs; by default, it is set to allow $AESproductName$ to manage certificates for you. Or, you could set `acmeProvider.authority` to `none` if you want to manage certificates by hand.
+  The `acmeProvider` must be set appropriately for your certificate-management needs; by default, it is set to allow Ambassador Edge Stack to manage certificates for you. Or, you could set `acmeProvider.authority` to `none` if you want to manage certificates by hand.
 
   An example using the default `acmeProvider`, ACME with Let's Encrypt:
 
@@ -257,7 +257,7 @@ LB" refers to a layer 7 load balancer.
 
   With the configuration above, the system will look for a TLS secret in `manual-secret-for-foo`, but it will not run ACME for it.
 
-<h3 id="https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080">HTTPS-only, TLS terminated at $productName$, redirecting cleartext from port 8080</h3>
+<h3 id="https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080">HTTPS-only, TLS terminated at Emissary, redirecting cleartext from port 8080</h3>
 
 This example is the same for an L4 LB, or without a load balancer at all.
 
@@ -277,7 +277,7 @@ This example is the same for an L4 LB, or without a load balancer at all.
 
   The default for `insecure.action` is `Redirect`, so that line could be removed.
 
-  If you do not set `insecure.additionalPort`, $productName$ won't listen on port 8080 at all. However, with the `Redirect` action still in place, $productName$ will still redirect requests that arrive on port 8443 with an `X-Forwarded-Proto` of `http`.
+  If you do not set `insecure.additionalPort`, Emissary won't listen on port 8080 at all. However, with the `Redirect` action still in place, Emissary will still redirect requests that arrive on port 8443 with an `X-Forwarded-Proto` of `http`.
 
 ### HTTP-only
 
@@ -299,46 +299,46 @@ This example is the same for an L4 LB, or without a load balancer at all.
 
   In this case, the Host resource explicitly requests no ACME handling and no TLS, then states that insecure requests must be routed instead of redirected.
 
-<h3 id="l4-lb-https-only-tls-terminated-at-ambassador-not-redirecting-cleartext">L4 LB, HTTPS-only, TLS terminated at $productName$, not redirecting cleartext</h3>
+<h3 id="l4-lb-https-only-tls-terminated-at-ambassador-not-redirecting-cleartext">L4 LB, HTTPS-only, TLS terminated at Emissary, not redirecting cleartext</h3>
 
   Configure this exactly like [case 1](#https-only-tls-terminated-at-ambassador-not-redirecting-cleartext). Leave `xff_num_trusted_hops` in the `ambassador` module at its default of 0.
 
-<h3 id="l4-lb-https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080">L4 LB, HTTPS-only, TLS terminated at $productName$, redirecting cleartext from port 8080</h3>
+<h3 id="l4-lb-https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080">L4 LB, HTTPS-only, TLS terminated at Emissary, redirecting cleartext from port 8080</h3>
 
-  This use case is not supported by $productName$ 1.1.1. It will be supported in a forthcoming release.
+  This use case is not supported by Emissary 1.1.1. It will be supported in a forthcoming release.
 
 ### L4 LB, HTTP-only
 
   Configure this exactly like [case 3](#http-only). Leave `xff_num_trusted_hops` in the `ambassador` module at its default of 0.
 
-<h3 id="l4-lb-tls-terminated-at-lb-lb-speaks-cleartext-to-ambassador">L4 LB, TLS terminated at LB, LB speaks cleartext to $productName$</h3>
+<h3 id="l4-lb-tls-terminated-at-lb-lb-speaks-cleartext-to-ambassador">L4 LB, TLS terminated at LB, LB speaks cleartext to Emissary</h3>
 
-  Configure this exactly like [case 3](#http-only), since by the time the connection arrives at $productName$, it will appear to be insecure. Leave `xff_num_trusted_hops` in the `ambassador` module at its default of 0.
+  Configure this exactly like [case 3](#http-only), since by the time the connection arrives at Emissary, it will appear to be insecure. Leave `xff_num_trusted_hops` in the `ambassador` module at its default of 0.
 
-<h3 id="l4-lb-tls-terminated-at-lb-lb-speaks-tls-to-ambassador">L4 LB, TLS terminated at LB, LB speaks TLS to $productName$</h3>
+<h3 id="l4-lb-tls-terminated-at-lb-lb-speaks-tls-to-ambassador">L4 LB, TLS terminated at LB, LB speaks TLS to Emissary</h3>
 
   Configure this exactly like [case 1](#https-only-tls-terminated-at-ambassador-not-redirecting-cleartext). Leave `xff_num_trusted_hops` in the `ambassador` module at its default of 0.
 
-  Note that since $productName$ _is_ terminating TLS, managing $productName$'s TLS certificate will be important.
+  Note that since Emissary _is_ terminating TLS, managing Emissary's TLS certificate will be important.
 
-<h3 id="l4-split-lb-tls-terminated-at-ambassador">L4 split LB, TLS terminated at $productName$</h3>
+<h3 id="l4-split-lb-tls-terminated-at-ambassador">L4 split LB, TLS terminated at Emissary</h3>
 
-  In this scenario, an L4 load balancer terminates TLS on port 443 and relays that traffic as cleartext to $productName$ on port 8443, but the load balancer also relays cleartext traffic on port 80 to $productName$ on port 8080. (This could also be two L4 load balancers working in concert.)
+  In this scenario, an L4 load balancer terminates TLS on port 443 and relays that traffic as cleartext to Emissary on port 8443, but the load balancer also relays cleartext traffic on port 80 to Emissary on port 8080. (This could also be two L4 load balancers working in concert.)
 
   Configure this exactly like [case 2](#https-only-tls-terminated-at-ambassador-redirecting-cleartext-from-port-8080). Leave `xff_num_trusted_hops` in the `ambassador` module at its default of 0.
 
 ### L4 split LB, TLS terminated at LB
 
-  In this scenario, an L4 load balancer terminates TLS on port 443 and relays that traffic as cleartext to $productName$ on port 8443, but the load balancer also relays cleartext traffic on port 80 to $productName$ on port 8080. (This could also be two L4 load balancers working in concert.)
+  In this scenario, an L4 load balancer terminates TLS on port 443 and relays that traffic as cleartext to Emissary on port 8443, but the load balancer also relays cleartext traffic on port 80 to Emissary on port 8080. (This could also be two L4 load balancers working in concert.)
 
-  This case is not supported in $productName$ 1.1.1. It will be supported in a forthcoming release.
+  This case is not supported in Emissary 1.1.1. It will be supported in a forthcoming release.
 
 ### L7 LB
 
-  In general, L7 load balancers will be expected to provide a correct `X-Forwarded-Proto` header, and will require `xff_num_trusted_hops` set to the depth of the L7 LB stack in front of $productName$.
+  In general, L7 load balancers will be expected to provide a correct `X-Forwarded-Proto` header, and will require `xff_num_trusted_hops` set to the depth of the L7 LB stack in front of Emissary.
 
-  - `client -> L7 LB -> $productName$` would require `xff_num_trusted_hops: 1`
-  - `client -> L7 LB -> L7 LB -> $productName$` would require `xff_num_trusted_hops: 2`
+  - `client -> L7 LB -> Emissary` would require `xff_num_trusted_hops: 1`
+  - `client -> L7 LB -> L7 LB -> Emissary` would require `xff_num_trusted_hops: 2`
   - etc.
 
   If using an L7 LB, **we recommend that the LB handle TLS termination and redirection of cleartext**. For this use case, you can use a `Host` without TLS, but still turn on redirection as a failsafe:
@@ -357,7 +357,7 @@ This example is the same for an L4 LB, or without a load balancer at all.
     # The default insecure action is Redirect, which is fine.
   ```
 
-  However, as long as the L7 LB is properly supplying `X-Forwarded-Proto` and `xff_num_trusted_hops` is set correctly, it should be possible to configure $productName$ to handle TLS and redirection of cleartext, by configuring $productName$ as if the L7 LB was not present (cases 1 - 3 above).
+  However, as long as the L7 LB is properly supplying `X-Forwarded-Proto` and `xff_num_trusted_hops` is set correctly, it should be possible to configure Emissary to handle TLS and redirection of cleartext, by configuring Emissary as if the L7 LB was not present (cases 1 - 3 above).
 
   **Again, it is critical that the load balancer correctly supplies `X-Forwarded-Proto`, and that `xff_num_trusted_hops` is set correctly.**
 
@@ -367,9 +367,9 @@ See [Service Preview](/docs/edge-stack/latest/topics/using/edgectl/service-previ
 
 ## Host specification
 
-$AESproductName$ automates the creation of TLS certificates via the [Edge Policy Console](/docs/edge-stack/latest/topics/using/edge-policy-console), which provides HTTPS for your hosts. Note that **in order to have TLS and automatic HTTPS, your host must be an FQDN.**
+Ambassador Edge Stack automates the creation of TLS certificates via the [Edge Policy Console](/docs/edge-stack/latest/topics/using/edge-policy-console), which provides HTTPS for your hosts. Note that **in order to have TLS and automatic HTTPS, your host must be an FQDN.**
 
-The Host CRD defines how $productName$ will be visible to the outside world. A minimal Host defines a hostname by which $productName$ will be reachable, but a Host can also tell $productName$ how to manage TLS, and which resources to examine for further configuration.
+The Host CRD defines how Emissary will be visible to the outside world. A minimal Host defines a hostname by which Emissary will be reachable, but a Host can also tell Emissary how to manage TLS, and which resources to examine for further configuration.
 
 ### CRD specification
 

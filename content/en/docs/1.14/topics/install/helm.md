@@ -1,10 +1,10 @@
 # Install with Helm
 
-[Helm](https://helm.sh) is a package manager for Kubernetes that automates the release and management of software on Kubernetes. $productName$ can be installed via a Helm chart with a few simple steps, depending on if you are deploying for the first time, upgrading $productName$ from an existing installation, or migrating from $productName$.
+[Helm](https://helm.sh) is a package manager for Kubernetes that automates the release and management of software on Kubernetes. Emissary can be installed via a Helm chart with a few simple steps, depending on if you are deploying for the first time, upgrading Emissary from an existing installation, or migrating from Emissary.
 
 ## Before you begin
 
-The $productName$ Helm chart is hosted by Datawire and published at `https://www.getambassador.io`.
+The Emissary Helm chart is hosted by Datawire and published at `https://www.getambassador.io`.
 
 Start by adding this repo to your helm client with the following command:
 
@@ -20,16 +20,16 @@ Since this hook is required for Helm 2 support it **IS NOT AN ERROR AND CAN BE S
 
 ## Install with Helm
 
-When you run the Helm chart, it installs $productName$. You can
+When you run the Helm chart, it installs Emissary. You can
 deploy it with either version of the tool.
 
-1. **Helm 3 users:** Install the $productName$ Chart with the following command:
+1. **Helm 3 users:** Install the Emissary Chart with the following command:
 
    ```
    helm install ambassador datawire/ambassador --set enableAES=false
    ```
 
-2. **Helm 2 users**: Install the $productName$ Chart with the following command:
+2. **Helm 2 users**: Install the Emissary Chart with the following command:
 
    ```
    helm install --name ambassador datawire/ambassador --set enableAES=false
@@ -39,7 +39,7 @@ deploy it with either version of the tool.
 
 ## Create a Mapping
 
-In a typical configuration workflow, Custom Resource Definitions (CRDs) are used to define the intended behavior of $productName$. In this example, we'll deploy a sample service and create a `Mapping` resource. Mappings allow you to associate parts of your domain with different URLs, IP addresses, or prefixes.
+In a typical configuration workflow, Custom Resource Definitions (CRDs) are used to define the intended behavior of Emissary. In this example, we'll deploy a sample service and create a `Mapping` resource. Mappings allow you to associate parts of your domain with different URLs, IP addresses, or prefixes.
 
 1. First, apply the YAML for the [“Quote of the Moment" service](https://github.com/datawire/quote).
 
@@ -47,7 +47,7 @@ In a typical configuration workflow, Custom Resource Definitions (CRDs) are used
   kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/quickstart/qotm.yaml
   ```
 
-2. Copy the configuration below and save it to a file called `quote-backend.yaml` so that you can create a Mapping on your cluster. This Mapping tells $productName$ to route all traffic inbound to the `/backend/` path to the `quote` Service.
+2. Copy the configuration below and save it to a file called `quote-backend.yaml` so that you can create a Mapping on your cluster. This Mapping tells Emissary to route all traffic inbound to the `/backend/` path to the `quote` Service.
 
   ```yaml
   ---
@@ -61,7 +61,7 @@ In a typical configuration workflow, Custom Resource Definitions (CRDs) are used
 
 3. Apply the configuration to the cluster by typing the command `kubectl apply -f quote-backend.yaml`.
 
-4. Grab the IP of your $productName$
+4. Grab the IP of your Emissary
 
    ```shell
    export EMISSARY_LB_ENDPOINT=$(kubectl get svc ambassador \
@@ -80,7 +80,7 @@ In a typical configuration workflow, Custom Resource Definitions (CRDs) are used
 
 ## A single source of configuration
 
-In $productName$, Kubernetes serves as the single source of
+In Emissary, Kubernetes serves as the single source of
 configuration. This enables a consistent configuration workflow.
 
 1. To see your mappings via the command line, run `kubectl get mappings`
@@ -93,11 +93,11 @@ configuration. This enables a consistent configuration workflow.
      quote-backend                 /backend/       quote
    ```
 
-## Upgrading an existing $productName$ installation
+## Upgrading an existing Emissary installation
 
-**Note:** If your existing installation is running $OSSproductName$, **do not use these instructions**. See [Migrating to $AESproductName$](#migrating-to-aesproductname) instead.
+**Note:** If your existing installation is running Emissary, **do not use these instructions**. See [Migrating to Ambassador Edge Stack](#migrating-to-aesproductname) instead.
 
-Upgrading an existing installation of $productName$ is a two-step process:
+Upgrading an existing installation of Emissary is a two-step process:
 
 1. First, apply any CRD updates (as of Helm 3, this is not supported in the chart itself):
 
@@ -105,31 +105,31 @@ Upgrading an existing installation of $productName$ is a two-step process:
    kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/aes-crds.yaml
    ```
 
-2. Next, upgrade $productName$ itself:
+2. Next, upgrade Emissary itself:
 
    ```
    helm upgrade ambassador datawire/ambassador
    ```
 
-  This will upgrade the image and deploy and other necessary resources for $productName$.
+  This will upgrade the image and deploy and other necessary resources for Emissary.
 
 3. [Set up Service Catalog](../../../tutorials/getting-started/#3-connect-your-cluster-to-ambassador-cloud) to view all of your service metadata in Ambassador Cloud.
 
-## Migrating to $AESproductName$
+## Migrating to Ambassador Edge Stack
 
-If you have an existing $OSSproductName$ installation but are not yet running $AESproductName$, the upgrade process is somewhat different than above.
+If you have an existing Emissary installation but are not yet running Ambassador Edge Stack, the upgrade process is somewhat different than above.
 
-**Note:** It is strongly encouraged for you to move your $OSSproductName$ release to the `ambassador` namespace as shown below. If this isn't an option for you, remove the `--namespace ambassador` argument to `helm upgrade`.
+**Note:** It is strongly encouraged for you to move your Emissary release to the `ambassador` namespace as shown below. If this isn't an option for you, remove the `--namespace ambassador` argument to `helm upgrade`.
 
-1. Upgrade CRDs for $productName$.
+1. Upgrade CRDs for Emissary.
 
-   To take full advantage of $productName$, you'll need the new `Host` CRD, and you'll need the new `getambassador.io/v2` version of earlier CRDs. To upgrade all the CRDs, run
+   To take full advantage of Emissary, you'll need the new `Host` CRD, and you'll need the new `getambassador.io/v2` version of earlier CRDs. To upgrade all the CRDs, run
 
    ```
    kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/aes-crds.yaml
    ```
 
-2. Upgrade your $productName$ installation.
+2. Upgrade your Emissary installation.
 
    If you're using **Helm 3**, simply run
 
@@ -143,16 +143,16 @@ If you have an existing $OSSproductName$ installation but are not yet running $A
    helm upgrade --set crds.create=false --namespace ambassador ambassador datawire/ambassador --set enableAES=true
    ```
 
-At this point, $AESproductName$ should be running with the same functionality as $OSSproductName$ as well as the added features of $AESproductName$. It's safe to do any validation required and roll-back if necessary.
+At this point, Ambassador Edge Stack should be running with the same functionality as Emissary as well as the added features of Ambassador Edge Stack. It's safe to do any validation required and roll-back if necessary.
 
-**Note:** $AESproductName$ will be installed with an `AuthService` and `RateLimitService`. If you are using these plugins, set `authService.create=false` and/or `rateLimit.create=false` to avoid any conflict while testing the upgrade.
+**Note:** Ambassador Edge Stack will be installed with an `AuthService` and `RateLimitService`. If you are using these plugins, set `authService.create=false` and/or `rateLimit.create=false` to avoid any conflict while testing the upgrade.
 
-## Test your Mapping over HTTPS after upgrading to $AESproductName$
+## Test your Mapping over HTTPS after upgrading to Ambassador Edge Stack
 
-Upgrading to $AESproductName$ will provide automatic TLS support if you have not already configured it.
+Upgrading to Ambassador Edge Stack will provide automatic TLS support if you have not already configured it.
 
-1. Grab the IP of your $AESproductName$
-   - Note: Make sure to remove `-n ambassador` if you decided to not migrate to the `ambassador` namespace when upgrading to $AESproductName$
+1. Grab the IP of your Ambassador Edge Stack
+   - Note: Make sure to remove `-n ambassador` if you decided to not migrate to the `ambassador` namespace when upgrading to Ambassador Edge Stack
 
    ```shell
    export AMBASSADOR_LB_ENDPOINT=$(kubectl -n ambassador get svc ambassador \

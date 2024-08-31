@@ -1,9 +1,9 @@
 # Basic rate limiting
 
-Rate limiting in $productName$ is composed of two parts:
+Rate limiting in Emissary is composed of two parts:
 
-* `RateLimitService` that tells $productName$ what service to use for rate
-  limiting. ($productName$ provides a `RateLimitService`
+* `RateLimitService` that tells Emissary what service to use for rate
+  limiting. (Emissary provides a `RateLimitService`
   implementation for you).
 * Labels that get attached to requests; a label is basic metadata that
   is used by the `RateLimitService` to decide which limits to apply to
@@ -39,7 +39,7 @@ There are two ways of setting labels on a request:
 
 2. Globally, in the [`ambassador`
    Module](../../running/ambassador).  Labels set here are
-   applied to every single request that goes through $productName$.  This
+   applied to every single request that goes through Emissary.  This
    includes requests go through a Mapping that sets more labels; for
    those requests, the global labels are prepended to each of the
    Mapping's label groups for the matching domain; otherwise the
@@ -72,12 +72,12 @@ There are two ways of setting labels on a request:
 - the order of labels matters
 
 Your Module and Mappings contain *label specifiers* that tell
-$productName$ what labels to set on the request.
+Emissary what labels to set on the request.
 
 > Note: The terminology used by the Envoy documentation differs from
-> the terminology used by $productName$:
+> the terminology used by Emissary:
 >
-> | $productName$      | Envoy             |
+> | Emissary      | Envoy             |
 > |-----------------|-------------------|
 > | label group     | descriptor        |
 > | label           | descriptor entry  |
@@ -85,14 +85,14 @@ $productName$ what labels to set on the request.
 
 The Mappings' listing of the groups of specifiers have names for the
 groups; the group names are useful for humans dealing with the YAML,
-but are ignored by $productName$, all $productName$ cares about are the
+but are ignored by Emissary, all Emissary cares about are the
 *contents* of the groupings of label specifiers.
 
-There are 5 types of label specifiers in $productName$:
+There are 5 types of label specifiers in Emissary:
 
 <!-- This table is ordered the same way as the protobuf fields in
   `route_components.proto`.  There's also a 6th action:
-  "header_value_match" (since Envoy 1.2), but $productName$ doesn't
+  "header_value_match" (since Envoy 1.2), but Emissary doesn't
   support it?  -->
 
 | #             | Label Specifier                        | Action, in human terms                                                                                                                  | Action, in [Envoy gRPC terms][`envoy.api.v2.route.RateLimit.Action`]           |
@@ -117,8 +117,8 @@ There are 5 types of label specifiers in $productName$:
    that header is not set in the request, then the entire label group
    is skipped.
 4. The IP address of the HTTP client could be the actual IP of the
-   client talking directly to $productName$, or it could be the IP
-   address from `X-Forwarded-For` if $productName$ is configured to trust
+   client talking directly to Emissary, or it could be the IP
+   address from `X-Forwarded-For` if Emissary is configured to trust
    the `X-Fowarded-For` header.
 5. `generic_key` allows you to apply a simple string label to requests
    flowing through that Mapping.
@@ -127,11 +127,11 @@ There are 5 types of label specifiers in $productName$:
 
 This is determined by your `RateLimitService` implementation.
 
-$AESproductName$ provides a `RateLimitService` implementation that is
+Ambassador Edge Stack provides a `RateLimitService` implementation that is
 configured by a `RateLimit` custom resource.
 
-See the [$AESproductName$ RateLimit Reference](/docs/edge-stack/latest/topics/using/rate-limits/rate-limits/) for information on how
-to configure `RateLimit`s in $AESproductName$.
+See the [Ambassador Edge Stack RateLimit Reference](/docs/edge-stack/latest/topics/using/rate-limits/rate-limits/) for information on how
+to configure `RateLimit`s in Ambassador Edge Stack.
 
 See the [Basic Rate Limiting](../../../howtos/rate-limiting-tutorial) for an
-example `RateLimitService` implementation for $OSSproductName$.
+example `RateLimitService` implementation for Emissary.

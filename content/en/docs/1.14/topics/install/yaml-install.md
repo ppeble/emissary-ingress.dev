@@ -1,25 +1,25 @@
 ---
-    description: In this guide, we'll walk through the process of deploying $productName$ in Kubernetes for ingress routing.
+    description: In this guide, we'll walk through the process of deploying Emissary in Kubernetes for ingress routing.
 ---
 # Install manually
 
 In this guide, we'll walk you through installing, configuring, and customizing
-$productName$ in your Kubernetes cluster.
+Emissary in your Kubernetes cluster.
 
 The manual install process does require more user configuration than the [quick
 start method](../../../tutorials/getting-started/), but it does allow you to control the
-aspects of your base $productName$ installation.
+aspects of your base Emissary installation.
 
 ## Before you begin
 
-$productName$ is designed to run in Kubernetes for production. The most essential requirements are:
+Emissary is designed to run in Kubernetes for production. The most essential requirements are:
 
 * Kubernetes 1.11 or later
 * The `kubectl` command-line tool
 
-## Install $productName$
+## Install Emissary
 
-$productName$ is typically deployed to Kubernetes from the command line. If you don't have Kubernetes, you should use our [Docker](../docker) image to deploy $productName$ locally.
+Emissary is typically deployed to Kubernetes from the command line. If you don't have Kubernetes, you should use our [Docker](../docker) image to deploy Emissary locally.
 
 1. In your terminal, run the following command:
 
@@ -67,11 +67,11 @@ $productName$ is typically deployed to Kubernetes from the command line. If you 
     |-------------|------------------|--------------------------------|
     ```
 
-    Use any of the URLs listed next to `ambassador` to access $productName$.
+    Use any of the URLs listed next to `ambassador` to access Emissary.
 
 ## Create a Mapping
 
-In a typical configuration workflow, Custom Resource Definitions (CRDs) are used to define the intended behavior of $productName$. In this example, we'll deploy a sample service and create a `Mapping` resource. Mappings allow you to associate parts of your domain with different URLs, IP addresses, or prefixes.
+In a typical configuration workflow, Custom Resource Definitions (CRDs) are used to define the intended behavior of Emissary. In this example, we'll deploy a sample service and create a `Mapping` resource. Mappings allow you to associate parts of your domain with different URLs, IP addresses, or prefixes.
 
 1. First, apply the YAML for the [“Quote of the Moment" service](https://github.com/datawire/quote).
 
@@ -79,7 +79,7 @@ In a typical configuration workflow, Custom Resource Definitions (CRDs) are used
   kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/quickstart/qotm.yaml
   ```
 
-2. Copy the configuration below and save it to a file called `quote-backend.yaml` so that you can create a Mapping on your cluster. This Mapping tells $productName$ to route all traffic inbound to the `/backend/` path to the `quote` Service.
+2. Copy the configuration below and save it to a file called `quote-backend.yaml` so that you can create a Mapping on your cluster. This Mapping tells Emissary to route all traffic inbound to the `/backend/` path to the `quote` Service.
 
   ```yaml
   ---
@@ -93,7 +93,7 @@ In a typical configuration workflow, Custom Resource Definitions (CRDs) are used
 
 3. Apply the configuration to the cluster by typing the command `kubectl apply -f quote-backend.yaml`.
 
-4. Grab the IP of your $productName$
+4. Grab the IP of your Emissary
 
    ```shell
    export EMISSARY_LB_ENDPOINT=$(kubectl get svc ambassador \
@@ -116,7 +116,7 @@ In a typical configuration workflow, Custom Resource Definitions (CRDs) are used
 
 ## A single source of configuration
 
-In $productName$, Kubernetes serves as the single source of
+In Emissary, Kubernetes serves as the single source of
 configuration. This enables a consistent configuration workflow.
 
 1. To see your mappings via the command line, run `kubectl get mappings`
@@ -131,4 +131,4 @@ configuration. This enables a consistent configuration workflow.
 
 ## What’s next?
 
-$productName$ has a comprehensive range of [features](/features/) to support the requirements of any edge microservice.
+Emissary has a comprehensive range of [features](/features/) to support the requirements of any edge microservice.

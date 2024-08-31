@@ -1,6 +1,6 @@
-# Using $productName$
+# Using Emissary
 
-Application development teams use $productName$ to manage edge policies associated with a specific service. This section of the documentation covers core $productName$ elements that are typically used by the application development team.
+Application development teams use Emissary to manage edge policies associated with a specific service. This section of the documentation covers core Emissary elements that are typically used by the application development team.
 
 * [The Project Resource](projects) The `Project` resource is the easiest way to develop a cloud-native service.
   * [Customizing Deployment](project-customization)

@@ -1,12 +1,12 @@
 # Istio integration
 
-$productName$ and Istio: Edge Proxy and Service Mesh together in one. $productName$ is deployed at the edge of your network and routes incoming traffic to your internal services (aka "north-south" traffic). [Istio](https://istio.io/) is a service mesh for microservices, and is designed to add application-level Layer (L7) observability, routing, and resilience to service-to-service traffic (aka "east-west" traffic). Both Istio and $productName$ are built using [Envoy](https://www.envoyproxy.io).
+Emissary and Istio: Edge Proxy and Service Mesh together in one. Emissary is deployed at the edge of your network and routes incoming traffic to your internal services (aka "north-south" traffic). [Istio](https://istio.io/) is a service mesh for microservices, and is designed to add application-level Layer (L7) observability, routing, and resilience to service-to-service traffic (aka "east-west" traffic). Both Istio and Emissary are built using [Envoy](https://www.envoyproxy.io).
 
-$productName$ and Istio can be deployed together on Kubernetes. In this configuration, incoming traffic from outside the cluster is first routed through $productName$, which then routes the traffic to Istio-powered services. $productName$ handles authentication, edge routing, TLS termination, and other traditional edge functions.
+Emissary and Istio can be deployed together on Kubernetes. In this configuration, incoming traffic from outside the cluster is first routed through Emissary, which then routes the traffic to Istio-powered services. Emissary handles authentication, edge routing, TLS termination, and other traditional edge functions.
 
-This allows the operator to have the best of both worlds: a high performance, modern edge service ($productName$) combined with a state-of-the-art service mesh (Istio). While Istio has introduced a [Gateway](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/) abstraction, $productName$ still has a much broader feature set for edge routing than Istio. For more on this topic, see our blog post on [API Gateway vs Service Mesh](https://blog.getambassador.io/api-gateway-vs-service-mesh-104c01fa4784).
+This allows the operator to have the best of both worlds: a high performance, modern edge service (Emissary) combined with a state-of-the-art service mesh (Istio). While Istio has introduced a [Gateway](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/) abstraction, Emissary still has a much broader feature set for edge routing than Istio. For more on this topic, see our blog post on [API Gateway vs Service Mesh](https://blog.getambassador.io/api-gateway-vs-service-mesh-104c01fa4784).
 
-This guide will explain how to take advantage of both $productName$ and Istio to have complete control and observability over how requests are made in your cluster.
+This guide will explain how to take advantage of both Emissary and Istio to have complete control and observability over how requests are made in your cluster.
 
 ## Prerequisites
 
@@ -15,45 +15,45 @@ This guide will explain how to take advantage of both $productName$ and Istio to
 
 ## Install Istio
 
-[Istio installation](https://istio.io/docs/setup/getting-started/) is outside of the scope of this document. $productName$ will integrate with any version of Istio from any installation method.
+[Istio installation](https://istio.io/docs/setup/getting-started/) is outside of the scope of this document. Emissary will integrate with any version of Istio from any installation method.
 
-## Install $productName$
+## Install Emissary
 
-There a number of installation options for $productName$. See the [getting started](../../tutorials/getting-started) for the full list of installation options and instructions.
+There a number of installation options for Emissary. See the [getting started](../../tutorials/getting-started) for the full list of installation options and instructions.
 
-## Integrate $productName$ and Istio
+## Integrate Emissary and Istio
 
 > **WARNING - Istio Regression:**
-> There is a regression in Istio 1.9.0 to 1.9.4 that causes $productName$ (and other non-Istio services) to be unable to read Istio certificates.
+> There is a regression in Istio 1.9.0 to 1.9.4 that causes Emissary (and other non-Istio services) to be unable to read Istio certificates.
 >
 > A patch for this regression has been released in Istio 1.9.4.
 >
 > Use Istio 1.9.4 or a version before 1.9.0 to use this integration.
 
-$productName$ integrates with Istio in three ways:
+Emissary integrates with Istio in three ways:
 
 * Uses Istio [mutual TLS (mTLS)](#mutual-tls) certificates for end-to-end encryption
 * Integrates with Prometheus for centralized metrics collection
 * Integrates with Istio distributed tracing for end-to-end observability
 
-Integrating $productName$ and Istio allows you to take advantage of the edge routing capabilities of $productName$ while maintaining the end-to-end security and observability that makes Istio so powerful.
+Integrating Emissary and Istio allows you to take advantage of the edge routing capabilities of Emissary while maintaining the end-to-end security and observability that makes Istio so powerful.
 
 ### Mutual TLS
 
-The process of collecting mTLS certificates is different depending on your Istio version. Select your Istio version below for instructions on how to integrate $productName$ with Istio.
+The process of collecting mTLS certificates is different depending on your Istio version. Select your Istio version below for instructions on how to integrate Emissary with Istio.
 
 - [Istio 1.5 and above](#integrating-productname-with-istio-15-and-above)
 - [Istio 1.4 and below](#integrating-productname-with-istio-14-and-below)
 
-#### Integrating $productName$ with Istio 1.5 and above
+#### Integrating Emissary with Istio 1.5 and above
 
 Istio 1.5 introduced [istiod](https://istio.io/docs/ops/deployment/architecture/#istiod) which moved Istio towards a single control plane process.
 
-Below we will update the deployment of $productName$ to include the `istio-proxy` sidecar, and configure the system to allow Istio and $productName$ to share mTLS certificates:
+Below we will update the deployment of Emissary to include the `istio-proxy` sidecar, and configure the system to allow Istio and Emissary to share mTLS certificates:
 
-- Both the `istio-proxy` sidecar and $productName$ mount the `istio-certs` volume at `/etc/istio-certs`.
+- Both the `istio-proxy` sidecar and Emissary mount the `istio-certs` volume at `/etc/istio-certs`.
 - The `istio-proxy` sidecar will save the mTLS certificates into `/etc/istio-certs` (per the `OUTPUT_CERTS` environment variable).
-- $productName$ will read the mTLS certificates from `/etc/istio-certs` (per the `AMBASSADOR_ISTIO_SECRET_DIR` environment variable) and create a secret named `istio-certs`.
+- Emissary will read the mTLS certificates from `/etc/istio-certs` (per the `AMBASSADOR_ISTIO_SECRET_DIR` environment variable) and create a secret named `istio-certs`.
    - At present, the secret name `istio-certs` cannot be changed.
    - To make use of the secret, use a `TLSContext` as shown below.
 
@@ -263,9 +263,9 @@ spec:
 
 **Make sure the `istio-proxy` is the same version as your Istio installation**
 
-Deploy the YAML above with `kubectl apply` to install $productName$ with the `istio-proxy` sidecar.
+Deploy the YAML above with `kubectl apply` to install Emissary with the `istio-proxy` sidecar.
 
-After applying the updated $productName$ deployment above to your cluster, we need to stage the Istio mTLS certificates for use.
+After applying the updated Emissary deployment above to your cluster, we need to stage the Istio mTLS certificates for use.
 
 We do this with a `TLSContext` using the `istio-certs` secret, which tracks the mTLS certificates provided from the `istio-proxy`.
 
@@ -283,13 +283,13 @@ spec:
 EOF
 ```
 
-$productName$ is now integrated with Istio for end-to-end encryption.
+Emissary is now integrated with Istio for end-to-end encryption.
 
-#### Integrating $productName$ with Istio 1.4 and below
+#### Integrating Emissary with Istio 1.4 and below
 
 With Istio 1.4 and below, Istio stores it's mTLS certificates as a Kubernetes `Secret` in each namespace.
 
-We can read these certificates from the `istio.default` `Secret` in the $productName$ namespace with a `TLSContext`.
+We can read these certificates from the `istio.default` `Secret` in the Emissary namespace with a `TLSContext`.
 
 ```
 $ kubectl apply -f - <<EOF
@@ -306,15 +306,15 @@ spec:
 EOF
 ```
 
-$productName$ is now integrated with Istio for end-to-end encryption.
+Emissary is now integrated with Istio for end-to-end encryption.
 
 ### Integrating Prometheus metrics collection
 
 Istio installs by default with a Prometheus deployment for collecting metrics from different resources in your cluster.
 
-We can integrate $productName$ with the same Prometheus to give us a single metrics endpoint.
+We can integrate Emissary with the same Prometheus to give us a single metrics endpoint.
 
-Istio's Prometheus deployment is configured using a `ConfigMap`. To add $productName$ as a Metrics endpoint, we need to update this `ConfigMap` and restart Prometheus.
+Istio's Prometheus deployment is configured using a `ConfigMap`. To add Emissary as a Metrics endpoint, we need to update this `ConfigMap` and restart Prometheus.
 
 1. Export the current Prometheus configuration.
 
@@ -350,9 +350,9 @@ Istio's Prometheus deployment is configured using a `ConfigMap`. To add $product
           ...
       ```
 
-2. Update the `Prometheus` `ConfigMap` to add $productName$ as a scraping endpoint
+2. Update the `Prometheus` `ConfigMap` to add Emissary as a scraping endpoint
 
-   To configure Prometheus to get metrics from $productName$, add the following config under `scrape_configs` in the `Prometheus` `ConfigMap` we exported above and apply it with `kubectl`.
+   To configure Prometheus to get metrics from Emissary, add the following config under `scrape_configs` in the `Prometheus` `ConfigMap` we exported above and apply it with `kubectl`.
 
    ```yaml
    ...
@@ -361,7 +361,7 @@ Istio's Prometheus deployment is configured using a `ConfigMap`. To add $product
        global:
          scrape_interval: 15s
        scrape_configs:
-       # $productName$ scraping.
+       # Emissary scraping.
        - job_name: 'ambassador'
          kubernetes_sd_configs:
          - role: endpoints
@@ -400,7 +400,7 @@ Istio's Prometheus deployment is configured using a `ConfigMap`. To add $product
 
 Enabling the [tracing component](https://istio.io/docs/tasks/observability/distributed-tracing/overview/) in Istio gives you the power to observe how a request behaves at each point in your application.
 
-Since Istio will propagate the tracing headers automatically, integrating $productName$ with the Istio Jaeger deployment will give you end-to-end observability of requests throughout your cluster.
+Since Istio will propagate the tracing headers automatically, integrating Emissary with the Istio Jaeger deployment will give you end-to-end observability of requests throughout your cluster.
 
 To do so, simply create a [`TracingService`](../../topics/running/services/tracing-service) and point it at the `zipkin` `Service` in the istio-system namespace.
 
@@ -420,19 +420,19 @@ spec:
     - ":path"
 ```
 
-After applying this configuration with `kubectl apply`, restart the $productName$ pod for the configuration to take effect.
+After applying this configuration with `kubectl apply`, restart the Emissary pod for the configuration to take effect.
 
 ```
 kubectl delete po -n ambassador {{AMBASSADOR_POD_NAME}}
 ```
 
-You can now access the tracing service UI to see $productName$ is now one of the services.
+You can now access the tracing service UI to see Emissary is now one of the services.
 
 ## Routing to services
 
-Above, we integrated $productName$ with Istio to take advantage of end-to-end encryption and observability offered by Istio while leveraging the feature-rich edge routing capabilities of $productName$.
+Above, we integrated Emissary with Istio to take advantage of end-to-end encryption and observability offered by Istio while leveraging the feature-rich edge routing capabilities of Emissary.
 
-Now we will show how you can use $productName$ to route to services in the Istio service mesh.
+Now we will show how you can use Emissary to route to services in the Istio service mesh.
 
 1. Label the default namespace for [automatic sidecar injection](https://istio.io/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
@@ -459,9 +459,9 @@ Now we will show how you can use $productName$ to route to services in the Istio
 
 3. Route to the service
 
-   Traffic routing in $productName$ is configured with the [`Mapping`](../../topics/using/intro-mappings) resource. This is a powerful configuration object that lets you configure different routing rules for different services.
+   Traffic routing in Emissary is configured with the [`Mapping`](../../topics/using/intro-mappings) resource. This is a powerful configuration object that lets you configure different routing rules for different services.
 
-   The above `kubectl apply` installed the following basic `Mapping` which has configured $productName$ to route traffic with URL prefix `/backend/` to the `quote` service.
+   The above `kubectl apply` installed the following basic `Mapping` which has configured Emissary to route traffic with URL prefix `/backend/` to the `quote` service.
 
    ```yaml
    apiVersion: getambassador.io/v2
@@ -473,7 +473,7 @@ Now we will show how you can use $productName$ to route to services in the Istio
      service: quote
    ```
 
-   Since we have integrated $productName$ with Istio, we can tell it to use the mTLS certificates to encrypt requests to the quote service.
+   Since we have integrated Emissary with Istio, we can tell it to use the mTLS certificates to encrypt requests to the quote service.
 
    Simply do that by updating the above `Mapping` with the following one.
 
@@ -502,7 +502,7 @@ Now we will show how you can use $productName$ to route to services in the Istio
    }
    ```
 
-   While the majority of the work being done is transparent to the user, you have successfully sent a request to $productName$ which routed it to the quote service in the default namespace. It was then intercepted by the `istio-proxy` which authenticated the request from $productName$ and exported various metrics and finally forwarded it on to the  quote service.
+   While the majority of the work being done is transparent to the user, you have successfully sent a request to Emissary which routed it to the quote service in the default namespace. It was then intercepted by the `istio-proxy` which authenticated the request from Emissary and exported various metrics and finally forwarded it on to the  quote service.
 
 ## Enforcing authentication between containers
 
@@ -547,9 +547,9 @@ Istio defaults to PERMISSIVE mTLS that does not require authentication between c
    ```
 
 
-2. Configure $productName$ to use mTLS certificates
+2. Configure Emissary to use mTLS certificates
 
-   As we have demonstrated above we can tell $productName$ to use the mTLS certificates from Istio to authenticate with the `istio-proxy` in the quote pod.
+   As we have demonstrated above we can tell Emissary to use the mTLS certificates from Istio to authenticate with the `istio-proxy` in the quote pod.
 
    ```
    $ kubectl apply -f - <<EOF
@@ -565,7 +565,7 @@ Istio defaults to PERMISSIVE mTLS that does not require authentication between c
    EOF
    ```
 
-   Now $productName$ will use the Istio mTLS certificates when routing to the `quote` service.
+   Now Emissary will use the Istio mTLS certificates when routing to the `quote` service.
 
    ```
    $ curl -k https://{{AMBASSADOR_HOST}}/backend/
@@ -580,7 +580,7 @@ Istio defaults to PERMISSIVE mTLS that does not require authentication between c
 
 The Istio [Grafana addon](https://istio.io/docs/tasks/observability/metrics/using-istio-dashboard/) integrates a Grafana dashboard with the Istio Prometheus deployment to visualize the metrics collected there.
 
-The metrics $productName$ adds to the list will appear in the Istio dashboard but we can add an $productName$ dashboard as well. We're going to use the $productName$ dashboard on [Grafana's](https://grafana.com/) website under entry [4689](https://grafana.com/grafana/dashboards/4698-ambassador-edge-stack/) as a starting point.
+The metrics Emissary adds to the list will appear in the Istio dashboard but we can add an Emissary dashboard as well. We're going to use the Emissary dashboard on [Grafana's](https://grafana.com/) website under entry [4689](https://grafana.com/grafana/dashboards/4698-ambassador-edge-stack/) as a starting point.
 
 First, let's start the port-forwarding for Istio's Grafana service:
 
@@ -590,18 +590,18 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
 
 Now, open Grafana tool by accessing: `http://localhost:3000/`
 
-To install the $productName$ Dashboard:
+To install the Emissary Dashboard:
 
 * Click on Create
 * Select Import
 * Enter number 4698
 
-Now we need to adjust the Dashboard Port to reflect our $productName$ configuration:
+Now we need to adjust the Dashboard Port to reflect our Emissary configuration:
 
 * Open the Imported Dashboard
 * Click on Settings in the Top Right corner
 * Click on Variables
-* Change the port to 80 (according to the $productName$ service port)
+* Change the port to 80 (according to the Emissary service port)
 
 Next, adjust the Dashboard Registered Services metric:
 
@@ -624,9 +624,9 @@ Now let's save the changes:
 
 Istio mTLS certificates, by default, will be valid for a max of 90 days but will be rotated every day.
 
-$productName$ will watch and update the mTLS certificates as they rotate so you will not need to worry about certificate expiration.
+Emissary will watch and update the mTLS certificates as they rotate so you will not need to worry about certificate expiration.
 
-To test that $productName$ is properly rotating certificates you can shorten the TTL of the Istio certificates so you can verify that $productName$ is using the new certificates.
+To test that Emissary is properly rotating certificates you can shorten the TTL of the Istio certificates so you can verify that Emissary is using the new certificates.
 
 In **Istio 1.5 and above**, you can configure that by setting the following environment variables in the `istiod` container.
 
