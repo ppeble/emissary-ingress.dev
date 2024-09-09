@@ -1,7 +1,6 @@
-
-import Alert from '@material-ui/lab/Alert';
-
-# Consul integration
+---
+title: Consul integration
+---
 
 <div class="docs-article-toc">
 <h3>Contents</h3>
@@ -17,17 +16,17 @@ import Alert from '@material-ui/lab/Alert';
 </div>
 
 
-[Consul](https://www.consul.io) is a widely used service mesh. You can use Consul with $productName$, as it natively supports Consul for service discovery and end-to-end TLS (including mTLS between services). This capability is particularly useful when deploying $productName$ in so-called hybrid clouds, where applications are deployed on VMs and Kubernetes. In this environment, $productName$ can securely route over TLS to any application regardless of where it is deployed.
+[Consul](https://www.consul.io) is a widely used service mesh. You can use Consul with Emissary, as it natively supports Consul for service discovery and end-to-end TLS (including mTLS between services). This capability is particularly useful when deploying Emissary in so-called hybrid clouds, where applications are deployed on VMs and Kubernetes. In this environment, Emissary can securely route over TLS to any application regardless of where it is deployed.
 
 ## Architecture overview
 
-In this architecture, Consul serves as the source of truth for your entire data center, tracking available endpoints, service configuration, and secrets for TLS encryption. New applications and services automatically register themselves with Consul using the Consul agent or API. When a request is sent through $productName$, $productName$ sends the request to an endpoint based on the data in Consul.
+In this architecture, Consul serves as the source of truth for your entire data center, tracking available endpoints, service configuration, and secrets for TLS encryption. New applications and services automatically register themselves with Consul using the Consul agent or API. When a request is sent through Emissary, Emissary sends the request to an endpoint based on the data in Consul.
 
 ![ambassador-consul](../../images/consul-ambassador.png)
 
 ## Installing consul
 
-In this guide, you will register a service with Consul and use $productName$ to dynamically route requests to that service based on Consul's service discovery data. If you already have Consul installed, you will just need to configure the ConsulResolver in the [Configuring $productName$ section](#configuring-productname).
+In this guide, you will register a service with Consul and use Emissary to dynamically route requests to that service based on Consul's service discovery data. If you already have Consul installed, you will just need to configure the ConsulResolver in the [Configuring Emissary section](#configuring-productname).
 
 1. Before we install Consul, make sure to check the Consul documentation for any setup steps specific to your platform. Below you can find setup guides for some of the more popular Kubernetes platforms. This step is primarily to ensure you have the proper permissions to set up Consul, and can be skipped if your cluster has the necessary permissions already. This page will walk you through the process of installing Consul
 
@@ -77,11 +76,11 @@ In this guide, you will register a service with Consul and use $productName$ to 
    helm install -f consul-values.yaml hashicorp hashicorp/consul
    ```
 
-## Configuring $productName$
+## Configuring Emissary
 
-1. Deploy $productName$. Note: If you do not have $productName$ deployed into your cluster, head over to the [quick start guide](../../tutorials/getting-started) before continuing with this section further.
+1. Deploy Emissary. Note: If you do not have Emissary deployed into your cluster, head over to the [quick start guide](../../tutorials/getting-started) before continuing with this section further.
 
-2. Configure $productName$ to look for services registered to Consul by creating the ConsulResolver. Create a file (eg. `consul-resolver.yaml`) and copy the following code into that file:
+2. Configure Emissary to look for services registered to Consul by creating the ConsulResolver. Create a file (eg. `consul-resolver.yaml`) and copy the following code into that file:
 
     ```yaml
     ---
@@ -99,7 +98,7 @@ In this guide, you will register a service with Consul and use $productName$ to 
    >
    > If you are having trouble figuring out what your `address` field should be, it follow this format: `http://{consul server pod}.{consul server service}.{namespace}.svc.cluster.local:{consul port}`. The default Consul port should be `8500` unless you changed it.
 
-  This will tell $productName$ that Consul is a service discovery endpoint.
+  This will tell Emissary that Consul is a service discovery endpoint.
 
 
 3. Apply this configuration to your cluster with:
@@ -113,7 +112,7 @@ In this guide, you will register a service with Consul and use $productName$ to 
 
 ## Routing to consul services
 
-You'll now register a demo application with Consul, and show how $productName$ can route to this application using endpoint data from Consul. To simplify this tutorial, you'll deploy the application in Kubernetes, although in practice this application can be deployed anywhere in your data center (e.g., on VMs).
+You'll now register a demo application with Consul, and show how Emissary can route to this application using endpoint data from Consul. To simplify this tutorial, you'll deploy the application in Kubernetes, although in practice this application can be deployed anywhere in your data center (e.g., on VMs).
 
 
 1. Deploy the Quote demo application. Create a file (eg.`quote.yaml`) and copy the following code into it:
@@ -220,7 +219,7 @@ You'll now register a demo application with Consul, and show how $productName$ c
   Note that in the above config:
    - `service` the service name you specified in the quote deployment
    - `resolver` must be set to the ConsulResolver that you created in the previous step
-   - `load_balancer` must be set to configure $productName$ to route directly to the Quote application endpoint(s) that are retrieved from Consul.
+   - `load_balancer` must be set to configure Emissary to route directly to the Quote application endpoint(s) that are retrieved from Consul.
 
 
 1. Send a request to the `quote-consul` API.
@@ -242,9 +241,9 @@ You'll now register a demo application with Consul, and show how $productName$ c
 
 ## Consul connector and encrypted TLS
 
-$productName$ can also use certificates stored in Consul to originate encrypted TLS connections from $productName$ to the Consul service mesh. This requires the use of the $productName$ Consul connector. The following steps assume you've already set up Consul for service discovery, as detailed above.
+Emissary can also use certificates stored in Consul to originate encrypted TLS connections from Emissary to the Consul service mesh. This requires the use of the Emissary Consul connector. The following steps assume you've already set up Consul for service discovery, as detailed above.
 
-1. The $productName$ Consul connector retrieves the TLS certificate issued by the Consul CA and stores it in a Kubernetes secret for $productName$ to use. Deploy $productName$ Consul Connector with `kubectl`:
+1. The Emissary Consul connector retrieves the TLS certificate issued by the Consul CA and stores it in a Kubernetes secret for Emissary to use. Deploy Emissary Consul Connector with `kubectl`:
 
    ```
    kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/consul/ambassador-consul-connector.yaml
@@ -254,7 +253,7 @@ This will install into your cluster:
 
    - RBAC resources.
    - The Consul connector service.
-   - A TLSContext named `ambassador-consul` to load the `ambassador-consul-connect` secret into $productName$.
+   - A TLSContext named `ambassador-consul` to load the `ambassador-consul-connect` secret into Emissary.
 
 2. Deploy a new version of the demo application, and configure it to inject the Consul sidecar proxy by setting `"consul.hashicorp.com/connect-inject"` to `true`. Note that in this version of the configuration, you do not have to configure environment variables for the location of the Consul server. Create a file (eg. `quote-connect.yaml`) and copy the following code into it:
 
@@ -361,9 +360,9 @@ This will install into your cluster:
         policy: round_robin
     ```
     - `service` must be set to the name of the Consul sidecar service. You can view this with `kubectl get svc -A` it should follow the format of `{service name}-sidecar-proxy`.
-    - `resolver` must be set to the ConsulResolver created when configuring $productName$
+    - `resolver` must be set to the ConsulResolver created when configuring Emissary
     - `tls` must be set to the TLSContext storing the Consul mTLS certificates (e.g. `ambassador-consul`)
-    - `load_balancer` must be set to configure $productName$ to route directly to the application endpoint(s) that are retrieved from Consul
+    - `load_balancer` must be set to configure Emissary to route directly to the application endpoint(s) that are retrieved from Consul
 
  This will create a Mapping that routes to the `quote` service in Consul.
 
@@ -393,7 +392,7 @@ The Consul Connector can be configured with the following environment variables.
 
 | Environment Variable | Description | Default |
 | -------------------- | ----------- | ------- |
-| _AMBASSADOR_ID | Set the Ambassador ID so multiple instances of this integration can run per-Cluster when there are multiple $productNamePlural$ (Required if `AMBASSADOR_ID` is set in your $productName$ deployment) | `""` |
+| _AMBASSADOR_ID | Set the Ambassador ID so multiple instances of this integration can run per-Cluster when there are multiple $productNamePlural$ (Required if `AMBASSADOR_ID` is set in your Emissary deployment) | `""` |
 | _CONSUL_HOST | Set the IP or DNS name of the target Consul HTTP API server | `127.0.0.1` |
 | _CONSUL_PORT | Set the port number of the target Consul HTTP API server | `8500` |
 | _AMBASSADOR_TLS_SECRET_NAME | Set the name of the Kubernetes `v1.Secret` created by this program that contains the Consul-generated TLS certificate. | `$AMBASSADOR_ID-consul-connect` |
@@ -401,4 +400,4 @@ The Consul Connector can be configured with the following environment variables.
 
 ## More information
 
-For more about $productName$'s integration with Consul, read the [service discovery configuration](../../topics/running/resolvers) documentation.
+For more about Emissary's integration with Consul, read the [service discovery configuration](../../topics/running/resolvers) documentation.

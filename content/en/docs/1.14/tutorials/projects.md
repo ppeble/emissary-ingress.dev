@@ -1,8 +1,10 @@
-# Deploying to Kubernetes from Github
+---
+title: Deploying to Kubernetes from Github
+---
 
-## This feature is DEPRECATED. Consider the [Argo Rollouts integration](/docs/argo/latest/quick-start) with $productName$.
+## This feature is DEPRECATED. Consider the [Argo Rollouts integration](/docs/argo/latest/quick-start) with Emissary.
 
-In this guide, we'll walk you through using $productName$'s [Project CRD](../../topics/using/projects/). At the end of this you will have launched your own microservice in less time than it takes to microwave popcorn. Not only that, but this service will meet the most important standards of **production-readiness**. It will be:
+In this guide, we'll walk you through using Emissary's [Project CRD](../../topics/using/projects/). At the end of this you will have launched your own microservice in less time than it takes to microwave popcorn. Not only that, but this service will meet the most important standards of **production-readiness**. It will be:
 
 * **Secure:** Protected with TLS, Authentication, and Rate Limiting
 * **Robust:** Complete with the usual -ilities: scalability, reliability, availability
@@ -13,23 +15,23 @@ In this guide, we'll walk you through using $productName$'s [Project CRD](../../
 You will need:
 
 * A [Github](https://github.com) account.
-* A [working installation of $productName$...](../getting-started/)
+* A [working installation of Emissary...](../getting-started/)
   * With TLS configured. (Needed for the github webhook used to sync source changes to your cluster.)
-  * And access to the $productName$ admin console: https://$YOUR_HOST/edge_stack/admin/.
+  * And access to the Emissary admin console: https://$YOUR_HOST/edge_stack/admin/.
 
 ## Enabling the Project Controller
 
 The projects functionality depends on an in-cluster Docker registry. By
-default this registry is not included in the $productName$ manifests, and
+default this registry is not included in the Emissary manifests, and
 the project functionality is not enabled. If you have performed a
-manual install of $productName$, you can include this registry and enable
+manual install of Emissary, you can include this registry and enable
 the project controller by running the following command:
 
 ```
 kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/projects.yaml
 ```
 
-**Note:** RBAC changes need to be made to fully activate the projects after manual project install:  Apply the following to add the RBAC permissions and restart the $productName$ Pods for the changes to take effect.
+**Note:** RBAC changes need to be made to fully activate the projects after manual project install:  Apply the following to add the RBAC permissions and restart the Emissary Pods for the changes to take effect.
    ```yaml
    ---
    apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -77,7 +79,7 @@ kubectl apply -f https://app.getambassador.io/yaml/ambassador-docs/$version$/pro
      kind: ServiceAccount
    ```
 
-If you use Helm to install $productName$, you can get the equivalent by
+If you use Helm to install Emissary, you can get the equivalent by
 setting the `registry.create` option to true in your `values.yaml`
 file:
 
@@ -176,12 +178,12 @@ We are going to update our project by creating a pull-request on Github. The Pro
 
 ## What’s Next?
 
-Read more about [using Projects](../../topics/using/projects/), including how to use $productName$'s powerful [Authentication](../../howtos/basic-auth/) and [Rate Limiting](../../topics/using/rate-limits/) features to secure your service.
+Read more about [using Projects](../../topics/using/projects/), including how to use Emissary's powerful [Authentication](../../howtos/basic-auth/) and [Rate Limiting](../../topics/using/rate-limits/) features to secure your service.
 
-$productName$ has a comprehensive range of [features](/features/) to support the requirements of any edge microservice.
+Emissary has a comprehensive range of [features](/features/) to support the requirements of any edge microservice.
 
-To learn more about how $productName$ works, along with use cases,
+To learn more about how Emissary works, along with use cases,
 best practices, and more, check out the [Welcome page](/docs/) or read the
-[$productName$ Story](../../about/why-ambassador).
+[Emissary Story](../../about/why-ambassador).
 
-For a custom configuration, you can install $productName$ [manually](../../topics/install/yaml-install/).
+For a custom configuration, you can install Emissary [manually](../../topics/install/yaml-install/).

@@ -1,18 +1,20 @@
-# Basic rate limiting
+---
+title: Basic rate limiting
+---
 
-IMPORTANT: This guide applies to $OSSproductName$, use of this guide on $AESproductName$ is not fully supported.  Use the existing [RateLimitService](../../topics/using/rate-limits/) instead.
+IMPORTANT: This guide applies to Emissary, use of this guide on Ambassador Edge Stack is not fully supported.  Use the existing [RateLimitService](../../topics/using/rate-limits/) instead.
 
-$OSSproductName$ can validate incoming requests before routing them to a backing service. In this tutorial, we'll configure the $OSSproductName$ to use a simple third party rate limit service. If you don't want to implement your own rate limiting service, $AESproductName$ integrates a [powerful, flexible rate limiting service](../../topics/using/rate-limits/).
+Emissary can validate incoming requests before routing them to a backing service. In this tutorial, we'll configure the Emissary to use a simple third party rate limit service. If you don't want to implement your own rate limiting service, Ambassador Edge Stack integrates a [powerful, flexible rate limiting service](../../topics/using/rate-limits/).
 
 ## Before you get started
 
-This tutorial assumes you have already followed the $OSSproductName$ [Installation](../../topics/install/install-ambassador-oss) and [Quickstart Tutorial](../../tutorials/quickstart-demo) guides. If you haven't done that already, you should do so now.
+This tutorial assumes you have already followed the Emissary [Installation](../../topics/install/install-ambassador-oss) and [Quickstart Tutorial](../../tutorials/quickstart-demo) guides. If you haven't done that already, you should do so now.
 
-Once completed, you'll have a Kubernetes cluster running $OSSproductName$ and the Quote of the Moment service. Let's walk through adding rate limiting to this setup.
+Once completed, you'll have a Kubernetes cluster running Emissary and the Quote of the Moment service. Let's walk through adding rate limiting to this setup.
 
 ## 1. Deploy the rate limit service
 
-$OSSproductName$ delegates the actual rate limit logic to a third party service. We've written a [simple rate limit service](https://github.com/emissary-ingress/emissary/tree/v2.1.0/docker/test-ratelimit) that:
+Emissary delegates the actual rate limit logic to a third party service. We've written a [simple rate limit service](https://github.com/emissary-ingress/emissary/tree/v2.1.0/docker/test-ratelimit) that:
 
 - listens for requests on port 5000;
 - handles gRPC `shouldRateLimit` requests;
@@ -72,17 +74,17 @@ spec:
             memory: 100Mi
 ```
 
-This configuration tells $OSSproductName$ about the rate limit service, notably that it is serving requests at `example-rate-limit:5000`.
+This configuration tells Emissary about the rate limit service, notably that it is serving requests at `example-rate-limit:5000`.
 
-$OSSproductName$ will see the RateLimitService and reconfigure itself within a few seconds. Note that the v2 API is available for the $OSSproductName$.
+Emissary will see the RateLimitService and reconfigure itself within a few seconds. Note that the v2 API is available for the Emissary.
 
-## 2. Configure $OSSproductName$ Mappings
+## 2. Configure Emissary Mappings
 
-$OSSproductName$ only validates requests on Mappings which set rate limiting descriptors. If $OSSproductName$ cannot contact the rate limit service, it will allow the request to be processed as if there were no rate limit service configuration.
+Emissary only validates requests on Mappings which set rate limiting descriptors. If Emissary cannot contact the rate limit service, it will allow the request to be processed as if there were no rate limit service configuration.
 
 ### v0 API
 
-$OSSproductName$ 0.50.0 and later requires the `v2` API Version for rate limiting. The `v2` API uses the `labels` attribute to attach rate limiting descriptors. Review the [Rate Limits configuration documentation](../../topics/using/rate-limits/) for more information.
+Emissary 0.50.0 and later requires the `v2` API Version for rate limiting. The `v2` API uses the `labels` attribute to attach rate limiting descriptors. Review the [Rate Limits configuration documentation](../../topics/using/rate-limits/) for more information.
 
 Replace the label that is applied to the `service-backend` with:
 
@@ -116,7 +118,7 @@ spec:
 
 ### v2 API
 
-$OSSproductName$ versions 0.40.2 and earlier use the `v2` API version which uses the `rate_limits` attribute to set rate limiting descriptors.
+Emissary versions 0.40.2 and earlier use the `v2` API version which uses the `rate_limits` attribute to set rate limiting descriptors.
 
 ```yaml
 ---
@@ -156,11 +158,11 @@ spec:
       - "x-ambassador-test-allow"
 ```
 
-This configuration tells $OSSproductName$ about the rate limit rules to apply, notably that it needs the `x-ambassador-test-allow` header, and that it should set "A test case" as the `generic_key` descriptor when performing the gRPC request.
+This configuration tells Emissary about the rate limit rules to apply, notably that it needs the `x-ambassador-test-allow` header, and that it should set "A test case" as the `generic_key` descriptor when performing the gRPC request.
 
 Note that both `descriptor` and `headers` are optional. However, if `headers` are defined, **they must be part of the request in order to be rate limited**.
 
-$OSSproductName$ would also perform multiple requests to `example-rate-limit:5000` if we had defined multiple `rate_limits` rules on the mapping.
+Emissary would also perform multiple requests to `example-rate-limit:5000` if we had defined multiple `rate_limits` rules on the mapping.
 
 ## 3. Test rate limiting
 

@@ -1,12 +1,14 @@
-# Dev Portal tutorial
+---
+title: Dev Portal tutorial
+---
 
 In this tutorial, you will access and explore some of the key features of the Dev Portal.
 
 ## Prerequisites
 
-You must have [$productName$ installed](../getting-started/) in your
+You must have [Emissary installed](../getting-started/) in your
 Kubernetes cluster. This tutorial assumes you have deployed the `quote` app and
-`Mapping` from the [$productName$ tutorial](../getting-started/).
+`Mapping` from the [Emissary tutorial](../getting-started/).
 
 
   ```
@@ -18,7 +20,7 @@ Kubernetes cluster. This tutorial assumes you have deployed the `quote` app and
 
 First you are going to log in to the Edge Policy Console to explore some of its
 features. The console is a web-based interface that can be used to configure and
-monitor $productName$.
+monitor Emissary.
 
 1. Initially the console is accessed from the load balancer's hostname or public
 address (depending on your Kubernetes environment). Run the command below to
@@ -36,15 +38,15 @@ to use your own registered domain name instead of the load balancer endpoint to
 access the console and your `Mapping` endpoints.
 
 1. The next page will prompt you to log in to the console using `edgectl`, the
-$productName$ CLI. The page provides instructions on how to install `edgectl` for
+Emissary CLI. The page provides instructions on how to install `edgectl` for
 all OSes and log in.
 
 1. Once logged in, click on the **Mappings** tab in the Edge Policy Console.
 Scroll down to find an entry for the `quote-backend` `Mapping`.
 
-As you can see, the console lists the `Mapping` that you created in the $productName$ tutorial. This
-information came from $productName$ polling the Kubernetes API. In
-$productName$, Kubernetes serves as the single source of truth
+As you can see, the console lists the `Mapping` that you created in the Emissary tutorial. This
+information came from Emissary polling the Kubernetes API. In
+Emissary, Kubernetes serves as the single source of truth
 around cluster configuration. Changes made via `kubectl` are reflected in the
 Edge Policy Console and vice versa.  Try the following to see this in action.
 
@@ -78,7 +80,7 @@ with other tutorials.
 
 The `quote` service you just deployed publishes its API as an
 [OpenAPI (formally Swagger)](https://swagger.io/solutions/getting-started-with-oas/)
-document. $productName$ automatically detects and publishes this documentation.
+document. Emissary automatically detects and publishes this documentation.
 This can help with internal and external developer onboarding by serving as a
 single point of reference for of all your microservice APIs.
 

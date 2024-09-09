@@ -1,6 +1,6 @@
-# Using Ambassador Module defaults
-
-## The defaults element
+---
+title: ambassador module defaults
+---
 
 If present, the `ambassador Module` can define a set of defaults that will automatically be applied to certain resources:
 

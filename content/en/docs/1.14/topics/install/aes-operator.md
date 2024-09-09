@@ -1,9 +1,11 @@
-# The Ambassador Operator
+---
+title: The Ambassador Operator
+---
 
 The Ambassador Operator is a Kubernetes Operator that controls the
-complete lifecycle of $productName$ in your cluster. It also
-automates many of the repeatable tasks you have to perform for $productName$. Once installed, the Ambassador Operator will automatically complete rapid
-installations and seamless upgrades to new versions of $productName$.  [Read
+complete lifecycle of Emissary in your cluster. It also
+automates many of the repeatable tasks you have to perform for Emissary. Once installed, the Ambassador Operator will automatically complete rapid
+installations and seamless upgrades to new versions of Emissary.  [Read
 more](https://github.com/datawire/ambassador-operator/blob/master/README.md)
 about the benefits of the Operator.
 
@@ -26,7 +28,7 @@ Start by installing the operator:
 
 1. Create the Operator Custom Resource schema with the following command:
    `kubectl apply -f https://github.com/datawire/ambassador-operator/releases/latest/download/ambassador-operator-crds.yaml`
-2. To install the Ambassador Operator CRD. To change the namespace for the isntall, you can specify it in `NS` and then run the following command. We recommend using the `default` namespace if you are installing $productName$ and the `ambassador` namespace if you are installing $AESproductName$:
+2. To install the Ambassador Operator CRD. To change the namespace for the isntall, you can specify it in `NS` and then run the following command. We recommend using the `default` namespace if you are installing Emissary and the `ambassador` namespace if you are installing Ambassador Edge Stack:
 
     ```
     $ NS="default"
@@ -56,12 +58,12 @@ Then, create the `AmbassadorInstallation` Custom Resource schema and apply it to
 
 > **Note:** If you do not place the `AmbassadorInstallation` in the same namespace that you installed the Operator, it will not install anything.
 
-### Configuration for $productName$
+### Configuration for Emissary
 
-After the initial installation of $productName$, the Operator will check for updates every 24 hours and
+After the initial installation of Emissary, the Operator will check for updates every 24 hours and
 delay the update until the Update Window allows the update to proceed. It will use the Version Syntax for
 determining if any new release is acceptable. When a new release is available and acceptable, the Operator
-will upgrade $productName$.
+will upgrade Emissary.
 
 ### Version syntax and update window
 
@@ -101,13 +103,13 @@ examples of `updateWindow` are:
 The Operator cannot guarantee minute time granularity, so specifying a minute in the crontab
 expression can lead to some updates happening sooner/later than expected.
 
-`installOSS` in an optional field which, if set to `true`, installs $OSSproductName$ instead of
-$AESproductName$.
+`installOSS` in an optional field which, if set to `true`, installs Emissary instead of
+Ambassador Edge Stack.
 Default: `false`.
 
 ## Customizing the installation with some Helm values
 
-`helmValues` is an optional map of configurable parameters of the $productName$ chart
+`helmValues` is an optional map of configurable parameters of the Emissary chart
 with some overriden values. Take a look at the [current list of values](https://github.com/emissary-ingress/emissary/blob/v2.1.0/charts/emissary-ingress/README.md)
 and their default values.
 
@@ -135,7 +137,7 @@ spec:
 ```
 
 * Note that the `spec.installOSS` parameter should be used instead of `spec.helmValues.enableAES` to control whether
-  $OSSproductName$ or $AESproductName$ is installed. A configuration where both `installOSS` and `enableAES` are set to the same value will
+  Emissary or Ambassador Edge Stack is installed. A configuration where both `installOSS` and `enableAES` are set to the same value will
   introduce a conflict and result in an error.
 
 ## Install via Helm Chart
@@ -166,11 +168,11 @@ You can also install the Ambassador Operator from a Helm Chart. The following He
 ## Updates by the Operator
 
 After the `AmbassadorInstallation` is created for the first time, the Operator
-will then use the list of releases available for the $productName$ Helm Chart for
+will then use the list of releases available for the Emissary Helm Chart for
 determining the most recent version that can be installed, using the optional
 Version Syntax for filtering the releases that are acceptable.
 
-It will then install $productName$, using any extra arguments provided in the `AmbassadorInstallation`,
+It will then install Emissary, using any extra arguments provided in the `AmbassadorInstallation`,
 like the `baseImage`, the `logLevel` or any of the `helmValues`.
 
 For example:
@@ -187,7 +189,7 @@ spec:
 EOF
 ```
 
-After applying an `AmbassadorInstallation` customer resource like this in a new cluster, the Operator will install a new instance of $productName$ 1.13.0 in the `ambassador` namespace, immediately. Removing this `AmbassadorInstallation` will uninstall $productName$ from this namespace.
+After applying an `AmbassadorInstallation` customer resource like this in a new cluster, the Operator will install a new instance of Emissary 1.13.0 in the `ambassador` namespace, immediately. Removing this `AmbassadorInstallation` will uninstall Emissary from this namespace.
 
 ## Verify configuration
 
