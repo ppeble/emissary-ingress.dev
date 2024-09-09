@@ -1,4 +1,6 @@
-# Install Emissary
+---
+title: Install Emissary
+---
 
 **The Ambassador Edge Stack is now available and includes additional functionality beyond the current Emissary.**
 These features include automatic HTTPS, the Edge Policy Console UI, OAuth/OpenID Connect authentication support, integrated rate

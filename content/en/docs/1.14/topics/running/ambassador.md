@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# The Module Resource
+---
+title: Ambassador Module
+---
 
 <div class="docs-article-toc">
 <h3>Contents</h3>

@@ -1,6 +1,6 @@
-# Gateway API
-
-## Using the Gateway API
+---
+title: Gateway API
+---
 
 Emissary now supports a limited subset of the new `v1alpha1` [Gateway API](https://gateway-api.sigs.k8s.io/).
 Note that the Gateway API is not supported when `AMBASSADOR_LEGACY_MODE` is set.

@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Cleartext support
+---
+title: Cleartext support
+---
 
 While most modern web applications will choose to encrypt all traffic, there
 are reasons why you will want to support clients who access your website

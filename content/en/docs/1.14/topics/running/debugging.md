@@ -1,4 +1,6 @@
-# Debugging
+---
+title: Debugging
+---
 
 If you’re experiencing issues with the Emissary and cannot diagnose the issue through the "Diagnostics" tab from the [Edge Policy Console](/docs/edge-stack/latest/topics/using/edge-policy-console/), this document covers various approaches and advanced use cases for debugging Emissary issues.
 

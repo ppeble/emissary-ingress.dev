@@ -1,4 +1,6 @@
-# Istio integration
+---
+title: Istio
+---
 
 Emissary and Istio: Edge Proxy and Service Mesh together in one. Emissary is deployed at the edge of your network and routes incoming traffic to your internal services (aka "north-south" traffic). [Istio](https://istio.io/) is a service mesh for microservices, and is designed to add application-level Layer (L7) observability, routing, and resilience to service-to-service traffic (aka "east-west" traffic). Both Istio and Emissary are built using [Envoy](https://www.envoyproxy.io).
 

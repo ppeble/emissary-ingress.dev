@@ -1,4 +1,6 @@
-# Add request headers
+---
+title: Add request headers
+---
 
 Emissary can add a dictionary of HTTP headers that can be added to each request that is passed to a service.
 

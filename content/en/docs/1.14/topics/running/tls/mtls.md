@@ -1,4 +1,6 @@
-# Mutual TLS (mTLS)
+---
+title: Mutual TLS (mTLS)
+---
 
 Many organizations have security concerns that require all network traffic
 throughout their cluster be encrypted. With traditional architectures,

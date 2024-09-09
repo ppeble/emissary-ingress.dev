@@ -1,8 +1,7 @@
 ---
+title: Mapping resource
 description: "Emissary uses the Mapping resource to map a resource, like a URL prefix, to a Kubernetes service or web service."
 ---
-
-import Alert from '@material-ui/lab/Alert';
 
 # Get traffic from the edge
 

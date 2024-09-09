@@ -1,4 +1,6 @@
-# Install with Helm
+---
+title: Helm
+---
 
 [Helm](https://helm.sh) is a package manager for Kubernetes that automates the release and management of software on Kubernetes. Emissary can be installed via a Helm chart with a few simple steps, depending on if you are deploying for the first time, upgrading Emissary from an existing installation, or migrating from Emissary.
 

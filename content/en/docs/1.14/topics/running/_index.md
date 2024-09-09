@@ -1,4 +1,7 @@
-# Running Emissary in production
+---
+title: "Running"
+description: "This section of the documentation provides instructions on running Emissary in a production environment"
+---
 
 This section of the documentation is designed for operators and site reliability engineers who are managing the deployment of Emissary. Learn more below:
 

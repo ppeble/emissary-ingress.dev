@@ -1,4 +1,6 @@
-# The Ambassador Operator
+---
+title: The Ambassador Operator
+---
 
 The Ambassador Operator is a Kubernetes Operator that controls the
 complete lifecycle of Emissary in your cluster. It also

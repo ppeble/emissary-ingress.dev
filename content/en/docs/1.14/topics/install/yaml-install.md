@@ -1,7 +1,7 @@
 ---
-    description: In this guide, we'll walk through the process of deploying Emissary in Kubernetes for ingress routing.
+title: YAML
+description: In this guide, we'll walk through the process of deploying Emissary in Kubernetes for ingress routing.
 ---
-# Install manually
 
 In this guide, we'll walk you through installing, configuring, and customizing
 Emissary in your Kubernetes cluster.

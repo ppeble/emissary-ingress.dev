@@ -1,4 +1,6 @@
-# Upgrade to Ambassador Edge Stack
+---
+title: Upgrade to Ambassador Edge Stack
+---
 
 If you currently have the open source version of Emissary, you can upgrade to Ambassador Edge Stack with a few simple commands. When you upgrade to Ambassador Edge Stack, you'll be able to access additional capabilities such as **automatic HTTPS/TLS termination, Swagger/OpenAPI support, API catalog, Single Sign-On, the Edge Policy Console UI, and more.** For more about the differences between Ambassador Edge Stack and Emissary, see the [Editions page](/editions).
 

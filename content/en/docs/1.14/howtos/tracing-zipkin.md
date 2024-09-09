@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Distributed tracing with Zipkin
+---
+title: Distributed tracing with Zipkin
+---
 
 In this tutorial, we'll configure Emissary to initiate a trace on some sample requests, and use Zipkin to visualize them.
 

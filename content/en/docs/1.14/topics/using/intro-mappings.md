@@ -1,4 +1,6 @@
-# Introduction to the Mapping resource
+---
+title: Introduction to the Mapping Resource
+---
 
 Emissary is designed around a [declarative, self-service management model](../../concepts/gitops-continuous-delivery). The core resource used to support application development teams who need to manage the edge with Emissary is the `Mapping` resource.
 

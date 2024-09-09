@@ -1,4 +1,6 @@
-# Server Name Indication (SNI)
+---
+title: Server Name Indication (SNI)
+---
 
 Emissary supports serving multiple `Host`s behind a single IP address, each
 with their own certificate.

@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# ExternalDNS with Emissary
+---
+title: ExternalDNS
+---
 
 [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) configures your existing DNS provider to make Kubernetes resources discoverable via public DNS servers by getting resources from the Kubernetes API to create a list of DNS records.
 

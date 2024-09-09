@@ -1,4 +1,6 @@
-# The Host CRD, ACME support, and external load balancer configuration
+---
+title: Host CRD
+---
 
 The custom `Host` resource defines how Emissary will be
 visible to the outside world. It collects all the following information in a

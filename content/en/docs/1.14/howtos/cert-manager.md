@@ -1,4 +1,6 @@
-# Using cert-manager
+---
+title: Using cert-manager
+---
 
 Emissary has simple and easy built-in support for automatically using ACME to create and renew TLS
 certificates; configured by the [`Host` resource](../../topics/running/host-crd/).  However, it only supports ACME's

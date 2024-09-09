@@ -1,8 +1,6 @@
 ---
-  indexable: false
+title: Upgrading Emissary
 ---
-
-# Upgrading Emissary
 
 Since Emissary's configuration is entirely stored in Kubernetes resources, no special process
 is necessary to upgrade Emissary.

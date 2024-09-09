@@ -1,4 +1,6 @@
-# Timeouts
+---
+title: Timeouts
+---
 
 Emissary enables you to control timeouts in several different ways.
 

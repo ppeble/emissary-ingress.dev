@@ -1,4 +1,6 @@
-# Method-based routing
+---
+title: Method-based routing
+---
 
 Emissary supports routing based on the HTTP method and regular expression.
 

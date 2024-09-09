@@ -1,4 +1,6 @@
-# Install with bare metal
+---
+title: Bare metal
+---
 
 In cloud environments, provisioning a readily available network load balancer with Emissary is the best option for handling ingress into your Kubernetes cluster. When running Kubernetes on a bare metal setup, where network load balancers are not available by default, we need to consider different options for exposing Emissary.
 

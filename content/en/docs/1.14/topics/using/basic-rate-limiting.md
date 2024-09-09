@@ -1,4 +1,6 @@
-# Basic rate limiting
+---
+title: Basic rate limiting
+---
 
 Rate limiting in Emissary is composed of two parts:
 

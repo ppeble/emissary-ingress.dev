@@ -1,4 +1,6 @@
-# Envoy statistics with StatsD
+---
+title: Envoy statistics with StatsD
+---
 
 > For an overview of other options for gathering statistics on
 > Emissary, see the [Statistics and Monitoring](../) overview.

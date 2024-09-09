@@ -1,4 +1,6 @@
-# Advanced rate limiting
+---
+title: Advanced rate limiting
+---
 
 Ambassador Edge Stack integrates a flexible, high-performance Rate Limit Service (RLS). Similar to Emissary, the RLS features a decentralized configuration model so that individual teams can manage their own rate limits. For example:
 

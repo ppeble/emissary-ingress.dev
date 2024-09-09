@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Basic authentication
+---
+title: Basic Authentication
+---
 
 <Alert severity="info">
   This guide applies to Ambassador Edge Stack, use of this guide on the Emissary is not recommended.  API Gateway does <a href="../basic-auth">authentication using the AuthService resource</a> instead of the Filter resource as described below.

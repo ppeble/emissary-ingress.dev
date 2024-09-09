@@ -1,4 +1,6 @@
-# Running and deployment
+---
+title: Running and deployment
+---
 
 This section is intended for operators running Emissary, and covers various aspects of deploying and configuring the Emissary in production.
 

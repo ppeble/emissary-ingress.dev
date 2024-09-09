@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Authentication service
+---
+title: Authentication service
+---
 
 Emissary provides a highly flexible mechanism for authentication, via the AuthService resource.  An AuthService configures Emissary to use an external service to check authentication and authorization for incoming requests. Each incoming request is authenticated before routing to its destination.
 

@@ -1,4 +1,7 @@
-# Transport Layer Security (TLS)
+---
+title: Transport Layer Security (TLS)
+weight: -10
+---
 
 Emissary's robust TLS support exposes configuration options
 for different TLS use cases including:

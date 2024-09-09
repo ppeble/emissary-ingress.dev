@@ -1,4 +1,7 @@
-# Statistics and monitoring
+---
+title: Statistics and monitoring
+weight: -20
+---
 
 Emissary collects many statistics internally, and makes it easy to
 direct this information to a statistics and monitoring tool of your

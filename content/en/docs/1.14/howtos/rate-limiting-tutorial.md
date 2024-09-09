@@ -1,4 +1,6 @@
-# Basic rate limiting
+---
+title: Basic rate limiting
+---
 
 IMPORTANT: This guide applies to Emissary, use of this guide on Ambassador Edge Stack is not fully supported.  Use the existing [RateLimitService](../../topics/using/rate-limits/) instead.
 

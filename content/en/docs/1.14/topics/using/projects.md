@@ -1,4 +1,6 @@
-# Introduction to the `Project` resource
+---
+title: Introduction to the `Project` resource
+---
 
 ## This feature is DEPRECATED. Consider the [Argo Rollouts integration](/docs/argo/latest/quick-start) with Emissary.
 

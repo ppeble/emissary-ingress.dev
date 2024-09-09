@@ -1,4 +1,6 @@
-# Automatic retries
+---
+title: Automatic retries
+---
 
 Sometimes requests fail. When these requests fail for transient issues, Emissary can automatically retry the request.
 

@@ -1,4 +1,6 @@
-# Redirects
+---
+title: Redirects
+---
 
 Emissary can perform 3xx redirects on `Mapping`s to a different host, with various options to redirect the path and to return a different 3xx response code instead of the default 301.
 

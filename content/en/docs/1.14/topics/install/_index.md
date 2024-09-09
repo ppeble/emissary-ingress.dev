@@ -1,4 +1,7 @@
-import './index.less'
+---
+title: "Install"
+description: "This section of the documentation provides installation instructions"
+---
 
 # Installing Emissary
 

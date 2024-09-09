@@ -1,4 +1,7 @@
-# Emissary Tutorial
+---
+title: "Quickstart"
+description: "Emissary quick start"
+---
 
 In this article, you will explore some of the key features of Emissary by walking through an example workflow and exploring the
 Edge Policy Console.

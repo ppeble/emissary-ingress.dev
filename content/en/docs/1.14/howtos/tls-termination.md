@@ -1,4 +1,6 @@
-# TLS termination and enabling HTTPS
+---
+title: TLS Termination and Enabling HTTPS
+---
 
 TLS encryption is one of the basic requirements of having a secure system.
 Ambassador Edge Stack [automatically enables TLS termination/HTTPs

@@ -1,4 +1,6 @@
-# Log service
+---
+title: Log Service
+---
 
 By default, Emissary puts the access logs on stdout; such
 that the can be read using `kubectl logs`.  The format of those logs,

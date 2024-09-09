@@ -1,7 +1,7 @@
 ---
+title: Linkerd 2
 description: "A guide to using Linkerd 2 Auto-Inject to mesh a service and using Emissary to dynamically route requests to that service."
 ---
-# Linkerd 2 integration
 
 [Linkerd 2](https://www.linkerd.io) is a zero-config and ultra-lightweight service mesh. Emissary natively supports Linkerd 2 for service discovery, end-to-end TLS (including mTLS between services), and (with Linkerd 2.8) multicluster operation.
 

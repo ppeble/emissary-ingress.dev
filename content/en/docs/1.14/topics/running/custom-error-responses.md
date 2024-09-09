@@ -1,4 +1,6 @@
-# Custom error responses
+---
+title: Custom error responses
+---
 
 Custom error responses set overrides for HTTP response statuses generated either
 by Emissary or upstream services.
