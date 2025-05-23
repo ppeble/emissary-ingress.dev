@@ -1,4 +1,6 @@
-# Emissary Environment variables
+---
+title: Environment Variables
+---
 
 Use the following variables for the environment of your Emissary container:
 

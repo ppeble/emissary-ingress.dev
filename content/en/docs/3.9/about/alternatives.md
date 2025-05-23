@@ -1,4 +1,6 @@
-# Emissary vs. other software
+---
+title: "Alternatives"
+---
 
 Alternatives to Emissary fall into three basic categories:
 

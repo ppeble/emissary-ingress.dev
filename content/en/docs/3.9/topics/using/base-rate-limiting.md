@@ -1,6 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Basic rate limiting
+---
+title: Basic rate limiting
+---
 
 Rate limiting in Emissary is composed of two parts:
 

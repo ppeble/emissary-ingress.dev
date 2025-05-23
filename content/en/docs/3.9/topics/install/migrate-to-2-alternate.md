@@ -1,10 +1,7 @@
 ---
-    Title: Migrate to Emissary $versionTwoX$
-    description: "Instructions for how to upgrade Emissary to $versionTwoX$. Transfer your current configuration of Ambassador Edge Stack or Emissary to $versionTwoX$."
+Title: Migrate to Emissary 2.x
+description: "Instructions for how to upgrade Emissary to 2.x. Transfer your current configuration of Ambassador Edge Stack or Emissary to 2.x."
 ---
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrading Emissary $versionTwoX$ with a separate cluster
 
 You can upgrade from any version of Ambassador Edge Stack or Emissary to
 any version of either by installing the new version in a new Kubernetes cluster,

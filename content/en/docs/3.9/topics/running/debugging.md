@@ -1,4 +1,6 @@
-# Debugging
+---
+title: Debugging
+---
 
 If you’re experiencing issues with the Emissary and cannot diagnose the issue through the `/ambassador/v0/diag/` diagnostics endpoint, this document covers various approaches and advanced use cases for debugging Emissary issues.
 

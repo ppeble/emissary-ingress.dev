@@ -1,4 +1,7 @@
-# "How-to" guides
+---
+title: "How-to guides"
+weight: 20
+---
 
 These guides are designed to help users quickly accomplish common tasks. The guides assume a certain level of understanding of Emissary. Many of these guides are contributed by third parties; we welcome contributions via Pull Request at https://github.com/emissary-ingress/emissary.
 

@@ -1,21 +1,21 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Upgrade Emissary 3.8.Z (Helm)
+---
+title: 3.8.x to latest 3.x
+---
 
 <Alert severity="info">
-  This guide covers migrating from Emissary 3.8.Z to Emissary $version$. If
+  This guide covers migrating from Emissary 3.8.Z to Emissary 3.9. If
   this is not your <b>exact</b> situation, see the <a href="../../../../migration-matrix">migration
   matrix</a>.
 </Alert>
 
 <Alert severity="warning">
   This guide is written for upgrading an installation originally made using Helm.
-  If you did not install with Helm, see the <a href="../../../yaml/emissary-3.8/emissary-3.X">YAML-based
+  If you did not install with Helm, see the <a href="../../../yaml/emissary-3.9/emissary-3.X">YAML-based
   upgrade instructions</a>.
 </Alert>
 
 Since Emissary's configuration is entirely stored in Kubernetes resources, upgrading between minor
-versions is straightforward.
+versions is straightforward9
 
 ### Resources to check before migrating to $version$.
 

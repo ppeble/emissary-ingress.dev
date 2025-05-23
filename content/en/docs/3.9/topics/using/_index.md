@@ -1,3 +1,8 @@
+---
+title: "Using"
+description: "This section of the documentation provides instructions on using Emissary"
+---
+
 # Using Emissary
 
 Application development teams use Emissary to manage edge policies associated with a specific service. This section of the documentation covers core Emissary elements that are typically used by the application development team.

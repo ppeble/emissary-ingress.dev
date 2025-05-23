@@ -1,9 +1,6 @@
-import Alert from '@material-ui/lab/Alert';
-
-# Basic rate limiting
-
-<Alert severity="info">This guide applies to Emissary. It will not work correctly
-on Ambassador Edge Stack.</Alert>
+---
+title: Rate Limiting Tutorial
+---
 
 Emissary can validate incoming requests before routing them to a backing service. In this tutorial, we'll configure Emissary to use a simple third party rate limit service. (If you don't want to implement your own rate limiting service, Ambassador Edge Stack integrates a [powerful, flexible rate limiting service](/docs/edge-stack/latest/topics/using/rate-limits/rate-limits/).)
 

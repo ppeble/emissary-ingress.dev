@@ -1,4 +1,6 @@
-# Emissary with GKE
+---
+title: GKE
+---
 
 Google offers a [L7 load balancer](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress) to
 leverage network services such as managed SSL certificates, SSL offloading or the Google content delivery network.

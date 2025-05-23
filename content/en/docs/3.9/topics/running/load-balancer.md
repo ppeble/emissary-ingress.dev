@@ -1,4 +1,6 @@
-# Load balancing
+---
+title: Load balancing
+---
 
 Load balancing configuration can be set for all Emissary mappings in the [`ambassador` `Module`](../ambassador), or set per [`Mapping`](../../using/mappings). If nothing is set, simple round robin balancing is used via Kubernetes services.
 

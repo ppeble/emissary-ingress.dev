@@ -1,5 +1,5 @@
 ---
-title: "HTTP/3 configuration in Emissary"
+title: "HTTP/3 configuration"
 description: "Configure HTTP/3 support with Emissary. Create services to handle UDP and TCP traffic and setup HTTP/3 with your cloud service provider."
 ---
 

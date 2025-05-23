@@ -1,7 +1,6 @@
-
-import Alert from '@material-ui/lab/Alert';
-
-# Consul integration
+---
+title: Consul integration
+---
 
 <div class="docs-article-toc">
 <h3>Contents</h3>

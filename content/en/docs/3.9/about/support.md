@@ -1,4 +1,6 @@
-# Need help?
+---
+title: Support
+---
 
 If you need help deploying Emissary at your organization, there are several different options available to you.
 
