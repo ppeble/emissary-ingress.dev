@@ -1,12 +1,12 @@
 # Distributed Tracing with Datadog
 
-In this tutorial, we'll configure $productName$ to initiate a trace on some sample requests, and use DataDog APM to visualize them.
+In this tutorial, we'll configure Emissary to initiate a trace on some sample requests, and use DataDog APM to visualize them.
 
 ## Before you get started
 
-This tutorial assumes you have already followed $productName$ [Getting Started](../../tutorials/getting-started) guide. If you haven't done that already, you should do that now.
+This tutorial assumes you have already followed Emissary [Getting Started](../../tutorials/getting-started) guide. If you haven't done that already, you should do that now.
 
-After completing the Getting Started guide you will have a Kubernetes cluster running $productName$ and the Quote service. Let's walk through adding tracing to this setup.
+After completing the Getting Started guide you will have a Kubernetes cluster running Emissary and the Quote service. Let's walk through adding tracing to this setup.
 
 ## 1. Configure the DataDog agent
 
@@ -16,7 +16,7 @@ You will need to configure the DataDog agent so that it uses a host-port and acc
 
 DataDog APM can [correlate traces with logs](https://docs.datadoghq.com/tracing/advanced/connect_logs_and_traces/) if you propagate the current span and trace IDs with your logs.
 
-When using JSON logging with Envoy, $productName$ will automatically append the `dd.trace_id` and `dd.span_id` properties to all logs so that correlation works:
+When using JSON logging with Envoy, Emissary will automatically append the `dd.trace_id` and `dd.span_id` properties to all logs so that correlation works:
 
 ```yaml
 ---
@@ -31,9 +31,9 @@ spec:
 
 ## 3. Configure the TracingService
 
-Next we want to configure a TracingService that will write your traces using the DataDog tracing driver. If you haven't already, update the $productName$ deployment to use the `${HOST_IP}` interpolation to get the host IP address from the $productName$ containers environment.
+Next we want to configure a TracingService that will write your traces using the DataDog tracing driver. If you haven't already, update the Emissary deployment to use the `${HOST_IP}` interpolation to get the host IP address from the Emissary containers environment.
 
-Add the following to our environment variables in our $productName$ deployment:
+Add the following to our environment variables in our Emissary deployment:
 ```yaml
   - name: HOST_IP
     valueFrom:
@@ -57,7 +57,7 @@ spec:
 
 ## 4. Generate some requests
 
-Use `curl` to generate a few requests to an existing $productName$ mapping. You may need to perform many requests, since only a subset of random requests are sampled and instrumented with traces.
+Use `curl` to generate a few requests to an existing Emissary mapping. You may need to perform many requests, since only a subset of random requests are sampled and instrumented with traces.
 
 ```
 $ curl -L $AMBASSADOR_IP/httpbin/ip
