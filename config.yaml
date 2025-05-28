@@ -95,10 +95,14 @@ params:
   # Menu title if your navbar has a versions selector to access old versions of your site.
   # This menu appears only if you have at least one [params.versions] set.
   version_menu: Versions
-  latest_stable_version: 3.10
+  latest_stable_version: 3.9
   versions:
     - version: latest
       url: /docs/latest/
+
+  versions:
+    - version: v3.9
+      url: /docs/3.9/
 
     - version: v3.8
       url: /docs/3.8/
@@ -147,11 +151,6 @@ params:
 
   # Footer Links
   links:
-    # End user relevant links. These will show up on left side of footer and in the community page if you have one.
-    user:
-      - name: Github Discussions
-        url: https://github.com/emissary-ingress/emissary/discussions
-        icon: fab fa-github
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
       - name: Emissary on GitHub
