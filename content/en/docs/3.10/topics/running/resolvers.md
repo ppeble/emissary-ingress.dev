@@ -42,7 +42,9 @@ metadata:
 
 ### The Kubernetes endpoint resolver
 
-The Kubernetes Endpoint Resolver configures Emissary to resolve Kubernetes endpoints. This enables the use of more a [advanced load balancing configuration](../load-balancer). When this resolver is used, the `Endpoint` and `EndpointSlice` for the `service` defined in a `Mapping` are resolved and used to determine where requests are sent.
+The Kubernetes Endpoint Resolver configures Emissary to resolve Kubernetes endpoints. This enables the use of more a [advanced load balancing configuration](../load-balancer). When this resolver is used, the `Endpoint` and `EndpointSlice` resources for the `Service` defined in a `Mapping` are resolved and used to determine where requests are sent.
+
+> **Note:** For each `Service` the resolver will first process any available `EndpointSlice` resources. If no `EndpointSlice` resources are present then the resolver will fall back to `Endpoint` resources.
 
 ```yaml
 ---

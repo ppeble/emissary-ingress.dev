@@ -177,7 +177,7 @@ outputs:
 menu:
   main:
     - name: Docs
-      url: /docs/latest/
+      url: /docs/3.10/
       weight: -10
     - name: Install
-      url: /docs/latest/tutorials/getting-started/#1-installation
+      url: /docs/3.10/tutorials/getting-started/#1-installation
