@@ -1,170 +1,187 @@
 ---
 title: "Quickstart"
-description: "Emissary quick start"
 ---
 
-In this article, you will explore some of the key features of Emissary by walking through an example workflow and exploring the
-Edge Policy Console.
+**We recommend using Helm** to install Emissary.
 
-## Prerequisites
+### Installing if you're starting fresh
 
-You must have [Emissary installed](../getting-started/) in your
-Kubernetes cluster.
+**If you are already running Emissary and just want to upgrade, DO NOT FOLLOW
+THESE DIRECTIONS.** Instead, check out "Upgrading from an earlier Emissary"
+below.
 
-## Routing Traffic from the Edge
+If you're starting from scratch and you don't need to worry about older CRD
+versions, install using `--set enableLegacyVersions=false` to avoid install
+the old versions of the CRDs and the conversion webhook:
 
-Like any other Kubernetes object, Custom Resource Definitions (CRDs) are used to
-declaratively define Emissary’s desired state. The workflow you are going to
-build uses a sample deployment and the `Mapping` CRD, which is the core resource
-that you will use with Emissary to manage your edge. It enables you to route
-requests by host and URL path from the edge of your cluster to Kubernetes services.
+```bash
+helm install emissary-crds \
+ --namespace emissary --create-namespace \
+ oci://ghcr.io/emissary-ingress/emissary-crds-chart --version=3.10.0 \
+ --set enableLegacyVersions=false \
+ --wait
+```
 
-1. Copy the configuration below and save it to a file named `quote.yaml` so that
-you can deploy these resources to your cluster. This basic configuration creates
-the `quote` deployment and a service to expose that deployment on port 80.
+This will install only v3alpha1 CRDs and skip the conversion webhook entirely.
+It will create the `emissary` namespace for you, but there won't be anything
+in it at this point.
 
-  ```yaml
-  ---
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: quote
-    namespace: ambassador
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        app: quote
-    strategy:
-      type: RollingUpdate
-    template:
-      metadata:
-        labels:
-          app: quote
-      spec:
-        containers:
-        - name: backend
-          image: docker.io/datawire/quote:$quoteVersion$
-          ports:
-          - name: http
-            containerPort: 8080
-  ---
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: quote
-    namespace: ambassador
-  spec:
-    ports:
-    - name: http
-      port: 80
-      targetPort: 8080
-    selector:
-      app: quote
-  ```
+Next up, install Emissary itself, with `--set waitForApiext.enabled=false` to
+tell Emissary not to wait for the conversion webhook to be ready:
 
-1. Apply the configuration to the cluster with the command `kubectl apply -f quote.yaml`.
+```bash
+helm install emissary \
+ --namespace emissary \
+ oci://ghcr.io/emissary-ingress/emissary-ingress --version=3.10.0 \
+ --set waitForApiext.enabled=false \
+ --wait
+```
 
-1. Copy the configuration below and save it to a file called `quote-backend.yaml`
-so that you can create a `Mapping` on your cluster. This `Mapping` tells Emissary to route all traffic inbound to the `/backend/` path, on any host that can be used to reach Emissary, to the `quote` service.
+### Upgrading from an earlier Emissary
 
-  ```yaml
-  ---
-  apiVersion: getambassador.io/v3alpha1
-  kind: Mapping
-  metadata:
-    name: quote-backend
-    namespace: ambassador
-  spec:
-    hostname: "*"
-    prefix: /backend/
-    service: quote
-  ```
+First, install the CRDs and the conversion webhook:
 
-1. Apply the configuration to the cluster with the command
-`kubectl apply -f quote-backend.yaml`
+```bash
+helm install emissary-crds \
+ --namespace emissary-system --create-namespace \
+ oci://ghcr.io/emissary-ingress/emissary-crds-chart --version=3.10.0 \
+ --wait
+```
 
-1. Store the Emissary `LoadBalancer` address to a local environment variable.
-You will use this variable to test accessing your pod.
+This will install all the versions of the CRDs (v1, v2, and v3alpha1) and the
+conversion webhook into the `emissary-system` namespace. Once that's done, you'll install Emissary itself:
 
-  ```
-  export AMBASSADOR_LB_ENDPOINT=$(kubectl -n ambassador get svc ambassador -o "go-template={{range .status.loadBalancer.ingress}}{{or .ip .hostname}}{{end}}")
-  ```
+```bash
+helm install emissary \
+ --namespace emissary --create-namespace \
+ oci://ghcr.io/emissary-ingress/emissary-ingress --version=3.10.0 \
+ --wait
+```
 
-1. Test the configuration by accessing the service through the Emissary load
-balancer.
+### Using Emissary
 
-  ```
-  $ curl -Lk "https://$AMBASSADOR_LB_ENDPOINT/backend/"
-  {
-   "server": "idle-cranberry-8tbb6iks",
-   "quote": "Non-locality is the driver of truth. By summoning, we vibrate.",
-   "time": "2019-12-11T20:10:16.525471212Z"
-  }
-  ```
+In either case above, you should have a running Emissary behind the Service
+named `emissary-emissary-ingress` in the `emissary` namespace. How exactly you
+connect to that Service will vary with your cluster provider, but you can
+start with the following:
 
-Success, you have created your first Emissary `Mapping`, routing a
-request from your cluster's edge to a service!
+```bash
+kubectl get svc -n emissary emissary-emissary-ingress
+```
 
-Since the `Mapping` you just created controls how requests are routed,
-changing the `Mapping` will immediately change the routing.  To see this
-in action, use `kubectl` to edit the `Mapping`:
+That should get you started. Or, of course, you can use something like this:
 
-1. Run `kubectl edit Mapping quote-backend`.
+```bash
+kubectl port-forward -n emissary svc/emissary-emissary-ingress 8080:80
+```
 
-1. Change `prefix: /backend/` to `prefix: /quoteme/`.
+(after you configure a Listener!) and then talk to localhost:8080 with any
+kind of cluster.
 
-1. Save the file and let `kubectl` update your `Mapping`.
+# Using Faces for a sanity check
 
-1. Run `kubectl get Mappings --namespace ambassador`. You will see the
-`quote-backend` `Mapping` has the updated prefix listed. Try to access the
-endpoint again via `curl` with the updated prefix.
+[Faces Demo]: https://github.com/buoyantio/faces-demo
 
-  ```
-  $ kubectl get Mappings --namespace ambassador
-  NAME            PREFIX      SERVICE   STATE   REASON
-  quote-backend   /quoteme/   quote
+If you like, you can continue by using the [Faces Demo] as a quick sanity
+check. First, install Faces itself using Helm:
 
-  $ curl -Lk "https://${AMBASSADOR_LB_ENDPOINT}/quoteme/"
-  {
-      "server": "snippy-apple-ci10n7qe",
-      "quote": "A principal idea is omnipresent, much like candy.",
-      "time": "2020-11-18T17:15:42.095153306Z"
-  }
-  ```
+```bash
+helm install faces \
+ --namespace faces --create-namespace \
+ oci://ghcr.io/buoyantio/faces-chart --version 2.0.0-rc.4 \
+ --wait
+```
 
-1. Change the prefix back to `/backend/` so that you can later use the `Mapping`
-with other tutorials.
+Next, you'll need to configure Emissary to route to Faces. First, we'll do the
+basic configuration to tell Emissary to listen for HTTP traffic:
 
-## Developer API Documentation
+```bash
+kubectl apply -f - <<EOF
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: ambassador-https-listener
+spec:
+  port: 8443
+  protocol: HTTPS
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: ALL
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: ambassador-http-listener
+spec:
+  port: 8080
+  protocol: HTTP
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: ALL
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: wildcard-host
+spec:
+  hostname: "*"
+  requestPolicy:
+    insecure:
+      action: Route
+EOF
+```
 
-The `quote` service you just deployed publishes its API as an
-[OpenAPI (formerly Swagger)](https://swagger.io/solutions/getting-started-with-oas/)
-document. Emissary automatically detects and publishes this documentation.
-This can help with internal and external developer onboarding by serving as a
-single point of reference for of all your microservice APIs.
+(This actually supports both HTTPS and HTTP, but since we haven't set up TLS
+certificates, we'll just stick with HTTP.)
 
-1. In the Edge Policy Console, navigate to the **APIs** tab. You'll see the
-OpenAPI documentation there for the "Quote Service API." Click **GET** to
-expand out the documentation.
+Next, we need two Mappings:
 
-1. Navigate to `https://<load-balancer-endpoint>/docs/` to see the
-publicly visible Developer Portal. Make sure you include the trailing `/`.
-This is a fully customizable portal that you can share with third parties who
-need information about your APIs.
+| Prefix    | Routes to Service | in Namespace |
+| --------- | ----------------- | ------------ |
+| `/faces/` | `faces-gui`       | `faces`      |
+| `/face/`  | `face`            | `faces`      |
 
-## Next Steps
+```bash
+kubectl apply -f - <<EOF
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: gui-mapping
+  namespace: faces
+spec:
+  hostname: "*"
+  prefix: /faces/
+  service: faces-gui.faces
+  rewrite: /
+  timeout_ms: 0
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: face-mapping
+  namespace: faces
+spec:
+  hostname: "*"
+  prefix: /face/
+  service: face.faces
+  timeout_ms: 0
+EOF
+```
+
+Once that's done, then you'll be able to access the Faces Demo at `/faces/`,
+on whatever IP address or hostname your cluster provides for the
+`emissary-emissary-ingress` Service. Or you can port-forward as above and
+access it at `http://localhost:8080/faces/`.
+
+# Next Steps
 
 Further explore some of the concepts you learned about in this article:
-* [`Mapping` resource](../../topics/using/intro-mappings/): routes traffic from
-the edge of your cluster to a Kubernetes service
-* [`Host` resource](../../topics/running/host-crd/): sets the hostname by which
-Emissary will be accessed and secured with TLS certificates
-* [Developer Portal](../../tutorials/dev-portal-tutorial/):
-publishes an API catalog and OpenAPI documentation
-
-Emissary has a comprehensive range of [features](/features/) to
-support the requirements of any edge microservice.
+* [`Mapping` resource](../../topics/using/intro-mappings/): routes traffic from the edge of your cluster to a Kubernetes service
+* [`Host` resource](../../topics/running/host-crd/): sets the hostname by which Emissary will be accessed and secured with TLS certificates
 
 Learn more about [how developers use Emissary](../../topics/using/) to manage
 edge policies.
@@ -172,8 +189,4 @@ edge policies.
 Learn more about [how site reliability engineers and operators run Emissary](../../topics/running/)
 in production environments.
 
-To learn how Emissary works, use cases, best practices, and more, check out
-the [Quick Start](../getting-started) or read the [Emissary Story](../../about/why-ambassador).
-
-For a custom configuration, you can install Emissary
-[manually](../../topics/install/yaml-install).
+To learn how Emissary works, use cases, best practices, and more, check out the [Emissary Story](../../about/why-ambassador).
