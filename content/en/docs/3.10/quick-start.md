@@ -181,13 +181,13 @@ access it at `http://localhost:8080/faces/`.
 # Next Steps
 
 Further explore some of the concepts you learned about in this article:
-* [`Mapping` resource](../../topics/using/intro-mappings/): routes traffic from the edge of your cluster to a Kubernetes service
-* [`Host` resource](../../topics/running/host-crd/): sets the hostname by which Emissary will be accessed and secured with TLS certificates
+* [`Mapping` resource](../topics/using/intro-mappings/): routes traffic from the edge of your cluster to a Kubernetes service
+* [`Host` resource](../topics/running/host-crd/): sets the hostname by which Emissary will be accessed and secured with TLS certificates
 
-Learn more about [how developers use Emissary](../../topics/using/) to manage
+Learn more about [how developers use Emissary](../topics/using/) to manage
 edge policies.
 
-Learn more about [how site reliability engineers and operators run Emissary](../../topics/running/)
+Learn more about [how site reliability engineers and operators run Emissary](../topics/running/)
 in production environments.
 
-To learn how Emissary works, use cases, best practices, and more, check out the [Emissary Story](../../about/why-ambassador).
+To learn how Emissary works, use cases, best practices, and more, check out the [Emissary Story](../about/why-ambassador).
