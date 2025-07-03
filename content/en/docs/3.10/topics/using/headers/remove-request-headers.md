@@ -1,5 +1,6 @@
 ---
 title: Remove request headers
+weight: -7
 ---
 
 Emissary can remove a list of HTTP headers that would be sent to the upstream from the request.

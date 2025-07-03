@@ -1,5 +1,6 @@
 ---
 title: Add request headers
+weight: -9
 ---
 
 Emissary can add a dictionary of HTTP headers that can be added to each request that is passed to a service.
