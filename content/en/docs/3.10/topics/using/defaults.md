@@ -1,5 +1,6 @@
 ---
-title: ambassador module defaults
+title: Ambassador module defaults
+weight: 4
 ---
 
 If present, the `ambassador Module` can define a set of defaults that will automatically be applied to certain resources:

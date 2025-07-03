@@ -1,5 +1,6 @@
 ---
 title: Add response headers
+weight: -8
 ---
 
 Emissary can add a dictionary of HTTP headers that can be added to each response that is returned to the client.

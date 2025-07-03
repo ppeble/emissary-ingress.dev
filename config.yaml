@@ -78,11 +78,11 @@ params:
     An open source Kubernetes-native API gateway for microservices built on the Envoy Proxy
 
   # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-  github_repo: https://github.com/emissary-ingress/emissary
+  github_repo: https://github.com/emissary-ingress/emissary-ingress.dev
   github_branch: main
 
   # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-  github_project_repo: https://github.com/emissary-ingress/emissary-ingress.dev
+  github_project_repo: https://github.com/emissary-ingress/emissary
 
   # Enable Lunr.js offline search
   offlineSearch: true
@@ -95,7 +95,7 @@ params:
   # Menu title if your navbar has a versions selector to access old versions of your site.
   # This menu appears only if you have at least one [params.versions] set.
   version_menu: Versions
-  latest_stable_version: 3.10
+  latest_stable_version: "3.10"
   versions:
     - version: v3.10
       url: /docs/3.10/
@@ -131,7 +131,7 @@ params:
     # If you want this feature, but occasionally need to remove the "Feedback" section from a single page,
     # add "hide_feedback: true" to the page's front matter.
     feedback:
-      enable: true
+      enable: false
       # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
       'yes': >-
         Glad to hear it! Please <a
@@ -180,4 +180,4 @@ menu:
       url: /docs/3.10/
       weight: -10
     - name: Install
-      url: /docs/3.10/tutorials/getting-started/#1-installation
+      url: /docs/3.10/quick-start/
