@@ -1,5 +1,6 @@
 ---
-title: "Getting Started"
+title: "Quick Start"
+weight: 5
 ---
 
 **We recommend using Helm** to install Emissary.

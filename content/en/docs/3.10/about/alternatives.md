@@ -1,5 +1,6 @@
 ---
 title: "Alternatives"
+weight: 100
 ---
 
 Alternatives to Emissary fall into three basic categories:
